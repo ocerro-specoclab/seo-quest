@@ -7536,6 +7536,143 @@ function addLogoutButton(){
   document.body.appendChild(b);
 }
 
+// ============== BUZÓN / PUENTE (modo B: con visto bueno) ==============
+function _sqEscape(s){ return String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function _sqToast(m){ try { if(typeof showToast === 'function'){ showToast(m); return; } } catch(e){} console.log(m); }
+
+async function inboxFetchPending(){
+  if(!sb || !sbUser) return [];
+  try {
+    const { data, error } = await sb
+      .from('seoquest_inbox')
+      .select('*')
+      .eq('user_id', sbUser.id)
+      .eq('status', 'pending')
+      .order('created_at', { ascending: true });
+    if(error){ console.warn('[inbox] fetch error:', error.message); return []; }
+    return data || [];
+  } catch(e){ console.warn('[inbox] fetch excepción:', e && e.message); return []; }
+}
+
+async function inboxMark(ids, status){
+  if(!sb || !sbUser || !ids || !ids.length) return;
+  try {
+    await sb.from('seoquest_inbox')
+      .update({ status: status, applied_at: new Date().toISOString() })
+      .in('id', ids)
+      .eq('user_id', sbUser.id);
+  } catch(e){ console.warn('[inbox] mark excepción:', e && e.message); }
+}
+
+function _sqFindProject(name){
+  if(!name){ try { return getCurrentProject(); } catch(e){ return state.projects[0]; } }
+  const n = String(name).trim().toLowerCase();
+  return state.projects.find(p => (p.name||'').trim().toLowerCase() === n)
+      || state.projects.find(p => (p.name||'').trim().toLowerCase().includes(n))
+      || null;
+}
+function _sqNormPriority(pr){
+  const s = String(pr || '');
+  if(/🚨|🔴|⚠️|high|alta|urgente/i.test(s)) return 'high';
+  if(/📋|💡|🔵|low|baja|backlog/i.test(s)) return 'low';
+  return 'medium';
+}
+function applyInboxRow(row){
+  const pl = (row && row.payload) || {};
+  const p = _sqFindProject(pl.project);
+  if(!p){ console.warn('[inbox] proyecto no encontrado:', pl.project); return {added:0, completed:0, missing:true}; }
+  if(!p.tasks) p.tasks = [];
+  let added = 0, completed = 0;
+  (pl.add || []).forEach((t, idx) => {
+    const text = (t && t.text ? String(t.text) : '').trim();
+    if(!text) return;
+    if(p.tasks.find(e => e.text === text)) return; // dedup exacto
+    p.tasks.push({
+      id: 'tsk_bridge_' + Date.now() + '_' + idx,
+      origin: 'chat',
+      text: text,
+      priority: _sqNormPriority(t.priority),
+      done: false,
+      source: 'bridge',
+      sourceTitle: pl.summary || 'Puente Claude',
+      createdAt: new Date().toISOString()
+    });
+    added++;
+  });
+  (pl.complete || []).forEach(m => {
+    const q = String(m || '').trim().toLowerCase();
+    if(!q) return;
+    const task = p.tasks.find(t => !t.done && (t.text||'').toLowerCase().includes(q));
+    if(task){ task.done = true; completed++; }
+  });
+  if(pl.notes && pl.notes.length){
+    p.notes = (p.notes ? p.notes + '\n' : '') + pl.notes.join('\n');
+  }
+  return {added, completed, missing:false};
+}
+
+async function checkInbox(){
+  const pending = await inboxFetchPending();
+  if(!pending.length) return;
+  showInboxBanner(pending);
+}
+
+function showInboxBanner(pending){
+  const old = document.getElementById('sq-inbox-banner'); if(old) old.remove();
+  const n = pending.length;
+  const b = document.createElement('div');
+  b.id = 'sq-inbox-banner';
+  b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9997;background:#e85d26;color:#fff;padding:10px 16px;font-family:Inter,sans-serif;font-size:14px;display:flex;align-items:center;justify-content:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,.3);';
+  const span = document.createElement('span');
+  span.textContent = '\uD83D\uDCE5 Claude dej\u00F3 ' + n + ' actualizaci\u00F3n' + (n>1?'es':'') + ' pendiente' + (n>1?'s':'');
+  const view = document.createElement('button');
+  view.textContent = 'Ver cambios';
+  view.style.cssText = 'background:#fff;color:#e85d26;border:none;border-radius:6px;padding:6px 14px;font-weight:600;font-size:13px;cursor:pointer;';
+  view.onclick = () => showInboxModal(pending);
+  b.appendChild(span); b.appendChild(view);
+  document.body.appendChild(b);
+}
+
+function showInboxModal(pending){
+  const ov = document.createElement('div');
+  ov.id = 'sq-inbox-modal';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif;';
+  let body = '';
+  pending.forEach(row => {
+    const pl = row.payload || {};
+    body += '<div style="border:1px solid #373d47;border-radius:10px;padding:14px;margin-bottom:12px;">';
+    body += '<div style="font-size:12px;color:#9aa3ad;margin-bottom:8px;">' + _sqEscape(pl.project || '(proyecto actual)') + (pl.summary ? ' \u00B7 ' + _sqEscape(pl.summary) : '') + '</div>';
+    (pl.complete || []).forEach(c => { body += '<div style="color:#7bdc8e;font-size:13px;margin:3px 0;">\u2713 Completar: ' + _sqEscape(c) + '</div>'; });
+    (pl.add || []).forEach(a => { body += '<div style="color:#e8eaed;font-size:13px;margin:3px 0;">+ A\u00F1adir: ' + _sqEscape(a && a.text) + '</div>'; });
+    (pl.notes || []).forEach(nt => { body += '<div style="color:#b8bec6;font-size:13px;margin:3px 0;">\u270E Nota: ' + _sqEscape(nt) + '</div>'; });
+    body += '</div>';
+  });
+  ov.innerHTML = '<div style="width:480px;max-width:92vw;max-height:80vh;overflow:auto;background:#1c2027;border:1px solid #373d47;border-radius:14px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.5);">'
+    + '<div style="font-size:18px;font-weight:600;color:#e8eaed;margin-bottom:14px;">\uD83D\uDCE5 Cambios de Claude</div>'
+    + body
+    + '<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">'
+    +   '<button id="sq-inbox-dismiss" style="background:#252a32;color:#b8bec6;border:1px solid #373d47;border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer;">Descartar</button>'
+    +   '<button id="sq-inbox-accept" style="background:#e85d26;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;">Aceptar todo</button>'
+    + '</div></div>';
+  document.body.appendChild(ov);
+  ov.querySelector('#sq-inbox-accept').onclick = async () => {
+    let totA = 0, totC = 0;
+    pending.forEach(row => { const r = applyInboxRow(row); totA += r.added; totC += r.completed; });
+    await inboxMark(pending.map(r => r.id), 'applied');
+    await saveState();
+    ov.remove();
+    const bn = document.getElementById('sq-inbox-banner'); if(bn) bn.remove();
+    try { renderProjectsList(); } catch(e){}
+    try { if(typeof renderChat === 'function') renderChat(); } catch(e){}
+    _sqToast('\u2713 ' + totA + ' a\u00F1adidas \u00B7 ' + totC + ' completadas');
+  };
+  ov.querySelector('#sq-inbox-dismiss').onclick = async () => {
+    await inboxMark(pending.map(r => r.id), 'dismissed');
+    ov.remove();
+    const bn = document.getElementById('sq-inbox-banner'); if(bn) bn.remove();
+  };
+}
+
 function hasLocalStorage(){
   try {
     if(typeof localStorage === 'undefined') return false;
@@ -17123,6 +17260,7 @@ document.addEventListener('keydown', (e) => {
   if(sbUser) addLogoutButton();
   await loadState();
   renderProjectsList();
+  if(sbUser){ try { await checkInbox(); } catch(e){ console.warn('[inbox] check error:', e && e.message); } }
 })();
 </script>
 </body>
