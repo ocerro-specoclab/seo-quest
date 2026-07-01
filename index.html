@@ -9,6 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/html-docx-js/dist/html-docx.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,700,800,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   /* === FONDOS: gris carbón elegante, no negro puro === */
@@ -7483,15 +7487,15 @@ function showLoginGate(){
   return new Promise((resolve)=>{
     const ov = document.createElement('div');
     ov.id = 'sq-login-gate';
-    ov.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#15181d;font-family:Inter,system-ui,sans-serif;';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#EFF1ED;font-family:"DM Sans",system-ui,sans-serif;';
     ov.innerHTML = ''
-      + '<div style="width:340px;max-width:90vw;background:#1c2027;border:1px solid #373d47;border-radius:14px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.5);">'
-      +   '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:30px;letter-spacing:1px;color:#e8eaed;margin-bottom:4px;">SEO\u00B7QUEST</div>'
-      +   '<div style="font-size:13px;color:#b8bec6;margin-bottom:20px;">Inicia sesi\u00F3n para acceder a tus proyectos.</div>'
-      +   '<input id="sq-email" type="email" placeholder="Email" autocomplete="username" style="width:100%;box-sizing:border-box;background:#252a32;border:1px solid #373d47;color:#e8eaed;padding:11px 12px;border-radius:8px;font-size:14px;margin-bottom:10px;outline:none;">'
-      +   '<input id="sq-pass" type="password" placeholder="Contrase\u00F1a" autocomplete="current-password" style="width:100%;box-sizing:border-box;background:#252a32;border:1px solid #373d47;color:#e8eaed;padding:11px 12px;border-radius:8px;font-size:14px;margin-bottom:14px;outline:none;">'
-      +   '<button id="sq-login-btn" style="width:100%;background:#e85d26;border:none;color:#fff;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Entrar</button>'
-      +   '<div id="sq-login-err" style="color:#ff6b6b;font-size:12px;margin-top:10px;min-height:16px;"></div>'
+      + '<div style="width:340px;max-width:90vw;background:#ffffff;border:1px solid rgba(31,38,32,0.10);border-radius:22px;padding:28px;box-shadow:0 20px 60px rgba(60,80,60,.18);">'
+      +   '<div style="font-family:\'Cabinet Grotesk\',sans-serif;font-size:30px;letter-spacing:1px;color:#1F2620;margin-bottom:4px;">SEO\u00B7QUEST</div>'
+      +   '<div style="font-size:13px;color:#7A8278;margin-bottom:20px;">Inicia sesi\u00F3n para acceder a tus proyectos.</div>'
+      +   '<input id="sq-email" type="email" placeholder="Email" autocomplete="username" style="width:100%;box-sizing:border-box;background:#EFF1ED;border:1px solid rgba(31,38,32,0.10);color:#1F2620;padding:11px 12px;border-radius:12px;font-size:14px;margin-bottom:10px;outline:none;">'
+      +   '<input id="sq-pass" type="password" placeholder="Contrase\u00F1a" autocomplete="current-password" style="width:100%;box-sizing:border-box;background:#EFF1ED;border:1px solid rgba(31,38,32,0.10);color:#1F2620;padding:11px 12px;border-radius:12px;font-size:14px;margin-bottom:14px;outline:none;">'
+      +   '<button id="sq-login-btn" style="width:100%;background:#7BB832;border:none;color:#fff;padding:12px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;">Entrar</button>'
+      +   '<div id="sq-login-err" style="color:#c25555;font-size:12px;margin-top:10px;min-height:16px;"></div>'
       + '</div>';
     document.body.appendChild(ov);
     const emailEl = ov.querySelector('#sq-email');
@@ -7622,12 +7626,12 @@ function showInboxBanner(pending){
   const n = pending.length;
   const b = document.createElement('div');
   b.id = 'sq-inbox-banner';
-  b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9997;background:#e85d26;color:#fff;padding:10px 16px;font-family:Inter,sans-serif;font-size:14px;display:flex;align-items:center;justify-content:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,.3);';
+  b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9997;background:#7BB832;color:#fff;padding:10px 16px;font-family:Inter,sans-serif;font-size:14px;display:flex;align-items:center;justify-content:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,.3);';
   const span = document.createElement('span');
   span.textContent = '\uD83D\uDCE5 Claude dej\u00F3 ' + n + ' actualizaci\u00F3n' + (n>1?'es':'') + ' pendiente' + (n>1?'s':'');
   const view = document.createElement('button');
   view.textContent = 'Ver cambios';
-  view.style.cssText = 'background:#fff;color:#e85d26;border:none;border-radius:6px;padding:6px 14px;font-weight:600;font-size:13px;cursor:pointer;';
+  view.style.cssText = 'background:#fff;color:#7BB832;border:none;border-radius:6px;padding:6px 14px;font-weight:600;font-size:13px;cursor:pointer;';
   view.onclick = () => showInboxModal(pending);
   b.appendChild(span); b.appendChild(view);
   document.body.appendChild(b);
@@ -7652,7 +7656,7 @@ function showInboxModal(pending){
     + body
     + '<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">'
     +   '<button id="sq-inbox-dismiss" style="background:#252a32;color:#b8bec6;border:1px solid #373d47;border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer;">Descartar</button>'
-    +   '<button id="sq-inbox-accept" style="background:#e85d26;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;">Aceptar todo</button>'
+    +   '<button id="sq-inbox-accept" style="background:#7BB832;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;">Aceptar todo</button>'
     + '</div></div>';
   document.body.appendChild(ov);
   ov.querySelector('#sq-inbox-accept').onclick = async () => {
@@ -11323,227 +11327,251 @@ async function toggleTask(id){ return toggleUnifiedTask(id); }
 async function editTask(id){ return editUnifiedTask(id); }
 async function deleteTask(id){ return deleteUnifiedTask(id); }
 
+const AREAS = [
+  {id:'launch',  icon:'🚀', label:'Lanzamiento / Config web'},
+  {id:'seo',     icon:'🔍', label:'SEO'},
+  {id:'ads',     icon:'📣', label:'Marketing & Analítica'},
+  {id:'content', icon:'✍️', label:'Contenido'},
+  {id:'social',  icon:'📱', label:'RRSS'}
+];
+function inferArea(t){
+  const s = ((t.text||'') + ' ' + (t.sourceTitle||'')).toLowerCase();
+  if(/\bads?\b|anuncio|conversi|p[íi]?xel|pixel|merchant|shopping|pmax|performance max|remarketing|google ads|\bmeta\b|tracking|analyt|ga4|gtm|tag manager|roas|klaviyo|email|waitlist|newsletter|campañ/.test(s)) return 'ads';
+  if(/\bseo\b|sitemap|indexaci|search console|\bgsc\b|bing|redirect|\b301\b|canonical|keyword|palabra clave|backlink|serp|meta desc|robots|schema|staging|\baso\b/.test(s)) return 'seo';
+  if(/blog|\bfaq\b|contenido|\bpost\b|art[íi]culo|pillar|copy|redactar|og image|headline|\bcta\b/.test(s)) return 'content';
+  if(/rrss|instagram|facebook|tiktok|social|linkedin|reels|redes sociales/.test(s)) return 'social';
+  return 'launch';
+}
+function taskArea(t){ return t.area || inferArea(t); }
+
+let ovOpenArea = null;
+let ovLastProj = null;
+function ovInjectStyle(){
+  if(document.getElementById('ovd-style')) return;
+  const s = document.createElement('style'); s.id = 'ovd-style';
+  s.textContent = `
+  :root{
+    --bg-0:#EFF1ED; --bg-1:#EFF1ED; --bg-2:#E7EAE3; --bg-3:#DDE1D8;
+    --line:rgba(31,38,32,0.08); --line-2:rgba(31,38,32,0.14);
+    --ink:#1F2620; --ink-dim:#3F4842; --ink-mute:#7A8278;
+    --acid:#7BB832; --acid-dim:#6aa22b;
+    --primary:#5FB395; --primary-dim:#4f9c81;
+    --warn:#D4A570; --danger:#D87070; --info:#6B9FCC;
+    --gold:#E8B470; --purple:#8378C4; --pink:#D88787; --success:#3FA76C;
+    --font-main:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+    --font-mono:'DM Mono','Space Mono',monospace;
+    --font-display:'Cabinet Grotesk','DM Sans',sans-serif;
+    --neu-light:#ffffff; --neu-dark:rgba(140,150,140,0.32);
+  }
+  body{background:#EFF1ED !important;color:#1F2620}
+  .brand-mark,.dash-title,.sidebar-brand .brand-mark{font-family:'Cabinet Grotesk','DM Sans',sans-serif !important;font-weight:800;letter-spacing:.5px}
+  .ovd-strip{display:flex;align-items:center;gap:24px;margin-bottom:26px;flex-wrap:wrap;padding:6px 4px}
+  .ovd-tstat .l{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-mute);font-weight:500}
+  .ovd-tstat .v{font-size:17px;font-weight:700;color:var(--ink);font-family:'Cabinet Grotesk','DM Sans',sans-serif}
+  .ovd-ring{position:relative;width:56px;height:56px;border-radius:50%;background:#EFF1ED;box-shadow:-4px -4px 8px var(--neu-light),4px 4px 8px var(--neu-dark)}
+  .ovd-ring svg{transform:rotate(-90deg)}
+  .ovd-ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--ink);font-family:'Cabinet Grotesk',sans-serif}
+  .ovd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .ovd-tile{background:#EFF1ED;border:none;border-radius:22px;padding:20px 22px;cursor:pointer;position:relative;min-height:158px;display:flex;flex-direction:column;transition:.22s;box-shadow:-7px -7px 15px var(--neu-light),7px 7px 15px var(--neu-dark)}
+  .ovd-tile:hover{transform:translateY(-3px);box-shadow:-9px -9px 20px var(--neu-light),9px 9px 20px var(--neu-dark)}
+  .ovd-tile:active{box-shadow:inset -3px -3px 6px var(--neu-light),inset 3px 3px 6px var(--neu-dark)}
+  .ovd-ico{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px;background:var(--tint,rgba(123,184,50,.14))}
+  .ovd-name{font-size:16px;font-weight:700;line-height:1.2;color:var(--ink);font-family:'Cabinet Grotesk','DM Sans',sans-serif}
+  .ovd-sub{font-size:12px;color:var(--ink-mute);margin-top:4px}
+  .ovd-pend{font-size:34px;font-weight:800;margin-top:auto;color:var(--accent,#7BB832);font-family:'Cabinet Grotesk','DM Sans',sans-serif;line-height:1}
+  .ovd-pend small{font-size:12px;color:var(--ink-mute);font-weight:400;margin-left:6px;font-family:'DM Sans',sans-serif}
+  .ovd-bar{height:6px;background:rgba(31,38,32,.06);border-radius:4px;overflow:hidden;margin-top:12px}
+  .ovd-bar i{display:block;height:100%;background:var(--accent,#7BB832);border-radius:4px}
+  .ovd-chip{position:absolute;top:16px;right:16px;font-size:9px;letter-spacing:.6px;text-transform:uppercase;padding:4px 10px;border-radius:20px;font-weight:700}
+  .ovd-tile.blind .ovd-chip{background:rgba(216,112,112,.16);color:#c25555}
+  .ovd-tile.blind .ovd-ico{background:rgba(216,112,112,.16)}
+  .ovd-tile.empty{opacity:.5}
+  .ovd-tile.done .ovd-chip{background:rgba(63,167,108,.16);color:#2f8354}
+  .ovd-arrow{position:absolute;bottom:18px;right:20px;color:var(--accent,#7BB832);transition:.2s;font-weight:700;opacity:.7}
+  .ovd-tile:hover .ovd-arrow{transform:translateX(4px);opacity:1}
+  .ovd-fhead{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .ovd-back{width:42px;height:42px;border-radius:14px;border:none;background:#EFF1ED;color:var(--ink);font-size:17px;cursor:pointer;transition:.15s;box-shadow:-4px -4px 8px var(--neu-light),4px 4px 8px var(--neu-dark)}
+  .ovd-back:active{box-shadow:inset -3px -3px 6px var(--neu-light),inset 3px 3px 6px var(--neu-dark)}
+  .ovd-ftitle{font-size:22px;font-weight:800;display:flex;align-items:center;gap:10px;color:var(--ink);font-family:'Cabinet Grotesk','DM Sans',sans-serif}
+  .ovd-fcount{font-size:12px;color:var(--ink-mute);margin-left:auto;font-weight:500}
+  .ovd-task{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;background:#EFF1ED;border:none;border-radius:16px;margin-bottom:12px;box-shadow:-5px -5px 11px var(--neu-light),5px 5px 11px var(--neu-dark)}
+  .ovd-task.done{opacity:.55}
+  .ovd-task.done .ovd-ttext{text-decoration:line-through}
+  .ovd-cbox{width:24px;height:24px;border-radius:9px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;margin-top:0;font-size:14px;font-weight:700;background:#EFF1ED;box-shadow:inset -2px -2px 4px var(--neu-light),inset 2px 2px 4px var(--neu-dark);transition:.15s}
+  .ovd-task.done .ovd-cbox{background:#3FA76C;box-shadow:none}
+  .ovd-ttext{font-size:14.5px;line-height:1.45;color:var(--ink)}
+  .ovd-tprio{font-size:9px;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:8px;margin-top:8px;display:inline-block;font-weight:700}
+  .ovd-p-high{background:rgba(216,112,112,.16);color:#c25555}
+  .ovd-p-medium{background:rgba(212,165,112,.18);color:#b07d3a}
+  .ovd-p-low{background:rgba(131,120,196,.16);color:#6b60ad}
+  .ovd-addrow{display:flex;gap:12px;margin-top:16px}
+  .ovd-addrow input{flex:1;background:#EFF1ED;border:none;color:var(--ink);border-radius:14px;padding:13px 16px;font-size:14px;font-family:'DM Sans',sans-serif;box-shadow:inset -3px -3px 6px var(--neu-light),inset 3px 3px 6px var(--neu-dark)}
+  .ovd-addrow input::placeholder{color:var(--ink-mute)}
+  .ovd-addrow input:focus{outline:none}
+  .ovd-addrow button{background:#7BB832;border:none;color:#fff;border-radius:14px;padding:0 20px;font-weight:700;cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif;box-shadow:-4px -4px 8px var(--neu-light),4px 4px 8px var(--neu-dark)}
+  .ovd-addrow button:active{box-shadow:inset -2px -2px 4px rgba(0,0,0,.15)}
+  .ovd-empty{padding:44px;text-align:center;color:var(--ink-mute)}
+  @media (max-width:760px){
+    #screen-dashboard.active{grid-template-columns:1fr;display:block}
+    .sidebar{position:static;height:auto;width:100%;padding:10px 0;border-right:none;border-bottom:1px solid var(--line);overflow:visible}
+    .sidebar-brand{padding:0 16px 8px}
+    .sidebar-project{padding:8px 16px}
+    .sidebar-project-meta{display:none}
+    .nav-list{display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;padding:8px 12px;-webkit-overflow-scrolling:touch}
+    .nav-item{white-space:nowrap;padding:8px 14px;font-size:13px;border-radius:12px;flex:0 0 auto;border-bottom:none}
+    .ovd-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+    .ovd-tile{min-height:134px;padding:16px 16px}
+    .ovd-pend{font-size:28px}
+    .ovd-strip{gap:14px;margin-bottom:18px}
+  }
+  @media (max-width:400px){ .ovd-name{font-size:15px} .ovd-strip{gap:12px} }
+  `;
+  document.head.appendChild(s);
+}
+
 function renderOverview(){
   const p = getCurrentProject();
+  if(!p) return;
+  ensureProjectAttributes(p);
+  if(ovLastProj !== p.id){ ovOpenArea = null; ovLastProj = p.id; }
+  ovInjectStyle();
+  const container = document.getElementById('view-overview');
+  container.innerHTML = ovOpenArea ? ovFolderHTML(p, ovOpenArea) : ovGridHTML(p);
+}
+
+function ovGridHTML(p){
   const stats = getProjectStats(p);
   const lvl = getLevelInfo(p.xp);
-  const startDate = p.startDate || (p.createdAt ? p.createdAt.slice(0,10) : null);
-  const days = startDate ? Math.max(0, Math.floor((new Date() - new Date(startDate))/86400000)) : 0;
+  const allItems = getUnifiedTasks(p);
+  const groups = {}; AREAS.forEach(a => groups[a.id] = {pending:0, done:0});
+  allItems.forEach(t => { const a = taskArea(t); if(!groups[a]) groups[a] = {pending:0,done:0}; if(t.done) groups[a].done++; else groups[a].pending++; });
+  const C = 138.23, off = C - (C * (stats.pct||0) / 100);
+  const nextMissionsCount = getAllMissionsForProject(p).filter(m => m.__applicable && !p.completedMissions[m.id]).length;
+  const pendTotal = allItems.filter(t => !t.done).length;
 
-  // ===== ZONA EJECUCIÓN =====
-  // Próximas misiones (priorizando críticas del informe → Mundo 0 → resto)
-  const nextMissions = getAllMissionsForProject(p)
-    .filter(m => m.__applicable && !p.completedMissions[m.id])
-    .sort((a,b) => {
-      // Custom missions (objetivos críticos del informe) primero
-      if(a.isCustom && !b.isCustom) return -1;
-      if(b.isCustom && !a.isCustom) return 1;
-      // Mundo 0 (pre-migración) segundo
-      if(a.world === 'w0' && b.world !== 'w0') return -1;
-      if(b.world === 'w0' && a.world !== 'w0') return 1;
-      return a.world.localeCompare(b.world);
-    })
-    .slice(0,5);
+  let tiles = '';
+  AREAS.forEach(a => {
+    const g = groups[a.id] || {pending:0,done:0};
+    const tot = g.pending + g.done;
+    const pc = tot ? Math.round(g.done/tot*100) : 0;
+    let cls = 'ovd-tile', chip = '';
+    if(tot===0 && a.id==='ads'){ cls += ' blind'; chip = '<div class="ovd-chip">punto ciego</div>'; }
+    else if(tot===0){ cls += ' empty'; chip = '<div class="ovd-chip" style="background:rgba(31,38,32,.07);color:#7A8278">sin tareas</div>'; }
+    else if(g.pending===0){ cls += ' done'; chip = '<div class="ovd-chip">✓ al día</div>'; }
+    const AC = ({launch:'#6B9FCC',seo:'#7BB832',ads:'#D88787',content:'#D4A570',social:'#8378C4'})[a.id] || '#7BB832';
+    const TINT = ({launch:'rgba(107,159,204,.16)',seo:'rgba(123,184,50,.16)',ads:'rgba(216,135,135,.16)',content:'rgba(212,165,112,.18)',social:'rgba(131,120,196,.16)'})[a.id] || 'rgba(123,184,50,.14)';
+    tiles += `<div class="${cls}" style="--accent:${AC};--tint:${TINT}" onclick="openOvFolder('${a.id}')">
+      ${chip}
+      <div class="ovd-ico">${a.icon}</div>
+      <div class="ovd-name">${a.label}</div>
+      <div class="ovd-sub">${tot ? g.done+' de '+tot+' hechas' : (a.id==='ads'?'Sin tareas · revisar ads':'Sin tareas')}</div>
+      <div class="ovd-pend">${g.pending}<small>pend.</small></div>
+      ${tot ? `<div class="ovd-bar"><i style="width:${pc}%"></i></div>` : ''}
+      <div class="ovd-arrow">→</div>
+    </div>`;
+  });
+  tiles += `<div class="ovd-tile" style="--accent:#5FB395;--tint:rgba(95,179,149,.16)" onclick="openOvFolder('_progress')">
+    <div class="ovd-chip" style="background:rgba(95,179,149,.16);color:#3f9c7f">nivel ${lvl.cur.lvl}</div>
+    <div class="ovd-ico">🎮</div>
+    <div class="ovd-name">Progreso & misiones</div>
+    <div class="ovd-sub">${p.xp} XP · 🔥 ${p.streak||0} · 🏆 ${p.achievements.length}</div>
+    <div class="ovd-pend">${nextMissionsCount}<small>misiones</small></div>
+    <div class="ovd-arrow">→</div>
+  </div>`;
 
-  // Objetivos de informes (tarjetas)
-  const activeObjectives = (p.reportObjectives || []).filter(o => !o.done);
-  const completedObjectives = (p.reportObjectives || []).filter(o => o.done);
-
-  // Mundos activos
-  const activeWorlds = getVisibleWorlds(p).filter(w => getWorldStats(p, w.id).total > 0);
-
-  // ===== ZONA ANÁLISIS =====
-  const lastSnapshot = p.snapshots && p.snapshots.length > 0 ? p.snapshots[p.snapshots.length-1] : null;
-  const firstSnapshot = p.snapshots && p.snapshots.length > 0 ? p.snapshots[0] : null;
-  const scoreNow = lastSnapshot && lastSnapshot.scorecard ? parseFloat(lastSnapshot.scorecard.average) || 0 : null;
-  const scoreInitial = firstSnapshot && firstSnapshot.scorecard ? parseFloat(firstSnapshot.scorecard.average) || 0 : null;
-  const scoreDiff = scoreNow !== null && scoreInitial !== null ? (scoreNow - scoreInitial) : null;
-
-  const container = document.getElementById('view-overview');
-  container.innerHTML = `
-    <!-- HERO: stats principales -->
-    <div class="hero-stats">
-      <div class="hero-stat hero-progress">
-        <div class="hero-stat-label">Progreso global</div>
-        <div class="hero-stat-value">${stats.pct}<span class="hero-stat-suffix">%</span></div>
-        <div class="hero-stat-detail">${stats.completed} / ${stats.total} misiones</div>
-        <div class="hero-progress-bar"><div class="hero-progress-fill" style="width:${stats.pct}%;background:${p.color}"></div></div>
+  return `
+    <div class="ovd-strip">
+      <div class="ovd-ring">
+        <svg width="52" height="52"><circle cx="26" cy="26" r="22" fill="none" stroke="rgba(31,38,32,0.10)" stroke-width="4"></circle><circle cx="26" cy="26" r="22" fill="none" stroke="#7BB832" stroke-width="4" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}"></circle></svg>
+        <div class="pct">${stats.pct}%</div>
       </div>
-      <div class="hero-stat">
-        <div class="hero-stat-label">Día del proyecto</div>
-        <div class="hero-stat-value">${days}</div>
-        <div class="hero-stat-detail">desde ${startDate ? formatDateES(startDate) : '—'}</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-label">Nivel actual</div>
-        <div class="hero-stat-value">${lvl.cur.lvl}</div>
-        <div class="hero-stat-detail">${lvl.cur.name} · ${p.xp} XP</div>
-      </div>
-      <div class="hero-stat ${scoreNow !== null ? '' : 'hero-stat-empty'}">
-        <div class="hero-stat-label">Puntuación SEO</div>
-        <div class="hero-stat-value">${scoreNow !== null ? scoreNow : '—'}${scoreNow !== null ? '<span class="hero-stat-suffix">/10</span>' : ''}</div>
-        <div class="hero-stat-detail">${scoreDiff !== null && scoreDiff !== 0 ? (scoreDiff > 0 ? '▲ +' : '▼ ') + scoreDiff.toFixed(1) + ' desde inicial' : (scoreNow !== null ? 'Sin variación' : 'Crea tu primer informe')}</div>
-      </div>
+      <div class="ovd-tstat"><div class="l">Nivel</div><div class="v">${lvl.cur.lvl} · ${escapeHtml(lvl.cur.name)}</div></div>
+      <div class="ovd-tstat"><div class="l">XP</div><div class="v">${p.xp}</div></div>
+      <div class="ovd-tstat"><div class="l">Racha</div><div class="v">🔥 ${p.streak||0}</div></div>
+      <div class="ovd-tstat"><div class="l">Pendientes</div><div class="v">${pendTotal}</div></div>
     </div>
+    <div class="ovd-grid">${tiles}</div>
+  `;
+}
 
-    <!-- DOS ZONAS: EJECUCIÓN vs ANÁLISIS -->
-    <div class="dashboard-zones">
-
-      <!-- ZONA IZQUIERDA: EJECUCIÓN -->
-      <div class="zone zone-execution">
-        <div class="zone-header">
-          <div class="zone-title">⚡ QUÉ HAGO AHORA</div>
-          <div class="zone-subtitle">Tareas y misiones priorizadas</div>
-        </div>
-
-        ${activeObjectives.length > 0 ? `
-          <div class="zone-section">
-            <div class="zone-section-title">🎯 Objetivos del informe pendientes (${activeObjectives.length})</div>
-            <div class="objectives-list">
-              ${activeObjectives.slice(0,4).map(obj => `
-                <div class="objective-card prio-${obj.priority.toLowerCase()}">
-                  <div class="objective-priority">${obj.priority}</div>
-                  <div class="objective-content">
-                    <div class="objective-action">${escapeHtml(obj.action)}</div>
-                    <div class="objective-meta">${obj.phase || ''} · ${obj.investment || ''} · del informe ${escapeHtml(obj.snapshotTitle || obj.snapshotDate || '')}</div>
-                  </div>
-                  <button class="objective-check" onclick="toggleObjectiveDone('${obj.id}')" title="Marcar hecho">✓</button>
-                </div>
-              `).join('')}
-              ${activeObjectives.length > 4 ? `<div class="objectives-more" onclick="showView('objectives')">+ ${activeObjectives.length - 4} objetivos más → ver todos</div>` : ''}
-            </div>
-          </div>
-        ` : ''}
-
-        <div class="zone-section">
-          <div class="zone-section-title">🚀 Próximas misiones</div>
-          ${nextMissions.length > 0 ? `
-            <div class="next-missions-list">
-              ${nextMissions.map(m => {
-                const w = (WORLDS.find(x => x.id === m.world)) || getDynamicWorlds(p).find(x => x.id === m.world) || {color:'var(--ink-dim)', name:'OTRO', num:'?'};
-                return `<div class="next-mission" onclick="openMissionDetail('${m.id}')">
-                  <span class="next-m-world" style="color:${w.color}">${m.isCustom ? '🎯' : (w.num || '')}</span>
-                  <span class="next-m-name">${escapeHtml(m.name)}</span>
-                  <span class="next-m-xp">+${m.xp} XP</span>
-                </div>`;
-              }).join('')}
-            </div>
-            <button class="btn btn-sm" onclick="showView('missions')" style="margin-top:10px">Ver todas las misiones →</button>
-          ` : '<div class="empty-state">¡Has completado todas las misiones aplicables!</div>'}
-        </div>
-
-        <div class="zone-section">
-          <div class="zone-section-title">🗺 Fases del proyecto (${activeWorlds.length})</div>
-          <div class="worlds-mini-grid">
-            ${activeWorlds.slice(0,6).map((w, i) => {
-              const ws = getWorldStats(p, w.id);
-              const isDynamic = w.id.startsWith('w-report-');
-              return `
-                <div class="world-mini ${isDynamic?'world-mini-dynamic':''}" style="--world-color:${w.color}" onclick="${isDynamic ? `openWorld('${w.id}')` : `openWorld('${w.id}')`}">
-                  <div class="world-mini-name">${isDynamic ? '🎯 ' : ''}${escapeHtml(w.name)}</div>
-                  <div class="world-mini-progress">
-                    <div class="world-mini-bar"><div class="world-mini-fill" style="width:${ws.pct}%"></div></div>
-                    <div class="world-mini-stats">${ws.completed}/${ws.total}</div>
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-          ${activeWorlds.length > 6 ? `<button class="btn btn-sm" onclick="showView('missions')" style="margin-top:10px">Ver ${activeWorlds.length - 6} fases más →</button>` : ''}
-        </div>
-      </div>
-
-      <!-- ZONA DERECHA: ANÁLISIS -->
-      <div class="zone zone-analysis">
-        <div class="zone-header">
-          <div class="zone-title">📊 DÓNDE ESTOY</div>
-          <div class="zone-subtitle">Análisis, métricas e informes</div>
-        </div>
-
-        ${lastSnapshot ? `
-          <div class="zone-section">
-            <div class="zone-section-title">📄 Último informe</div>
-            <div class="last-report-card">
-              <div class="last-report-header">
-                <div>
-                  <div class="last-report-title">${escapeHtml(lastSnapshot.title || 'Auditoría')}</div>
-                  <div class="last-report-date">${lastSnapshot.date}${p.snapshots.length > 1 ? ` · informe ${p.snapshots.length} de ${p.snapshots.length}` : ' · informe inicial'}</div>
-                </div>
-                ${scoreNow !== null ? `<div class="last-report-score score-${scoreNow <= 4 ? 'bad' : scoreNow <= 6 ? 'mid' : 'good'}">${scoreNow}<small>/10</small></div>` : ''}
-              </div>
-              ${lastSnapshot.scorecard && lastSnapshot.scorecard.globalVerdict ? `<div class="last-report-verdict">${escapeHtml(lastSnapshot.scorecard.globalVerdict)}</div>` : ''}
-              <div class="last-report-actions">
-                <button class="btn btn-sm btn-primary" onclick="previewSnapshot(${p.snapshots.length-1})">👁 Ver informe</button>
-                <button class="btn btn-sm" onclick="showView('reports')">📚 Todos los informes</button>
-              </div>
-            </div>
-          </div>
-        ` : `
-          <div class="zone-section">
-            <div class="zone-section-title">📄 Sin informes aún</div>
-            <div class="empty-state">
-              <div style="margin-bottom:14px;font-size:12px">Genera tu primer informe (snapshot inicial) para tener una foto del punto de partida. Las recomendaciones del informe se convertirán automáticamente en misiones y objetivos.</div>
-              <button class="btn btn-primary btn-sm" onclick="showView('reports');setTimeout(()=>setReportsTab('create'),50)">➕ Crear primer informe</button>
-            </div>
-          </div>
-        `}
-
-        ${p.snapshots && p.snapshots.length >= 2 ? `
-          <div class="zone-section">
-            <div class="zone-section-title">📈 Evolución</div>
-            <div class="evolution-card">
-              <div class="evolution-row">
-                <span class="evolution-label">Puntuación inicial:</span>
-                <span class="evolution-value">${scoreInitial}/10</span>
-              </div>
-              <div class="evolution-row">
-                <span class="evolution-label">Puntuación actual:</span>
-                <span class="evolution-value">${scoreNow}/10</span>
-              </div>
-              <div class="evolution-row evolution-row-highlight">
-                <span class="evolution-label">Cambio:</span>
-                <span class="evolution-value ${scoreDiff > 0 ? 'evo-up' : scoreDiff < 0 ? 'evo-down' : 'evo-flat'}">${scoreDiff > 0 ? '▲ +' : scoreDiff < 0 ? '▼ ' : '═ '}${scoreDiff.toFixed(1)} pts</span>
-              </div>
-            </div>
-          </div>
-        ` : ''}
-
-        <div class="zone-section">
-          <div class="zone-section-title">📊 KPIs del proyecto</div>
-          <div class="mini-kpis">
-            <div class="mini-kpi">
-              <div class="mini-kpi-label">Racha</div>
-              <div class="mini-kpi-value">🔥 ${p.streak}<span class="mini-kpi-suffix">días</span></div>
-            </div>
-            <div class="mini-kpi">
-              <div class="mini-kpi-label">Logros</div>
-              <div class="mini-kpi-value">🏆 ${p.achievements.length}<span class="mini-kpi-suffix">/${ACHIEVEMENTS.length}</span></div>
-            </div>
-            <div class="mini-kpi">
-              <div class="mini-kpi-label">Keywords</div>
-              <div class="mini-kpi-value">🎯 ${p.keywords.length}</div>
-            </div>
-            <div class="mini-kpi">
-              <div class="mini-kpi-label">Competidores</div>
-              <div class="mini-kpi-value">👥 ${p.competitors.length}</div>
-            </div>
-          </div>
-        </div>
-
-        ${(completedObjectives.length > 0 || (p.reportBacklog || []).length > 0) ? `
-          <div class="zone-section">
-            <div class="zone-section-title">📋 Backlog & resueltos</div>
-            <div class="backlog-summary">
-              ${completedObjectives.length > 0 ? `<div class="backlog-row"><span>✓ Objetivos completados:</span><b>${completedObjectives.length}</b></div>` : ''}
-              ${(p.reportBacklog || []).length > 0 ? `<div class="backlog-row"><span>📚 Backlog estratégico:</span><b>${p.reportBacklog.length}</b></div>` : ''}
-            </div>
-            <button class="btn btn-sm" onclick="showView('objectives')" style="margin-top:10px;width:100%">Ver objetivos detallados →</button>
-          </div>
-        ` : ''}
-      </div>
-
+function ovFolderHTML(p, areaId){
+  if(areaId === '_progress') return ovProgressHTML(p);
+  const area = AREAS.find(a => a.id === areaId) || {icon:'📋', label:areaId};
+  const allItems = getUnifiedTasks(p);
+  const items = allItems.filter(t => taskArea(t) === areaId);
+  const pri = {high:0, medium:1, low:2};
+  items.sort((a,b)=>{ if(a.done!==b.done) return a.done?1:-1; return (pri[a.priority]!==undefined?pri[a.priority]:1)-(pri[b.priority]!==undefined?pri[b.priority]:1); });
+  const pend = items.filter(t=>!t.done).length, doneN = items.length - pend;
+  let list;
+  if(items.length===0){
+    list = `<div class="ovd-empty"><div style="font-size:40px;opacity:.5">${area.icon}</div><div style="margin-top:8px">Sin tareas en esta área.</div>${areaId==='ads'?'<div style="font-size:12px;margin-top:6px;color:#ff8b8a">⚠️ Punto ciego: aquí faltan las tareas de ads.</div>':''}</div>`;
+  } else {
+    list = items.map(t => {
+      const pr = t.priority||'medium';
+      return `<div class="ovd-task ${t.done?'done':''}">
+        <div class="ovd-cbox" onclick="toggleTaskOverview('${t.id}')">${t.done?'✓':''}</div>
+        <div><div class="ovd-ttext">${escapeHtml(t.text)}</div><span class="ovd-tprio ovd-p-${pr}">${pr==='high'?'🔥 Alta':pr==='low'?'Baja':'Media'}</span></div>
+      </div>`;
+    }).join('');
+  }
+  return `
+    <div class="ovd-fhead">
+      <button class="ovd-back" onclick="closeOvFolder()">←</button>
+      <div class="ovd-ftitle">${area.icon} ${escapeHtml(area.label)}</div>
+      <div class="ovd-fcount">${pend} pendientes · ${doneN} hechas</div>
+    </div>
+    <div>${list}</div>
+    <div class="ovd-addrow">
+      <input type="text" id="ov-area-input" placeholder="Añadir tarea a ${escapeHtml(area.label)}..." onkeydown="if(event.key==='Enter')addTaskOverviewArea('${areaId}')">
+      <button onclick="addTaskOverviewArea('${areaId}')">+ Añadir</button>
     </div>
   `;
+}
+
+function ovProgressHTML(p){
+  const lvl = getLevelInfo(p.xp);
+  const nextMissions = getAllMissionsForProject(p)
+    .filter(m => m.__applicable && !p.completedMissions[m.id])
+    .sort((a,b)=>{ if(a.isCustom&&!b.isCustom)return -1; if(b.isCustom&&!a.isCustom)return 1; if(a.world==='w0'&&b.world!=='w0')return -1; if(b.world==='w0'&&a.world!=='w0')return 1; return a.world.localeCompare(b.world); })
+    .slice(0,6);
+  const mis = nextMissions.map(m=>{
+    const w = (WORLDS.find(x=>x.id===m.world)) || getDynamicWorlds(p).find(x=>x.id===m.world) || {color:'#9a938c',num:'?'};
+    return `<div class="ovd-task" onclick="openMissionDetail('${m.id}')" style="cursor:pointer"><div style="color:${w.color};font-weight:500;min-width:20px">${m.isCustom?'🎯':(w.num||'')}</div><div style="flex:1"><div class="ovd-ttext">${escapeHtml(m.name)}</div></div><div style="color:#7BB832;font-size:12px">+${m.xp} XP</div></div>`;
+  }).join('') || '<div class="ovd-empty">¡Todas las misiones aplicables completadas!</div>';
+  return `
+    <div class="ovd-fhead">
+      <button class="ovd-back" onclick="closeOvFolder()">←</button>
+      <div class="ovd-ftitle">🎮 Progreso & misiones</div>
+      <div class="ovd-fcount">Nivel ${lvl.cur.lvl} · ${p.xp} XP</div>
+    </div>
+    <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+      <div class="ovd-tstat" style="background:#E7EAE3;padding:12px 16px;border-radius:12px"><div class="l">Racha</div><div class="v">🔥 ${p.streak||0}</div></div>
+      <div class="ovd-tstat" style="background:#E7EAE3;padding:12px 16px;border-radius:12px"><div class="l">Logros</div><div class="v">🏆 ${p.achievements.length}/${ACHIEVEMENTS.length}</div></div>
+      <div class="ovd-tstat" style="background:#E7EAE3;padding:12px 16px;border-radius:12px"><div class="l">Keywords</div><div class="v">🎯 ${p.keywords.length}</div></div>
+      <div class="ovd-tstat" style="background:#E7EAE3;padding:12px 16px;border-radius:12px"><div class="l">Competidores</div><div class="v">👥 ${p.competitors.length}</div></div>
+    </div>
+    <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#6b645e;margin-bottom:10px">🚀 Próximas misiones</div>
+    <div>${mis}</div>
+    <div class="ovd-addrow" style="margin-top:16px">
+      <button onclick="showView('missions')" style="background:#E7EAE3;border:1px solid rgba(31,38,32,0.12);color:#1F2620">Ver todas las misiones →</button>
+      <button onclick="showView('reports')" style="background:#E7EAE3;border:1px solid rgba(31,38,32,0.12);color:#1F2620">Informes →</button>
+    </div>
+  `;
+}
+
+function openOvFolder(id){ ovOpenArea = id; renderOverview(); }
+function closeOvFolder(){ ovOpenArea = null; renderOverview(); }
+function toggleTaskOverview(id){ Promise.resolve(toggleUnifiedTask(id)).then(()=>renderOverview()); }
+async function addTaskOverviewArea(areaId){
+  const inp = document.getElementById('ov-area-input');
+  if(!inp) return;
+  const text = (inp.value||'').trim();
+  if(!text) return;
+  const p = getCurrentProject();
+  if(!p.tasks) p.tasks = [];
+  p.tasks.push({ id:'tsk_'+Date.now(), origin:'manual', text, priority:'medium', done:false, source:'manual', sourceTitle:'', area:areaId, createdAt:new Date().toISOString() });
+  await saveState();
+  renderOverview();
 }
 
 function renderMissions(){
@@ -17257,6 +17285,7 @@ document.addEventListener('keydown', (e) => {
 // ============== INIT ==============
 (async function(){
   await ensureAuth();
+  try { ovInjectStyle(); } catch(e){}
   if(sbUser) addLogoutButton();
   await loadState();
   renderProjectsList();
