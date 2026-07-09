@@ -11,8 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,700,800,900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   /* === FONDOS: gris carbón elegante, no negro puro === */
@@ -4689,6 +4688,7 @@ button:active{transform:translateY(1px)}
     <div id="view-competitors" class="view" style="display:none"></div>
     <div id="view-achievements" class="view" style="display:none"></div>
     <div id="view-settings" class="view" style="display:none"></div>
+    <div id="view-bitacora" class="view" style="display:none"></div>
   </main>
 </div>
 
@@ -7487,14 +7487,14 @@ function showLoginGate(){
   return new Promise((resolve)=>{
     const ov = document.createElement('div');
     ov.id = 'sq-login-gate';
-    ov.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#EFF1ED;font-family:"DM Sans",system-ui,sans-serif;';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#F7F7F8;font-family:"Inter",system-ui,sans-serif;';
     ov.innerHTML = ''
       + '<div style="width:340px;max-width:90vw;background:#ffffff;border:1px solid rgba(31,38,32,0.10);border-radius:22px;padding:28px;box-shadow:0 20px 60px rgba(60,80,60,.18);">'
-      +   '<div style="font-family:\'Cabinet Grotesk\',sans-serif;font-size:30px;letter-spacing:1px;color:#1F2620;margin-bottom:4px;">SEO\u00B7QUEST</div>'
-      +   '<div style="font-size:13px;color:#7A8278;margin-bottom:20px;">Inicia sesi\u00F3n para acceder a tus proyectos.</div>'
-      +   '<input id="sq-email" type="email" placeholder="Email" autocomplete="username" style="width:100%;box-sizing:border-box;background:#EFF1ED;border:1px solid rgba(31,38,32,0.10);color:#1F2620;padding:11px 12px;border-radius:12px;font-size:14px;margin-bottom:10px;outline:none;">'
-      +   '<input id="sq-pass" type="password" placeholder="Contrase\u00F1a" autocomplete="current-password" style="width:100%;box-sizing:border-box;background:#EFF1ED;border:1px solid rgba(31,38,32,0.10);color:#1F2620;padding:11px 12px;border-radius:12px;font-size:14px;margin-bottom:14px;outline:none;">'
-      +   '<button id="sq-login-btn" style="width:100%;background:#7BB832;border:none;color:#fff;padding:12px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;">Entrar</button>'
+      +   '<div style="font-family:\'Inter\',sans-serif;font-size:30px;letter-spacing:1px;color:#1B1B1F;margin-bottom:4px;">SEO\u00B7QUEST</div>'
+      +   '<div style="font-size:13px;color:#8A8A94;margin-bottom:20px;">Inicia sesi\u00F3n para acceder a tus proyectos.</div>'
+      +   '<input id="sq-email" type="email" placeholder="Email" autocomplete="username" style="width:100%;box-sizing:border-box;background:#F7F7F8;border:1px solid rgba(31,38,32,0.10);color:#1B1B1F;padding:11px 12px;border-radius:12px;font-size:14px;margin-bottom:10px;outline:none;">'
+      +   '<input id="sq-pass" type="password" placeholder="Contrase\u00F1a" autocomplete="current-password" style="width:100%;box-sizing:border-box;background:#F7F7F8;border:1px solid rgba(31,38,32,0.10);color:#1B1B1F;padding:11px 12px;border-radius:12px;font-size:14px;margin-bottom:14px;outline:none;">'
+      +   '<button id="sq-login-btn" style="width:100%;background:#5E6AD2;border:none;color:#fff;padding:12px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;">Entrar</button>'
       +   '<div id="sq-login-err" style="color:#c25555;font-size:12px;margin-top:10px;min-height:16px;"></div>'
       + '</div>';
     document.body.appendChild(ov);
@@ -7581,36 +7581,70 @@ function _sqNormPriority(pr){
   if(/📋|💡|🔵|low|baja|backlog/i.test(s)) return 'low';
   return 'medium';
 }
+function _sqArr(x){ return Array.isArray(x) ? x : (x==null || x==='' ? [] : [x]); }
 function applyInboxRow(row){
   const pl = (row && row.payload) || {};
   const p = _sqFindProject(pl.project);
   if(!p){ console.warn('[inbox] proyecto no encontrado:', pl.project); return {added:0, completed:0, missing:true}; }
   if(!p.tasks) p.tasks = [];
   let added = 0, completed = 0;
-  (pl.add || []).forEach((t, idx) => {
-    const text = (t && t.text ? String(t.text) : '').trim();
+  _sqArr(pl.add).forEach((t, idx) => {
+    const text = (t && t.text ? String(t.text) : (typeof t === 'string' ? t : '')).trim();
     if(!text) return;
     if(p.tasks.find(e => e.text === text)) return; // dedup exacto
-    p.tasks.push({
+    const task = {
       id: 'tsk_bridge_' + Date.now() + '_' + idx,
       origin: 'chat',
       text: text,
-      priority: _sqNormPriority(t.priority),
+      priority: _sqNormPriority(t && t.priority),
       done: false,
       source: 'bridge',
       sourceTitle: pl.summary || 'Puente Claude',
       createdAt: new Date().toISOString()
-    });
+    };
+    if(t && t.help) task.help = String(t.help);   // 🎯 cómo conseguirlo, ya escrito
+    p.tasks.push(task);
     added++;
   });
-  (pl.complete || []).forEach(m => {
+  // Tareas ya HECHAS en la sesión, con su resultado (✨)
+  _sqArr(pl.done).forEach((d, idx) => {
+    const text = (d && d.text ? String(d.text) : (typeof d === 'string' ? d : '')).trim();
+    if(!text) return;
+    const result = (d && d.result) ? String(d.result) : '';
+    let task = p.tasks.find(e => (e.text||'').toLowerCase() === text.toLowerCase());
+    if(task){ task.done = true; if(result) task.result = result; }
+    else {
+      p.tasks.push({
+        id: 'tsk_done_' + Date.now() + '_' + idx,
+        origin: 'chat', text: text, priority: 'medium', done: true,
+        source: 'bridge', sourceTitle: pl.summary || 'Puente Claude',
+        result: result, createdAt: new Date().toISOString()
+      });
+    }
+    completed++;
+  });
+  _sqArr(pl.complete).forEach(m => {
     const q = String(m || '').trim().toLowerCase();
     if(!q) return;
     const task = p.tasks.find(t => !t.done && (t.text||'').toLowerCase().includes(q));
     if(task){ task.done = true; completed++; }
   });
-  if(pl.notes && pl.notes.length){
-    p.notes = (p.notes ? p.notes + '\n' : '') + pl.notes.join('\n');
+  const notesArr = _sqArr(pl.notes);
+  if(notesArr.length){
+    p.notes = (p.notes ? p.notes + '\n' : '') + notesArr.map(String).join('\n');
+  }
+  // Bitácora: registro fechado de la sesión (conocimiento durable)
+  const journalArr = _sqArr(pl.journal);
+  if(journalArr.length){
+    if(!Array.isArray(p.journal)) p.journal = [];
+    const stamp = new Date().toISOString().slice(0,10);
+    journalArr.forEach(j => {
+      if(j && typeof j === 'object'){
+        p.journal.push({ date: j.date || stamp, text: String(j.text||''), summary: j.summary || pl.summary || '' });
+      } else {
+        p.journal.push({ date: stamp, text: String(j), summary: pl.summary || '' });
+      }
+    });
   }
   return {added, completed, missing:false};
 }
@@ -7626,12 +7660,12 @@ function showInboxBanner(pending){
   const n = pending.length;
   const b = document.createElement('div');
   b.id = 'sq-inbox-banner';
-  b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9997;background:#7BB832;color:#fff;padding:10px 16px;font-family:Inter,sans-serif;font-size:14px;display:flex;align-items:center;justify-content:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,.3);';
+  b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9997;background:#5E6AD2;color:#fff;padding:10px 16px;font-family:Inter,sans-serif;font-size:14px;display:flex;align-items:center;justify-content:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,.3);';
   const span = document.createElement('span');
   span.textContent = '\uD83D\uDCE5 Claude dej\u00F3 ' + n + ' actualizaci\u00F3n' + (n>1?'es':'') + ' pendiente' + (n>1?'s':'');
   const view = document.createElement('button');
   view.textContent = 'Ver cambios';
-  view.style.cssText = 'background:#fff;color:#7BB832;border:none;border-radius:6px;padding:6px 14px;font-weight:600;font-size:13px;cursor:pointer;';
+  view.style.cssText = 'background:#fff;color:#5E6AD2;border:none;border-radius:6px;padding:6px 14px;font-weight:600;font-size:13px;cursor:pointer;';
   view.onclick = () => showInboxModal(pending);
   b.appendChild(span); b.appendChild(view);
   document.body.appendChild(b);
@@ -7644,19 +7678,20 @@ function showInboxModal(pending){
   let body = '';
   pending.forEach(row => {
     const pl = row.payload || {};
-    body += '<div style="border:1px solid #373d47;border-radius:10px;padding:14px;margin-bottom:12px;">';
-    body += '<div style="font-size:12px;color:#9aa3ad;margin-bottom:8px;">' + _sqEscape(pl.project || '(proyecto actual)') + (pl.summary ? ' \u00B7 ' + _sqEscape(pl.summary) : '') + '</div>';
-    (pl.complete || []).forEach(c => { body += '<div style="color:#7bdc8e;font-size:13px;margin:3px 0;">\u2713 Completar: ' + _sqEscape(c) + '</div>'; });
-    (pl.add || []).forEach(a => { body += '<div style="color:#e8eaed;font-size:13px;margin:3px 0;">+ A\u00F1adir: ' + _sqEscape(a && a.text) + '</div>'; });
-    (pl.notes || []).forEach(nt => { body += '<div style="color:#b8bec6;font-size:13px;margin:3px 0;">\u270E Nota: ' + _sqEscape(nt) + '</div>'; });
+    body += '<div style="border:1px solid rgba(31,38,32,0.1);border-radius:14px;padding:14px;margin-bottom:12px;background:#F7F7F8;">';
+    body += '<div style="font-size:12px;color:#8A8A94;margin-bottom:8px;font-weight:500;">' + _sqEscape(pl.project || '(proyecto actual)') + (pl.summary ? ' \u00B7 ' + _sqEscape(pl.summary) : '') + '</div>';
+    _sqArr(pl.complete).forEach(c => { body += '<div style="color:#2f8354;font-size:13px;margin:3px 0;">\u2713 Completar: ' + _sqEscape(c) + '</div>'; });
+    _sqArr(pl.done).forEach(d => { body += '<div style="color:#2f8354;font-size:13px;margin:3px 0;">\u2728 Hecho: ' + _sqEscape(d && d.text ? d.text : d) + (d && d.result ? ' <span style="color:#8A8A94">\u2014 ' + _sqEscape(d.result) + '</span>' : '') + '</div>'; });
+    _sqArr(pl.add).forEach(a => { body += '<div style="color:#1B1B1F;font-size:13px;margin:3px 0;">+ A\u00F1adir: ' + _sqEscape(a && a.text ? a.text : a) + '</div>'; });
+    _sqArr(pl.notes).forEach(nt => { body += '<div style="color:#8A8A94;font-size:13px;margin:3px 0;">\u270E Nota: ' + _sqEscape(nt) + '</div>'; });
     body += '</div>';
   });
-  ov.innerHTML = '<div style="width:480px;max-width:92vw;max-height:80vh;overflow:auto;background:#1c2027;border:1px solid #373d47;border-radius:14px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.5);">'
-    + '<div style="font-size:18px;font-weight:600;color:#e8eaed;margin-bottom:14px;">\uD83D\uDCE5 Cambios de Claude</div>'
+  ov.innerHTML = '<div style="width:480px;max-width:92vw;max-height:80vh;overflow:auto;background:#ffffff;border:1px solid rgba(31,38,32,0.08);border-radius:22px;padding:22px;box-shadow:-8px -8px 20px #fff,10px 10px 30px rgba(60,80,60,.2);">'
+    + '<div style="font-family:\'Inter\',sans-serif;font-size:20px;font-weight:800;color:#1B1B1F;margin-bottom:14px;">\uD83D\uDCE5 Cambios de Claude</div>'
     + body
     + '<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">'
-    +   '<button id="sq-inbox-dismiss" style="background:#252a32;color:#b8bec6;border:1px solid #373d47;border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer;">Descartar</button>'
-    +   '<button id="sq-inbox-accept" style="background:#7BB832;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;">Aceptar todo</button>'
+    +   '<button id="sq-inbox-dismiss" style="background:#F7F7F8;color:#8A8A94;border:1px solid rgba(31,38,32,0.1);border-radius:12px;padding:10px 16px;font-size:13px;cursor:pointer;">Descartar</button>'
+    +   '<button id="sq-inbox-accept" style="background:#5E6AD2;color:#fff;border:none;border-radius:12px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;">Aceptar todo</button>'
     + '</div></div>';
   document.body.appendChild(ov);
   ov.querySelector('#sq-inbox-accept').onclick = async () => {
@@ -9360,9 +9395,105 @@ async function finishOnboarding(){
 }
 
 // ============== OPEN PROJECT ==============
+// ============== NAVEGACIÓN POR TIPO DE PROYECTO ==============
+function renderBitacora(){
+  const p = getCurrentProject();
+  const el = document.getElementById('view-bitacora');
+  if(!p || !el) return;
+  const journal = Array.isArray(p.journal) ? p.journal.slice() : [];
+  if(!journal.length){
+    el.innerHTML = '<div class="ovd-empty" style="padding:60px"><div style="font-size:44px;opacity:.5">📒</div><div style="margin-top:10px;font-weight:600;color:var(--ink)">Aún no hay sesiones registradas</div><div style="font-size:13px;margin-top:6px">Cada vez que cerremos una sesión y aceptes los cambios en el buzón, el resumen quedará aquí, fechado.</div></div>';
+    return;
+  }
+  const groups = [], idx = {};
+  journal.forEach(j => {
+    const key = (j.date||'') + '|' + (j.summary||'');
+    if(idx[key] === undefined){ idx[key] = groups.length; groups.push({date:j.date||'', summary:j.summary||'', items:[]}); }
+    groups[idx[key]].items.push(j.text||'');
+  });
+  groups.reverse();
+  let html = '<div style="max-width:760px">';
+  groups.forEach(g => {
+    html += '<div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:12px">'
+      + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">'
+      +   '<span style="font-size:11px;font-weight:700;color:#fff;background:#5E6AD2;padding:3px 10px;border-radius:20px;font-family:var(--font-mono)">' + escapeHtml(g.date) + '</span>'
+      +   (g.summary ? '<span style="font-size:14px;font-weight:700;color:var(--ink);font-family:\'Inter\',sans-serif">' + escapeHtml(g.summary) + '</span>' : '')
+      + '</div>'
+      + g.items.map(t => '<div style="font-size:13.5px;color:var(--ink-dim);line-height:1.5;margin:5px 0;padding-left:16px;position:relative"><span style="position:absolute;left:0;color:#5E6AD2">•</span>' + escapeHtml(t) + '</div>').join('')
+      + '</div>';
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+// ---- config de navegación ----
+const TYPE_MODULES = {
+  tienda:    ['seo','tienda','marketing'],
+  producto:  ['seo','lanzamiento','marketing'],
+  auditoria: ['seo','marketing'],
+  interno:   []
+};
+function inferProjectType(p){
+  const n = (p.name||'').toLowerCase();
+  if(/komokomo|komo komo/.test(n)) return 'producto';
+  if(/njoy|n'joy|enjoy/.test(n)) return 'auditoria';
+  if(/directfluid|direct fluid/.test(n)) return 'tienda';
+  const plat = (p.platform||'').toLowerCase();
+  if(/shopify|prestashop|woo|magento/.test(plat)) return 'tienda';
+  return 'tienda';
+}
+function ensureProjectType(p){
+  if(!p) return;
+  if(!p.type) p.type = inferProjectType(p);
+  if(!Array.isArray(p.modules)) p.modules = (TYPE_MODULES[p.type] || ['seo']).slice();
+}
+const NAV_CONFIG = [
+  { item:{icon:'🏠', label:'Panel', view:'overview'} },
+  { item:{icon:'📋', label:'Proyecto', view:'briefing'} },
+  { item:{icon:'📒', label:'Bitácora', view:'bitacora'} },
+  { section:'SEO', icon:'🔍', module:'seo', items:[
+      {label:'Análisis web', view:'scan'},
+      {label:'Palabras clave', view:'keywords'},
+      {label:'Competidores', view:'competitors'} ] },
+  { item:{icon:'🛒', label:'Tienda', view:'migration', module:'tienda'} },
+  { item:{icon:'📄', label:'Informes', view:'reports'} },
+  { item:{icon:'⚙', label:'Ajustes', view:'settings'} }
+];
+function navItemHTML(it){
+  const attr = it.view ? `data-view="${it.view}"` : `data-panel="${it.panel}"`;
+  return `<li class="nav-item" ${attr}><span class="nav-icon">${it.icon||'·'}</span> ${it.label}</li>`;
+}
+function renderNav(p){
+  const ul = document.querySelector('.nav-list');
+  if(!ul || !p) return;
+  ensureProjectType(p);
+  const mods = p.modules || [];
+  let html = '';
+  NAV_CONFIG.forEach(group => {
+    if(group.item){ if(group.item.module && !mods.includes(group.item.module)) return; html += navItemHTML(group.item); return; }
+    if(group.module && !mods.includes(group.module)) return;
+    html += `<li class="nav-section">${group.icon?group.icon+' ':''}${group.section}</li>`;
+    group.items.forEach(it => { html += navItemHTML(it); });
+  });
+  ul.innerHTML = html;
+  ul.querySelectorAll('.nav-item').forEach(n => {
+    n.onclick = () => {
+      if(n.dataset.panel){
+        showView('overview');
+        try { openOvFolder(n.dataset.panel); } catch(e){}
+        ul.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+        n.classList.add('active');
+      } else {
+        showView(n.dataset.view);
+      }
+    };
+  });
+}
+
 function openProject(id){
   state.currentProjectId = id;
   const p = getCurrentProject();
+  ensureProjectType(p);
   updateStreak(p);
   saveState();
   document.getElementById('screen-projects').classList.remove('active');
@@ -9370,6 +9501,7 @@ function openProject(id){
   // sidebar
   document.getElementById('sb-proj-name').textContent = p.name;
   document.getElementById('sb-proj-domain').textContent = p.domain || p.sector;
+  renderNav(p);
   // default view
   showView('overview');
   renderHeader();
@@ -9431,7 +9563,8 @@ function showView(view){
     keywords: ['PALABRAS CLAVE','Tu universo de búsquedas objetivo'],
     competitors: ['COMPETIDORES','A quién tienes que superar'],
     achievements: ['LOGROS','Tu colección de hitos'],
-    settings: ['AJUSTES','Configuración del proyecto']
+    settings: ['AJUSTES','Configuración del proyecto'],
+    bitacora: ['BITÁCORA','Historial fechado de sesiones y decisiones']
   };
   document.getElementById('dash-title').textContent = titles[view][0];
   document.getElementById('dash-subtitle').textContent = titles[view][1];
@@ -9491,7 +9624,8 @@ const renderViews = {
   keywords: renderKeywords,
   competitors: renderCompetitors,
   achievements: renderAchievements,
-  settings: renderSettings
+  settings: renderSettings,
+  bitacora: renderBitacora
 };
 
 // ============== BRIEFING DEL PROYECTO ==============
@@ -11346,71 +11480,121 @@ function taskArea(t){ return t.area || inferArea(t); }
 
 let ovOpenArea = null;
 let ovLastProj = null;
+let ovOpenTask = null;
+let ovSectionCollapsed = { pending:false, done:true };
 function ovInjectStyle(){
   if(document.getElementById('ovd-style')) return;
   const s = document.createElement('style'); s.id = 'ovd-style';
   s.textContent = `
   :root{
-    --bg-0:#EFF1ED; --bg-1:#EFF1ED; --bg-2:#E7EAE3; --bg-3:#DDE1D8;
-    --line:rgba(31,38,32,0.08); --line-2:rgba(31,38,32,0.14);
-    --ink:#1F2620; --ink-dim:#3F4842; --ink-mute:#7A8278;
-    --acid:#7BB832; --acid-dim:#6aa22b;
-    --primary:#5FB395; --primary-dim:#4f9c81;
-    --warn:#D4A570; --danger:#D87070; --info:#6B9FCC;
-    --gold:#E8B470; --purple:#8378C4; --pink:#D88787; --success:#3FA76C;
-    --font-main:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
-    --font-mono:'DM Mono','Space Mono',monospace;
-    --font-display:'Cabinet Grotesk','DM Sans',sans-serif;
-    --neu-light:#ffffff; --neu-dark:rgba(140,150,140,0.32);
+    --bg-0:#ffffff; --bg-1:#ffffff; --bg-2:#F7F7F8; --bg-3:#ECECEF;
+    --line:#E7E7EA; --line-2:#D6D6DB;
+    --ink:#1B1B1F; --ink-dim:#4C4C55; --ink-mute:#8A8A94;
+    --acid:#5E6AD2; --acid-dim:#4C58BD;
+    --primary:#5E6AD2; --primary-dim:#4C58BD;
+    --warn:#B26B15; --danger:#C9403F; --info:#2E90FA; --success:#1F8A54; --purple:#8B5CF6; --pink:#E5588A; --gold:#B7860B;
+    --font-main:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --font-mono:'JetBrains Mono','SF Mono',monospace;
+    --font-display:'Inter',sans-serif;
+    --neu-light:transparent; --neu-dark:transparent;
+    --radius-sm:8px; --radius:10px; --radius-lg:14px;
   }
-  body{background:#EFF1ED !important;color:#1F2620}
-  .brand-mark,.dash-title,.sidebar-brand .brand-mark{font-family:'Cabinet Grotesk','DM Sans',sans-serif !important;font-weight:800;letter-spacing:.5px}
-  .ovd-strip{display:flex;align-items:center;gap:24px;margin-bottom:26px;flex-wrap:wrap;padding:6px 4px}
-  .ovd-tstat .l{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-mute);font-weight:500}
-  .ovd-tstat .v{font-size:17px;font-weight:700;color:var(--ink);font-family:'Cabinet Grotesk','DM Sans',sans-serif}
-  .ovd-ring{position:relative;width:56px;height:56px;border-radius:50%;background:#EFF1ED;box-shadow:-4px -4px 8px var(--neu-light),4px 4px 8px var(--neu-dark)}
-  .ovd-ring svg{transform:rotate(-90deg)}
-  .ovd-ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--ink);font-family:'Cabinet Grotesk',sans-serif}
-  .ovd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .ovd-tile{background:#EFF1ED;border:none;border-radius:22px;padding:20px 22px;cursor:pointer;position:relative;min-height:158px;display:flex;flex-direction:column;transition:.22s;box-shadow:-7px -7px 15px var(--neu-light),7px 7px 15px var(--neu-dark)}
-  .ovd-tile:hover{transform:translateY(-3px);box-shadow:-9px -9px 20px var(--neu-light),9px 9px 20px var(--neu-dark)}
-  .ovd-tile:active{box-shadow:inset -3px -3px 6px var(--neu-light),inset 3px 3px 6px var(--neu-dark)}
-  .ovd-ico{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px;background:var(--tint,rgba(123,184,50,.14))}
-  .ovd-name{font-size:16px;font-weight:700;line-height:1.2;color:var(--ink);font-family:'Cabinet Grotesk','DM Sans',sans-serif}
-  .ovd-sub{font-size:12px;color:var(--ink-mute);margin-top:4px}
-  .ovd-pend{font-size:34px;font-weight:800;margin-top:auto;color:var(--accent,#7BB832);font-family:'Cabinet Grotesk','DM Sans',sans-serif;line-height:1}
-  .ovd-pend small{font-size:12px;color:var(--ink-mute);font-weight:400;margin-left:6px;font-family:'DM Sans',sans-serif}
-  .ovd-bar{height:6px;background:rgba(31,38,32,.06);border-radius:4px;overflow:hidden;margin-top:12px}
-  .ovd-bar i{display:block;height:100%;background:var(--accent,#7BB832);border-radius:4px}
-  .ovd-chip{position:absolute;top:16px;right:16px;font-size:9px;letter-spacing:.6px;text-transform:uppercase;padding:4px 10px;border-radius:20px;font-weight:700}
-  .ovd-tile.blind .ovd-chip{background:rgba(216,112,112,.16);color:#c25555}
-  .ovd-tile.blind .ovd-ico{background:rgba(216,112,112,.16)}
-  .ovd-tile.empty{opacity:.5}
-  .ovd-tile.done .ovd-chip{background:rgba(63,167,108,.16);color:#2f8354}
-  .ovd-arrow{position:absolute;bottom:18px;right:20px;color:var(--accent,#7BB832);transition:.2s;font-weight:700;opacity:.7}
-  .ovd-tile:hover .ovd-arrow{transform:translateX(4px);opacity:1}
-  .ovd-fhead{display:flex;align-items:center;gap:14px;margin-bottom:20px}
-  .ovd-back{width:42px;height:42px;border-radius:14px;border:none;background:#EFF1ED;color:var(--ink);font-size:17px;cursor:pointer;transition:.15s;box-shadow:-4px -4px 8px var(--neu-light),4px 4px 8px var(--neu-dark)}
-  .ovd-back:active{box-shadow:inset -3px -3px 6px var(--neu-light),inset 3px 3px 6px var(--neu-dark)}
-  .ovd-ftitle{font-size:22px;font-weight:800;display:flex;align-items:center;gap:10px;color:var(--ink);font-family:'Cabinet Grotesk','DM Sans',sans-serif}
-  .ovd-fcount{font-size:12px;color:var(--ink-mute);margin-left:auto;font-weight:500}
-  .ovd-task{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;background:#EFF1ED;border:none;border-radius:16px;margin-bottom:12px;box-shadow:-5px -5px 11px var(--neu-light),5px 5px 11px var(--neu-dark)}
-  .ovd-task.done{opacity:.55}
+  body{background:#ffffff !important;color:#1B1B1F;-webkit-font-smoothing:antialiased}
+  .brand-mark,.dash-title,.sidebar-brand .brand-mark{font-family:'Inter',sans-serif !important;font-weight:700;letter-spacing:-.02em}
+  .nav-section{padding:16px 14px 6px;font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-mute);font-weight:600;pointer-events:none}
+  .nav-list .nav-item{padding-left:14px;font-size:14px;border-radius:8px;color:var(--ink-dim)}
+  .nav-list .nav-item:hover{background:var(--bg-2);color:var(--ink)}
+  .nav-list .nav-item.active{background:#EEF0FB;color:#5E6AD2;font-weight:600}
+  /* FICHA */
+  .ovd-ficha{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px 26px;margin-bottom:24px}
+  .ovd-ficha-head{display:flex;align-items:center;gap:16px}
+  .ovd-ficha-id{flex:1;min-width:0}
+  .ovd-ficha-name{font-size:28px;font-weight:700;letter-spacing:-.025em;color:var(--ink);line-height:1.1}
+  .ovd-ficha-meta{font-size:14px;color:var(--ink-mute);margin-top:7px}
+  .ovd-ficha-ring{position:relative;width:64px;height:64px;flex-shrink:0}
+  .ovd-ficha-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--ink)}
+  .ovd-ficha-desc{font-size:15px;color:var(--ink-dim);line-height:1.6;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+  .ovd-ficha-foot{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .ovd-ficha-chip{font-size:12px;font-weight:500;color:var(--ink-dim);background:var(--bg-2);border:1px solid var(--line);padding:6px 12px;border-radius:8px}
+  .ovd-ficha-btn{background:#5E6AD2;color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+  .ovd-ficha-btn:hover{background:#4C58BD}
+  /* GRID */
+  .ovd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .ovd-tile{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;cursor:pointer;position:relative;min-height:152px;display:flex;flex-direction:column;transition:.15s}
+  .ovd-tile:hover{border-color:var(--line-2);box-shadow:0 2px 10px rgba(20,20,40,.05)}
+  .ovd-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;background:var(--tint,#EEF0FB)}
+  .ovd-name{font-size:15px;font-weight:600;letter-spacing:-.01em;line-height:1.25;color:var(--ink)}
+  .ovd-sub{font-size:13px;color:var(--ink-mute);margin-top:3px}
+  .ovd-pend{font-size:32px;font-weight:700;letter-spacing:-.02em;margin-top:auto;color:var(--ink);line-height:1}
+  .ovd-pend small{font-size:13px;color:var(--ink-mute);font-weight:400;margin-left:6px}
+  .ovd-bar{height:6px;background:var(--bg-3);border-radius:99px;overflow:hidden;margin-top:12px}
+  .ovd-bar i{display:block;height:100%;background:var(--accent,#5E6AD2);border-radius:99px}
+  .ovd-chip{position:absolute;top:16px;right:16px;font-size:10px;letter-spacing:.02em;text-transform:uppercase;padding:4px 9px;border-radius:6px;font-weight:600}
+  .ovd-tile.blind{border-color:#F1C4C5}
+  .ovd-tile.blind .ovd-chip{background:#FCECEC;color:#C9403F}
+  .ovd-tile.blind .ovd-ico{background:#FCECEC}
+  .ovd-tile.empty{opacity:.55}
+  .ovd-tile.done .ovd-chip{background:#E7F6EE;color:#1F8A54}
+  .ovd-arrow{position:absolute;bottom:18px;right:18px;color:var(--ink-mute);transition:.15s;font-weight:600}
+  .ovd-tile:hover .ovd-arrow{color:var(--ink-dim);transform:translateX(3px)}
+  /* FOLDER */
+  .ovd-fhead{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+  .ovd-back{width:38px;height:38px;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:16px;cursor:pointer;transition:.15s}
+  .ovd-back:hover{background:var(--bg-2);border-color:var(--line-2)}
+  .ovd-ftitle{font-size:22px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px;color:var(--ink)}
+  .ovd-fcount{font-size:13px;color:var(--ink-mute);margin-left:auto}
+  /* SECTIONS */
+  .ovd-section{margin-bottom:6px}
+  .ovd-section-head{display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 8px;user-select:none;border-radius:8px;transition:.12s}
+  .ovd-section-head:hover{background:var(--bg-2)}
+  .ovd-section-head .chev{transition:transform .2s;color:var(--ink-mute);font-size:11px}
+  .ovd-section.collapsed .chev{transform:rotate(-90deg)}
+  .ovd-section-title{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-mute);font-weight:600}
+  .ovd-section-count{margin-left:auto;font-size:12px;color:var(--ink-mute);background:var(--bg-2);border:1px solid var(--line);padding:2px 9px;border-radius:99px}
+  .ovd-section-body{overflow:hidden;transition:max-height .3s ease,opacity .25s ease;max-height:6000px;opacity:1;padding:4px 0}
+  .ovd-section.collapsed .ovd-section-body{max-height:0;opacity:0;padding:0}
+  /* TASKS */
+  .ovd-task{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:.12s}
+  .ovd-task:hover{border-color:var(--line-2);background:var(--bg-2)}
+  .ovd-task.done{opacity:.6}
   .ovd-task.done .ovd-ttext{text-decoration:line-through}
-  .ovd-cbox{width:24px;height:24px;border-radius:9px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;margin-top:0;font-size:14px;font-weight:700;background:#EFF1ED;box-shadow:inset -2px -2px 4px var(--neu-light),inset 2px 2px 4px var(--neu-dark);transition:.15s}
-  .ovd-task.done .ovd-cbox{background:#3FA76C;box-shadow:none}
-  .ovd-ttext{font-size:14.5px;line-height:1.45;color:var(--ink)}
-  .ovd-tprio{font-size:9px;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:8px;margin-top:8px;display:inline-block;font-weight:700}
-  .ovd-p-high{background:rgba(216,112,112,.16);color:#c25555}
-  .ovd-p-medium{background:rgba(212,165,112,.18);color:#b07d3a}
-  .ovd-p-low{background:rgba(131,120,196,.16);color:#6b60ad}
-  .ovd-addrow{display:flex;gap:12px;margin-top:16px}
-  .ovd-addrow input{flex:1;background:#EFF1ED;border:none;color:var(--ink);border-radius:14px;padding:13px 16px;font-size:14px;font-family:'DM Sans',sans-serif;box-shadow:inset -3px -3px 6px var(--neu-light),inset 3px 3px 6px var(--neu-dark)}
+  .ovd-cbox{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--line-2);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;margin-top:1px;font-size:13px;font-weight:700;background:#fff;transition:.12s}
+  .ovd-cbox:hover{border-color:var(--accent)}
+  .ovd-task.done .ovd-cbox{background:var(--success);border-color:var(--success)}
+  .ovd-ttext{font-size:15px;line-height:1.45;color:var(--ink)}
+  .ovd-tprio{font-size:10px;text-transform:uppercase;letter-spacing:.02em;padding:3px 8px;border-radius:6px;margin-top:7px;display:inline-block;font-weight:600}
+  .ovd-p-high{background:#FCECEC;color:#C9403F}
+  .ovd-p-medium{background:#FDF1E3;color:#B26B15}
+  .ovd-p-low{background:#EEF0FB;color:#5E6AD2}
+  .ovd-task-arrow{color:var(--ink-mute);font-size:15px;align-self:center;font-weight:600;padding-left:6px}
+  .ovd-hasnote{color:var(--accent);font-size:16px;line-height:0;margin-left:8px;vertical-align:middle}
+  /* DETAIL */
+  .ovd-detail{margin:-2px 0 12px;padding:16px 18px;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;animation:ovdPop .2s ease}
+  .ovd-detail-h{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .ovd-detail textarea{width:100%;box-sizing:border-box;background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:14px;font-family:'Inter',sans-serif;color:var(--ink);line-height:1.55;min-height:84px;resize:vertical}
+  .ovd-detail textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(94,106,210,.14)}
+  .ovd-detail textarea::placeholder{color:var(--ink-mute)}
+  .ovd-detail-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .ovd-detail-chip{font-size:11px;text-transform:uppercase;letter-spacing:.02em;padding:4px 10px;border-radius:6px;background:#fff;border:1px solid var(--line);color:var(--ink-mute);font-weight:600}
+  /* ADD ROW */
+  .ovd-addrow{display:flex;gap:10px;margin-top:16px}
+  .ovd-addrow input{flex:1;background:#fff;border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:12px 14px;font-size:14px;font-family:'Inter',sans-serif}
   .ovd-addrow input::placeholder{color:var(--ink-mute)}
-  .ovd-addrow input:focus{outline:none}
-  .ovd-addrow button{background:#7BB832;border:none;color:#fff;border-radius:14px;padding:0 20px;font-weight:700;cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif;box-shadow:-4px -4px 8px var(--neu-light),4px 4px 8px var(--neu-dark)}
-  .ovd-addrow button:active{box-shadow:inset -2px -2px 4px rgba(0,0,0,.15)}
+  .ovd-addrow input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(94,106,210,.14)}
+  .ovd-addrow button{background:#5E6AD2;border:none;color:#fff;border-radius:9px;padding:0 18px;font-weight:600;cursor:pointer;font-size:14px;font-family:'Inter',sans-serif}
+  .ovd-addrow button:hover{background:#4C58BD}
   .ovd-empty{padding:44px;text-align:center;color:var(--ink-mute)}
+  @keyframes ovdFade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  @keyframes ovdBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @keyframes ovdPop{0%{opacity:0;transform:translateY(-5px)}100%{opacity:1;transform:none}}
+  .ovd-grid .ovd-tile{animation:ovdFade .42s cubic-bezier(.22,.61,.36,1) backwards}
+  .ovd-grid .ovd-tile:nth-child(1){animation-delay:.02s}
+  .ovd-grid .ovd-tile:nth-child(2){animation-delay:.06s}
+  .ovd-grid .ovd-tile:nth-child(3){animation-delay:.10s}
+  .ovd-grid .ovd-tile:nth-child(4){animation-delay:.14s}
+  .ovd-grid .ovd-tile:nth-child(5){animation-delay:.18s}
+  .ovd-grid .ovd-tile:nth-child(6){animation-delay:.22s}
+  .ovd-bar i{transform-origin:left;animation:ovdBar .8s cubic-bezier(.22,.61,.36,1) backwards}
   @media (max-width:760px){
     #screen-dashboard.active{grid-template-columns:1fr;display:block}
     .sidebar{position:static;height:auto;width:100%;padding:10px 0;border-right:none;border-bottom:1px solid var(--line);overflow:visible}
@@ -11418,13 +11602,16 @@ function ovInjectStyle(){
     .sidebar-project{padding:8px 16px}
     .sidebar-project-meta{display:none}
     .nav-list{display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;padding:8px 12px;-webkit-overflow-scrolling:touch}
-    .nav-item{white-space:nowrap;padding:8px 14px;font-size:13px;border-radius:12px;flex:0 0 auto;border-bottom:none}
-    .ovd-grid{grid-template-columns:repeat(2,1fr);gap:14px}
-    .ovd-tile{min-height:134px;padding:16px 16px}
-    .ovd-pend{font-size:28px}
-    .ovd-strip{gap:14px;margin-bottom:18px}
+    .nav-item{white-space:nowrap;padding:8px 14px;font-size:13px;border-radius:8px;flex:0 0 auto;border-bottom:none}
+    .nav-list .nav-item{padding-left:14px}
+    .nav-section{display:none}
+    .ovd-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+    .ovd-tile{min-height:130px;padding:16px}
+    .ovd-pend{font-size:26px}
+    .ovd-ficha{padding:18px 18px}
+    .ovd-ficha-name{font-size:22px}
   }
-  @media (max-width:400px){ .ovd-name{font-size:15px} .ovd-strip{gap:12px} }
+  @media (max-width:400px){ .ovd-name{font-size:14px} }
   `;
   document.head.appendChild(s);
 }
@@ -11456,10 +11643,10 @@ function ovGridHTML(p){
     const pc = tot ? Math.round(g.done/tot*100) : 0;
     let cls = 'ovd-tile', chip = '';
     if(tot===0 && a.id==='ads'){ cls += ' blind'; chip = '<div class="ovd-chip">punto ciego</div>'; }
-    else if(tot===0){ cls += ' empty'; chip = '<div class="ovd-chip" style="background:rgba(31,38,32,.07);color:#7A8278">sin tareas</div>'; }
+    else if(tot===0){ cls += ' empty'; chip = '<div class="ovd-chip" style="background:rgba(31,38,32,.07);color:#8A8A94">sin tareas</div>'; }
     else if(g.pending===0){ cls += ' done'; chip = '<div class="ovd-chip">✓ al día</div>'; }
-    const AC = ({launch:'#6B9FCC',seo:'#7BB832',ads:'#D88787',content:'#D4A570',social:'#8378C4'})[a.id] || '#7BB832';
-    const TINT = ({launch:'rgba(107,159,204,.16)',seo:'rgba(123,184,50,.16)',ads:'rgba(216,135,135,.16)',content:'rgba(212,165,112,.18)',social:'rgba(131,120,196,.16)'})[a.id] || 'rgba(123,184,50,.14)';
+    const AC = ({launch:'#6B9FCC',seo:'#5E6AD2',ads:'#D88787',content:'#D4A570',social:'#8378C4'})[a.id] || '#5E6AD2';
+    const TINT = ({launch:'rgba(107,159,204,.16)',seo:'rgba(94,106,210,.16)',ads:'rgba(216,135,135,.16)',content:'rgba(212,165,112,.18)',social:'rgba(131,120,196,.16)'})[a.id] || 'rgba(94,106,210,.14)';
     tiles += `<div class="${cls}" style="--accent:${AC};--tint:${TINT}" onclick="openOvFolder('${a.id}')">
       ${chip}
       <div class="ovd-ico">${a.icon}</div>
@@ -11479,19 +11666,75 @@ function ovGridHTML(p){
     <div class="ovd-arrow">→</div>
   </div>`;
 
+  const TYPE_LABEL = {tienda:'🛒 Tienda', producto:'🚀 Producto/App', auditoria:'🩺 Auditoría', interno:'🔧 Interno'};
+  const rC = 2 * Math.PI * 27;
   return `
-    <div class="ovd-strip">
-      <div class="ovd-ring">
-        <svg width="52" height="52"><circle cx="26" cy="26" r="22" fill="none" stroke="rgba(31,38,32,0.10)" stroke-width="4"></circle><circle cx="26" cy="26" r="22" fill="none" stroke="#7BB832" stroke-width="4" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}"></circle></svg>
-        <div class="pct">${stats.pct}%</div>
+    <div class="ovd-ficha">
+      <div class="ovd-ficha-head">
+        <div class="ovd-ficha-id">
+          <div class="ovd-ficha-name">${escapeHtml(p.name)}</div>
+          <div class="ovd-ficha-meta">${p.domain?escapeHtml(p.domain)+' · ':''}${TYPE_LABEL[p.type]||''}${p.projectStatus?' · '+escapeHtml(p.projectStatus):''}</div>
+        </div>
+        <div class="ovd-ficha-ring">
+          <svg width="64" height="64"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(31,38,32,0.10)" stroke-width="5"></circle><circle cx="32" cy="32" r="27" fill="none" stroke="#5E6AD2" stroke-width="5" stroke-linecap="round" stroke-dasharray="${rC}" stroke-dashoffset="${rC*(1-(stats.pct||0)/100)}" transform="rotate(-90 32 32)"></circle></svg>
+          <div class="ovd-ficha-pct">${stats.pct}%</div>
+        </div>
       </div>
-      <div class="ovd-tstat"><div class="l">Nivel</div><div class="v">${lvl.cur.lvl} · ${escapeHtml(lvl.cur.name)}</div></div>
-      <div class="ovd-tstat"><div class="l">XP</div><div class="v">${p.xp}</div></div>
-      <div class="ovd-tstat"><div class="l">Racha</div><div class="v">🔥 ${p.streak||0}</div></div>
-      <div class="ovd-tstat"><div class="l">Pendientes</div><div class="v">${pendTotal}</div></div>
+      ${p.description?`<div class="ovd-ficha-desc">${escapeHtml(p.description)}</div>`:''}
+      <div class="ovd-ficha-foot">
+        <span class="ovd-ficha-chip">🎚 Nv ${lvl.cur.lvl} · ${escapeHtml(lvl.cur.name)}</span>
+        <span class="ovd-ficha-chip">⭐ ${p.xp} XP</span>
+        <span class="ovd-ficha-chip">🔥 ${p.streak||0}</span>
+        <span class="ovd-ficha-chip">✅ ${stats.completed}/${stats.total} hechas</span>
+        <span style="flex:1"></span>
+        <button class="ovd-ficha-btn" onclick="showView('briefing')">📋 Proyecto & análisis</button>
+      </div>
     </div>
     <div class="ovd-grid">${tiles}</div>
   `;
+}
+
+function ovTaskRow(t, p){
+  const pr = t.priority||'medium';
+  const open = ovOpenTask === t.id;
+  const meta = (p.taskMeta && p.taskMeta[t.id]) || {};
+  const help = t.help || meta.help || '';
+  const result = t.result || meta.result || '';
+  let detail = '';
+  if(open){
+    if(t.done){
+      detail = `<div class="ovd-detail" onclick="event.stopPropagation()">
+        <div class="ovd-detail-h">✨ Resultado</div>
+        <textarea placeholder="¿Qué se consiguió? Resultado, métrica o enlace..." onblur="saveTaskField('${t.id}','result',this.value)">${escapeHtml(result)}</textarea>
+        <div class="ovd-detail-meta">${t.sourceTitle?`<span class="ovd-detail-chip">📎 ${escapeHtml(t.sourceTitle)}</span>`:''}<span class="ovd-detail-chip">✓ completada</span></div>
+      </div>`;
+    } else {
+      detail = `<div class="ovd-detail" onclick="event.stopPropagation()">
+        <div class="ovd-detail-h">🎯 Cómo conseguirlo</div>
+        <textarea placeholder="Pasos, enlaces o ayuda para completar esta tarea..." onblur="saveTaskField('${t.id}','help',this.value)">${escapeHtml(help)}</textarea>
+        <div class="ovd-detail-meta"><span class="ovd-detail-chip ovd-p-${pr}">${pr==='high'?'🔥 Alta':pr==='low'?'Baja':'Media'}</span>${t.sourceTitle?`<span class="ovd-detail-chip">📎 ${escapeHtml(t.sourceTitle)}</span>`:''}</div>
+      </div>`;
+    }
+  }
+  const hasNote = (help||result) ? '<span class="ovd-hasnote" title="Con detalle">•</span>' : '';
+  return `<div class="ovd-task ${t.done?'done':''}" onclick="toggleTaskDetail('${t.id}')">
+    <div class="ovd-cbox" onclick="event.stopPropagation();toggleTaskOverview('${t.id}')">${t.done?'✓':''}</div>
+    <div style="flex:1"><div class="ovd-ttext">${escapeHtml(t.text)}</div><span class="ovd-tprio ovd-p-${pr}">${pr==='high'?'🔥 Alta':pr==='low'?'Baja':'Media'}</span>${hasNote}</div>
+    <div class="ovd-task-arrow">${open?'▾':'›'}</div>
+  </div>${detail}`;
+}
+
+function ovSection(which, title, arr, p){
+  const collapsed = !!ovSectionCollapsed[which];
+  const rows = arr.length ? arr.map(t => ovTaskRow(t, p)).join('') : '<div class="ovd-empty" style="padding:22px;font-size:13px">Nada por aquí.</div>';
+  return `<div class="ovd-section ${collapsed?'collapsed':''}">
+    <div class="ovd-section-head" onclick="toggleOvSection('${which}')">
+      <span class="chev">▾</span>
+      <span class="ovd-section-title">${title}</span>
+      <span class="ovd-section-count">${arr.length}</span>
+    </div>
+    <div class="ovd-section-body">${rows}</div>
+  </div>`;
 }
 
 function ovFolderHTML(p, areaId){
@@ -11500,27 +11743,23 @@ function ovFolderHTML(p, areaId){
   const allItems = getUnifiedTasks(p);
   const items = allItems.filter(t => taskArea(t) === areaId);
   const pri = {high:0, medium:1, low:2};
-  items.sort((a,b)=>{ if(a.done!==b.done) return a.done?1:-1; return (pri[a.priority]!==undefined?pri[a.priority]:1)-(pri[b.priority]!==undefined?pri[b.priority]:1); });
-  const pend = items.filter(t=>!t.done).length, doneN = items.length - pend;
-  let list;
+  const byPrio = (a,b)=>(pri[a.priority]!==undefined?pri[a.priority]:1)-(pri[b.priority]!==undefined?pri[b.priority]:1);
+  const pending = items.filter(t=>!t.done).sort(byPrio);
+  const done = items.filter(t=>t.done);
+  let body;
   if(items.length===0){
-    list = `<div class="ovd-empty"><div style="font-size:40px;opacity:.5">${area.icon}</div><div style="margin-top:8px">Sin tareas en esta área.</div>${areaId==='ads'?'<div style="font-size:12px;margin-top:6px;color:#ff8b8a">⚠️ Punto ciego: aquí faltan las tareas de ads.</div>':''}</div>`;
+    body = `<div class="ovd-empty"><div style="font-size:40px;opacity:.5">${area.icon}</div><div style="margin-top:8px">Sin tareas en esta área.</div>${areaId==='ads'?'<div style="font-size:12px;margin-top:6px;color:#c25555">⚠️ Punto ciego: aquí faltan las tareas de ads.</div>':''}</div>`;
   } else {
-    list = items.map(t => {
-      const pr = t.priority||'medium';
-      return `<div class="ovd-task ${t.done?'done':''}">
-        <div class="ovd-cbox" onclick="toggleTaskOverview('${t.id}')">${t.done?'✓':''}</div>
-        <div><div class="ovd-ttext">${escapeHtml(t.text)}</div><span class="ovd-tprio ovd-p-${pr}">${pr==='high'?'🔥 Alta':pr==='low'?'Baja':'Media'}</span></div>
-      </div>`;
-    }).join('');
+    body = ovSection('pending', '⏳ Por hacer', pending, p) + ovSection('done', '✅ Hecho', done, p);
   }
+  const AC = ({launch:'#6B9FCC',seo:'#5E6AD2',ads:'#D88787',content:'#D4A570',social:'#8378C4'})[areaId] || '#5E6AD2';
   return `
-    <div class="ovd-fhead">
+    <div class="ovd-fhead" style="--accent:${AC}">
       <button class="ovd-back" onclick="closeOvFolder()">←</button>
       <div class="ovd-ftitle">${area.icon} ${escapeHtml(area.label)}</div>
-      <div class="ovd-fcount">${pend} pendientes · ${doneN} hechas</div>
+      <div class="ovd-fcount">${pending.length} pendientes · ${done.length} hechas</div>
     </div>
-    <div>${list}</div>
+    ${body}
     <div class="ovd-addrow">
       <input type="text" id="ov-area-input" placeholder="Añadir tarea a ${escapeHtml(area.label)}..." onkeydown="if(event.key==='Enter')addTaskOverviewArea('${areaId}')">
       <button onclick="addTaskOverviewArea('${areaId}')">+ Añadir</button>
@@ -11536,7 +11775,7 @@ function ovProgressHTML(p){
     .slice(0,6);
   const mis = nextMissions.map(m=>{
     const w = (WORLDS.find(x=>x.id===m.world)) || getDynamicWorlds(p).find(x=>x.id===m.world) || {color:'#9a938c',num:'?'};
-    return `<div class="ovd-task" onclick="openMissionDetail('${m.id}')" style="cursor:pointer"><div style="color:${w.color};font-weight:500;min-width:20px">${m.isCustom?'🎯':(w.num||'')}</div><div style="flex:1"><div class="ovd-ttext">${escapeHtml(m.name)}</div></div><div style="color:#7BB832;font-size:12px">+${m.xp} XP</div></div>`;
+    return `<div class="ovd-task" onclick="openMissionDetail('${m.id}')" style="cursor:pointer"><div style="color:${w.color};font-weight:500;min-width:20px">${m.isCustom?'🎯':(w.num||'')}</div><div style="flex:1"><div class="ovd-ttext">${escapeHtml(m.name)}</div></div><div style="color:#5E6AD2;font-size:12px">+${m.xp} XP</div></div>`;
   }).join('') || '<div class="ovd-empty">¡Todas las misiones aplicables completadas!</div>';
   return `
     <div class="ovd-fhead">
@@ -11553,15 +11792,25 @@ function ovProgressHTML(p){
     <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#6b645e;margin-bottom:10px">🚀 Próximas misiones</div>
     <div>${mis}</div>
     <div class="ovd-addrow" style="margin-top:16px">
-      <button onclick="showView('missions')" style="background:#E7EAE3;border:1px solid rgba(31,38,32,0.12);color:#1F2620">Ver todas las misiones →</button>
-      <button onclick="showView('reports')" style="background:#E7EAE3;border:1px solid rgba(31,38,32,0.12);color:#1F2620">Informes →</button>
+      <button onclick="showView('missions')" style="background:#E7EAE3;border:1px solid rgba(31,38,32,0.12);color:#1B1B1F">Ver todas las misiones →</button>
+      <button onclick="showView('reports')" style="background:#E7EAE3;border:1px solid rgba(31,38,32,0.12);color:#1B1B1F">Informes →</button>
     </div>
   `;
 }
 
-function openOvFolder(id){ ovOpenArea = id; renderOverview(); }
-function closeOvFolder(){ ovOpenArea = null; renderOverview(); }
+function openOvFolder(id){ ovOpenArea = id; ovOpenTask = null; renderOverview(); }
+function closeOvFolder(){ ovOpenArea = null; ovOpenTask = null; renderOverview(); }
 function toggleTaskOverview(id){ Promise.resolve(toggleUnifiedTask(id)).then(()=>renderOverview()); }
+function toggleOvSection(which){ ovSectionCollapsed[which] = !ovSectionCollapsed[which]; renderOverview(); }
+function toggleTaskDetail(id){ ovOpenTask = (ovOpenTask === id) ? null : id; renderOverview(); }
+async function saveTaskField(id, field, value){
+  const p = getCurrentProject(); if(!p) return;
+  const v = (value||'').trim();
+  const t = (p.tasks||[]).find(x => x.id === id);
+  if(t){ t[field] = v; }
+  else { if(!p.taskMeta) p.taskMeta = {}; if(!p.taskMeta[id]) p.taskMeta[id] = {}; p.taskMeta[id][field] = v; }
+  await saveState();
+}
 async function addTaskOverviewArea(areaId){
   const inp = document.getElementById('ov-area-input');
   if(!inp) return;
