@@ -5051,15 +5051,15 @@ const ACHIEVEMENTS = [
 // ============== DATA: WORLDS & MISSIONS ==============
 // Worlds are universal but missions adapt via "appliesTo" filters
 const WORLDS = [
-  {id:'w0', num:'00', name:'PRE-MIGRACIÓN', color:'var(--danger)', desc:'⚡ ACTIVO AHORA · Las 8 cosas que SÍ debes hacer mientras esperas a Shopify', priority:true, requiresMigration:true},
-  {id:'w1', num:'01', name:'FUNDAMENTOS', color:'var(--acid)', desc:'Configuración base, accesos y herramientas esenciales'},
-  {id:'w2', num:'02', name:'AUDITORÍA TÉCNICA', color:'var(--info)', desc:'Velocidad, indexación, estructura y errores'},
-  {id:'w3', num:'03', name:'KEYWORDS & INTENT', color:'var(--warn)', desc:'Investigación profunda y mapeo de intención'},
-  {id:'w4', num:'04', name:'SEO ON-PAGE', color:'var(--gold)', desc:'Títulos, metas, headings y optimización por página'},
-  {id:'w5', num:'05', name:'CONTENIDO', color:'var(--pink)', desc:'Estrategia editorial, blog y silos temáticos'},
-  {id:'w6', num:'06', name:'GEO / SEO LOCAL', color:'var(--purple)', desc:'Google Business Profile, NAP, citaciones, local pack'},
-  {id:'w7', num:'07', name:'AUTORIDAD & LINKS', color:'var(--info)', desc:'Backlinks, menciones de marca, PR digital'},
-  {id:'w8', num:'08', name:'SEM & MEDICIÓN', color:'var(--acid)', desc:'Google Ads, conversiones, GA4 y mejora continua'}
+  {id:'w0', num:'00', name:'PRE-MIGRACIÓN', color:'#EF4444', desc:'⚡ ACTIVO AHORA · Las 8 cosas que SÍ debes hacer mientras esperas a Shopify', priority:true, requiresMigration:true},
+  {id:'w1', num:'01', name:'FUNDAMENTOS', color:'#7C3AED', desc:'Configuración base, accesos y herramientas esenciales'},
+  {id:'w2', num:'02', name:'AUDITORÍA TÉCNICA', color:'#2563EB', desc:'Velocidad, indexación, estructura y errores'},
+  {id:'w3', num:'03', name:'KEYWORDS & INTENT', color:'#F59E0B', desc:'Investigación profunda y mapeo de intención'},
+  {id:'w4', num:'04', name:'SEO ON-PAGE', color:'#16C784', desc:'Títulos, metas, headings y optimización por página'},
+  {id:'w5', num:'05', name:'CONTENIDO', color:'#EC4899', desc:'Estrategia editorial, blog y silos temáticos'},
+  {id:'w6', num:'06', name:'GEO / SEO LOCAL', color:'#06B6D4', desc:'Google Business Profile, NAP, citaciones, local pack'},
+  {id:'w7', num:'07', name:'AUTORIDAD & LINKS', color:'#F97316', desc:'Backlinks, menciones de marca, PR digital'},
+  {id:'w8', num:'08', name:'SEM & MEDICIÓN', color:'#14B8A6', desc:'Google Ads, conversiones, GA4 y mejora continua'}
 ];
 
 // =====================================================================
@@ -7492,13 +7492,13 @@ function showLoginGate(){
     ov.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:radial-gradient(1100px 550px at 12% -8%, #FFE7E2 0%, #F4F4F6 48%);font-family:"Space Grotesk","Inter",system-ui,sans-serif;';
     ov.innerHTML = ''
       + '<div style="width:400px;max-width:92vw;background:#fff;border-radius:26px;padding:40px 36px;box-shadow:0 30px 80px rgba(20,20,30,.14);position:relative;overflow:hidden;">'
-      +   '<div style="display:inline-block;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#FF4A38;background:#FFECEA;padding:5px 12px;border-radius:999px;margin-bottom:22px;">SEO \u00B7 MISI\u00D3N \u00B7 CRECIMIENTO</div>'
-      +   '<div style="font-family:\'Space Grotesk\',sans-serif;font-size:42px;font-weight:700;letter-spacing:-.03em;color:#0A0A0C;line-height:1;margin-bottom:8px;">SEO<span style="color:#FF4A38;">.</span>QUEST</div>'
+      +   '<div style="display:inline-block;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#7C3AED;background:#FFECEA;padding:5px 12px;border-radius:999px;margin-bottom:22px;">SEO \u00B7 MISI\u00D3N \u00B7 CRECIMIENTO</div>'
+      +   '<div style="font-family:\'Space Grotesk\',sans-serif;font-size:42px;font-weight:700;letter-spacing:-.03em;color:#0A0A0C;line-height:1;margin-bottom:8px;">SEO<span style="color:#7C3AED;">.</span>QUEST</div>'
       +   '<div style="font-size:15px;color:#8A8A94;margin-bottom:26px;">Tu centro de mando SEO.</div>'
       +   '<input id="sq-email" type="email" placeholder="Email" autocomplete="username" style="width:100%;box-sizing:border-box;background:#F4F4F6;border:1px solid rgba(10,10,12,0.06);color:#0A0A0C;padding:13px 14px;border-radius:12px;font-size:14px;margin-bottom:10px;outline:none;font-family:Inter,sans-serif;">'
       +   '<input id="sq-pass" type="password" placeholder="Contrase\u00F1a" autocomplete="current-password" style="width:100%;box-sizing:border-box;background:#F4F4F6;border:1px solid rgba(10,10,12,0.06);color:#0A0A0C;padding:13px 14px;border-radius:12px;font-size:14px;margin-bottom:18px;outline:none;font-family:Inter,sans-serif;">'
       +   '<button id="sq-login-btn" style="width:100%;background:#0A0A0C;border:none;color:#fff;padding:14px;border-radius:999px;font-size:15px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;">Entrar \u2192</button>'
-      +   '<div id="sq-login-err" style="color:#FF4A38;font-size:12px;margin-top:12px;min-height:16px;"></div>'
+      +   '<div id="sq-login-err" style="color:#7C3AED;font-size:12px;margin-top:12px;min-height:16px;"></div>'
       + '</div>';
     document.body.appendChild(ov);
     const emailEl = ov.querySelector('#sq-email');
@@ -7673,12 +7673,12 @@ function showInboxBanner(pending){
   const n = pending.length;
   const b = document.createElement('div');
   b.id = 'sq-inbox-banner';
-  b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9997;background:#FF4A38;color:#0A0A0C;padding:10px 16px;font-family:Inter,sans-serif;font-size:14px;display:flex;align-items:center;justify-content:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,.3);';
+  b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9997;background:#7C3AED;color:#0A0A0C;padding:10px 16px;font-family:Inter,sans-serif;font-size:14px;display:flex;align-items:center;justify-content:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,.3);';
   const span = document.createElement('span');
   span.textContent = '\uD83D\uDCE5 Claude dej\u00F3 ' + n + ' actualizaci\u00F3n' + (n>1?'es':'') + ' pendiente' + (n>1?'s':'');
   const view = document.createElement('button');
   view.textContent = 'Ver cambios';
-  view.style.cssText = 'background:#fff;color:#FF4A38;border:none;border-radius:6px;padding:6px 14px;font-weight:600;font-size:13px;cursor:pointer;';
+  view.style.cssText = 'background:#fff;color:#7C3AED;border:none;border-radius:6px;padding:6px 14px;font-weight:600;font-size:13px;cursor:pointer;';
   view.onclick = () => showInboxModal(pending);
   b.appendChild(span); b.appendChild(view);
   document.body.appendChild(b);
@@ -9433,10 +9433,10 @@ function renderBitacora(){
   groups.forEach(g => {
     html += '<div style="background:var(--bg-1);box-shadow:0 1px 3px rgba(20,20,15,.05),0 6px 20px rgba(20,20,15,.05);border-radius:12px;padding:18px 20px;margin-bottom:12px">'
       + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">'
-      +   '<span style="font-size:11px;font-weight:700;color:#0A0A0C;background:#FF4A38;padding:3px 10px;border-radius:20px;font-family:var(--font-mono)">' + escapeHtml(g.date) + '</span>'
+      +   '<span style="font-size:11px;font-weight:700;color:#0A0A0C;background:#7C3AED;padding:3px 10px;border-radius:20px;font-family:var(--font-mono)">' + escapeHtml(g.date) + '</span>'
       +   (g.summary ? '<span style="font-size:14px;font-weight:700;color:var(--ink);font-family:\'Inter\',sans-serif">' + escapeHtml(g.summary) + '</span>' : '')
       + '</div>'
-      + g.items.map(t => '<div style="font-size:13.5px;color:var(--ink-dim);line-height:1.5;margin:5px 0;padding-left:16px;position:relative"><span style="position:absolute;left:0;color:#FF4A38">•</span>' + escapeHtml(t) + '</div>').join('')
+      + g.items.map(t => '<div style="font-size:13.5px;color:var(--ink-dim);line-height:1.5;margin:5px 0;padding-left:16px;position:relative"><span style="position:absolute;left:0;color:#7C3AED">•</span>' + escapeHtml(t) + '</div>').join('')
       + '</div>';
   });
   html += '</div>';
@@ -9532,12 +9532,12 @@ function exportProjectPDF(){
     lines.forEach(l => { if(y>800){ doc.addPage(); y=56; } doc.text(l, M, y); y += (size||11)*1.35; });
     y += (gap||0);
   };
-  doc.setFillColor('#FF4A38'); doc.rect(0,0,595,10,'F');
+  doc.setFillColor('#7C3AED'); doc.rect(0,0,595,10,'F');
   add(p.name, 22, '#111111', 2);
   const tl = ({tienda:'Tienda',producto:'Producto/App',auditoria:'Auditoría',interno:'Interno'})[p.type]||'';
   add((p.domain?p.domain+'  ·  ':'') + tl + '  ·  ' + new Date().toLocaleDateString('es-ES'), 10, '#777777', 14);
   const stats = getProjectStats(p);
-  add('AVANCE SEO: '+stats.pct+'%   ('+stats.completed+'/'+stats.total+' misiones)', 14, '#FF4A38', 12);
+  add('AVANCE SEO: '+stats.pct+'%   ('+stats.completed+'/'+stats.total+' misiones)', 14, '#7C3AED', 12);
   add('MISIONES POR MUNDO', 13, '#111111', 6);
   getVisibleWorlds(p).forEach(w => { const ws=getWorldStats(p,w.id); if(ws.total>0) add('- '+w.name+':  '+ws.completed+'/'+ws.total+'  ('+ws.pct+'%)', 10, '#333333'); });
   y += 8;
@@ -9595,12 +9595,12 @@ function renderAvance(){
   const stats=getProjectStats(p);
   const inS="background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:13px;font-family:'Inter',sans-serif;color:var(--ink);width:100%;box-sizing:border-box";
   const charts = metrics.length
-    ? _avanceChart(metrics,'visitas','👁 Visitas','#FF4A38') + _avanceChart(metrics,'ads','📣 Gasto Ads (€)','#E5588A') + _avanceChart(metrics,'conversiones','🎯 Conversiones','#1F8A54')
+    ? _avanceChart(metrics,'visitas','👁 Visitas','#7C3AED') + _avanceChart(metrics,'ads','📣 Gasto Ads (€)','#E5588A') + _avanceChart(metrics,'conversiones','🎯 Conversiones','#1F8A54')
     : '<div class="ovd-empty" style="padding:40px 20px">Aún no hay datos. Añade tu primer registro abajo (visitas, gasto en ads, conversiones) y la gráfica irá comparando el avance mes a mes.</div>';
   el.innerHTML = `
     <div style="max-width:760px">
       <div style="background:var(--bg-1);box-shadow:0 1px 3px rgba(20,20,15,.05),0 6px 20px rgba(20,20,15,.05);border-radius:12px;padding:18px 20px;margin-bottom:16px;display:flex;gap:32px;flex-wrap:wrap">
-        <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-mute);font-weight:600">Avance SEO</div><div style="font-size:28px;font-weight:700;color:#FF4A38;letter-spacing:-.02em">${stats.pct}%</div><div style="font-size:12px;color:var(--ink-mute)">${stats.completed}/${stats.total} misiones</div></div>
+        <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-mute);font-weight:600">Avance SEO</div><div style="font-size:28px;font-weight:700;color:#7C3AED;letter-spacing:-.02em">${stats.pct}%</div><div style="font-size:12px;color:var(--ink-mute)">${stats.completed}/${stats.total} misiones</div></div>
         <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-mute);font-weight:600">Mediciones</div><div style="font-size:28px;font-weight:700;color:var(--ink);letter-spacing:-.02em">${metrics.length}</div><div style="font-size:12px;color:var(--ink-mute)">registros</div></div>
         <div style="margin-left:auto;align-self:center"><button class="ovd-ficha-btn" onclick="exportProjectPDF()">⬇ Informe PDF</button></div>
       </div>
@@ -11630,32 +11630,34 @@ function ovInjectStyle(){
   const s = document.createElement('style'); s.id = 'ovd-style';
   s.textContent = `
   :root{
-    --bg-0:#F4F4F6; --bg-1:#FFFFFF; --bg-2:#EEEEF1; --bg-3:#E4E4E8;
-    --line:rgba(10,10,12,0.07); --line-2:rgba(10,10,12,0.13);
-    --ink:#0A0A0C; --ink-dim:#5B5B62; --ink-mute:#A0A0A8;
-    --acid:#FF4A38; --acid-dim:#E63A28;
-    --primary:#0A0A0C; --primary-dim:#000000;
-    --warn:#F0A020; --danger:#FF4A38; --info:#3B82F6; --success:#12B76A; --purple:#7C6CF0; --pink:#F0629B; --gold:#E0B020;
+    --bg-0:#F4F4F8; --bg-1:#FFFFFF; --bg-2:#EEEEF1; --bg-3:#E4E4E8;
+    --line:rgba(20,20,32,0.07); --line-2:rgba(20,20,32,0.13);
+    --ink:#141420; --ink-dim:#6A6A78; --ink-mute:#A6A6B4;
+    --acid:#7C3AED; --acid-dim:#6D28D9;
+    --primary:#141420; --primary-dim:#000000;
+    --warn:#F59E0B; --danger:#EF4444; --info:#2563EB; --success:#16C784; --purple:#7C3AED; --pink:#EC4899; --gold:#F59E0B;
     --font-main:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
     --font-mono:'JetBrains Mono','SF Mono',monospace;
-    --font-display:'Space Grotesk','Inter',sans-serif;
+    --font-display:'Inter',sans-serif;
     --neu-light:transparent; --neu-dark:transparent;
     --radius-sm:10px; --radius:16px; --radius-lg:20px;
   }
-  body{background:#F4F4F6 !important;color:#0A0A0C;-webkit-font-smoothing:antialiased}
-  .brand-mark,.dash-title,.sidebar-brand .brand-mark,.m-name,.world-name,.ovd-ficha-name,.ovd-ftitle,.ovd-section-title{font-family:'Space Grotesk','Inter',sans-serif !important;letter-spacing:-.02em}
+  body{background:#F4F4F8 !important;color:#141420;-webkit-font-smoothing:antialiased}
+  .brand-mark,.dash-title,.sidebar-brand .brand-mark,.m-name,.world-name,.ovd-ficha-name,.ovd-ftitle,.ovd-section-title{font-family:'Inter',sans-serif !important;font-weight:800;letter-spacing:-.02em}
   .dash-title{font-weight:700}
-  /* PROFESIONAL — tarjetas planas, sombra sutil, acento lima, botones oscuros */
-  .mission-card{background:var(--bg-1) !important;border:none !important;border-radius:16px !important;box-shadow:0 1px 2px rgba(20,20,15,.04),0 4px 14px rgba(20,20,15,.045);padding:16px 20px;transition:.18s}
-  .mission-card:hover{box-shadow:0 2px 5px rgba(20,20,15,.06),0 10px 26px rgba(20,20,15,.08);transform:translateY(-2px)}
+  /* VIBRANTE (Opción 1) — multicolor por mundo, energía */
+  .mission-card{background:var(--bg-1) !important;border:1px solid var(--line) !important;border-radius:16px !important;box-shadow:0 1px 2px rgba(20,20,25,.04),0 4px 14px rgba(20,20,25,.05);padding:16px 20px;transition:.18s}
+  .mission-card:hover{box-shadow:0 3px 6px rgba(20,20,25,.07),0 12px 28px rgba(20,20,25,.09);transform:translateY(-2px);border-color:var(--world-color,var(--acid)) !important}
   .mission-card.completed{opacity:.6;box-shadow:none;background:var(--bg-2) !important}
-  .world-card{background:var(--bg-1) !important;border:none !important;border-radius:20px !important;box-shadow:0 1px 3px rgba(20,20,15,.05),0 6px 20px rgba(20,20,15,.05);padding:22px;transition:.18s}
-  .world-card:hover{box-shadow:0 3px 7px rgba(20,20,15,.07),0 14px 32px rgba(20,20,15,.09);transform:translateY(-3px)}
-  .world-card.locked,.world-card.inactive{opacity:.55}
-  .m-checkbox{background:var(--bg-2);border:1.5px solid var(--line-2) !important;box-shadow:none}
-  .mission-card.completed .m-checkbox{background:#0A0A0C;border-color:#0A0A0C !important;color:#fff}
+  .world-card{background:var(--bg-1) !important;border:1px solid var(--line) !important;border-radius:20px !important;box-shadow:0 1px 3px rgba(20,20,25,.05),0 8px 24px rgba(20,20,25,.05);padding:22px 22px 22px 26px;transition:.18s;position:relative;overflow:hidden}
+  .world-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--world-color,var(--acid))}
+  .world-card:hover{box-shadow:0 6px 12px rgba(20,20,25,.08),0 18px 40px rgba(20,20,25,.11);transform:translateY(-3px)}
+  .world-card.locked,.world-card.inactive{opacity:.5}
+  .world-num{color:var(--world-color,var(--acid)) !important;font-weight:800 !important}
+  .m-checkbox{background:var(--bg-2);border:1.5px solid var(--line-2) !important;box-shadow:none;border-radius:6px}
+  .mission-card.completed .m-checkbox{background:var(--world-color,var(--acid));border-color:var(--world-color,var(--acid)) !important;color:#fff}
   .proj-tab.active{color:var(--ink);border-bottom-color:var(--acid)}
-  .btn-primary,.ovd-ficha-btn,.ovd-addrow button{background:#0A0A0C !important;color:#fff !important;border:none !important;border-radius:999px !important}
+  .btn-primary,.ovd-ficha-btn,.ovd-addrow button{background:var(--acid) !important;color:#fff !important;border:none !important;border-radius:999px !important}
   .btn{border-radius:999px !important}
   input,textarea,select{border-radius:12px}
   /* NAV EN PESTAÑAS TIPO CARPETA ARRIBA (como la referencia) */
@@ -11687,7 +11689,7 @@ function ovInjectStyle(){
   .proj-tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:22px;flex-wrap:wrap}
   .proj-tab{background:none;border:none;padding:10px 15px;font-size:14px;font-weight:500;color:var(--ink-mute);cursor:pointer;border-bottom:2px solid transparent;font-family:'Inter',sans-serif;margin-bottom:-1px}
   .proj-tab:hover{color:var(--ink)}
-  .proj-tab.active{color:#FF4A38;border-bottom-color:#FF4A38;font-weight:600}
+  .proj-tab.active{color:#7C3AED;border-bottom-color:#7C3AED;font-weight:600}
   /* FICHA */
   .ovd-ficha{background:var(--bg-1);box-shadow:0 1px 3px rgba(20,20,15,.05),0 6px 20px rgba(20,20,15,.05);border-radius:14px;padding:24px 26px;margin-bottom:24px}
   .ovd-ficha-head{display:flex;align-items:center;gap:16px}
@@ -11699,8 +11701,8 @@ function ovInjectStyle(){
   .ovd-ficha-desc{font-size:15px;color:var(--ink-dim);line-height:1.6;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
   .ovd-ficha-foot{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:18px}
   .ovd-ficha-chip{font-size:12px;font-weight:500;color:var(--ink-dim);background:var(--bg-2);border:1px solid var(--line);padding:6px 12px;border-radius:8px}
-  .ovd-ficha-btn{background:#FF4A38;color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
-  .ovd-ficha-btn:hover{background:#E63A28}
+  .ovd-ficha-btn{background:#7C3AED;color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+  .ovd-ficha-btn:hover{background:#6D28D9}
   /* GRID */
   .ovd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   .ovd-tile{background:var(--bg-1);box-shadow:0 1px 3px rgba(20,20,15,.05),0 6px 20px rgba(20,20,15,.05);border-radius:12px;padding:20px;cursor:pointer;position:relative;min-height:152px;display:flex;flex-direction:column;transition:.15s}
@@ -11711,7 +11713,7 @@ function ovInjectStyle(){
   .ovd-pend{font-size:32px;font-weight:700;letter-spacing:-.02em;margin-top:auto;color:var(--ink);line-height:1}
   .ovd-pend small{font-size:13px;color:var(--ink-mute);font-weight:400;margin-left:6px}
   .ovd-bar{height:6px;background:var(--bg-3);border-radius:99px;overflow:hidden;margin-top:12px}
-  .ovd-bar i{display:block;height:100%;background:var(--accent,#FF4A38);border-radius:99px}
+  .ovd-bar i{display:block;height:100%;background:var(--accent,#7C3AED);border-radius:99px}
   .ovd-chip{position:absolute;top:16px;right:16px;font-size:10px;letter-spacing:.02em;text-transform:uppercase;padding:4px 9px;border-radius:6px;font-weight:600}
   .ovd-tile.blind{border-color:#F1C4C5}
   .ovd-tile.blind .ovd-chip{background:#FCECEC;color:#C9403F}
@@ -11748,14 +11750,14 @@ function ovInjectStyle(){
   .ovd-tprio{font-size:10px;text-transform:uppercase;letter-spacing:.02em;padding:3px 8px;border-radius:6px;margin-top:7px;display:inline-block;font-weight:600}
   .ovd-p-high{background:#FCECEC;color:#C9403F}
   .ovd-p-medium{background:#FDF1E3;color:#B26B15}
-  .ovd-p-low{background:#E7EFDD;color:#FF4A38}
+  .ovd-p-low{background:#E7EFDD;color:#7C3AED}
   .ovd-task-arrow{color:var(--ink-mute);font-size:15px;align-self:center;font-weight:600;padding-left:6px}
   .ovd-hasnote{color:var(--accent);font-size:16px;line-height:0;margin-left:8px;vertical-align:middle}
   /* DETAIL */
   .ovd-detail{margin:-2px 0 12px;padding:16px 18px;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;animation:ovdPop .2s ease}
   .ovd-detail-h{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:8px}
   .ovd-detail textarea{width:100%;box-sizing:border-box;background:var(--bg-1);box-shadow:0 1px 3px rgba(20,20,15,.05),0 6px 20px rgba(20,20,15,.05);border-radius:8px;padding:12px 14px;font-size:14px;font-family:'Inter',sans-serif;color:var(--ink);line-height:1.55;min-height:84px;resize:vertical}
-  .ovd-detail textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,74,56,.14)}
+  .ovd-detail textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.14)}
   .ovd-detail textarea::placeholder{color:var(--ink-mute)}
   .ovd-detail-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .ovd-detail-chip{font-size:11px;text-transform:uppercase;letter-spacing:.02em;padding:4px 10px;border-radius:6px;background:var(--bg-1);box-shadow:0 1px 3px rgba(20,20,15,.05),0 6px 20px rgba(20,20,15,.05);color:var(--ink-mute);font-weight:600}
@@ -11763,9 +11765,9 @@ function ovInjectStyle(){
   .ovd-addrow{display:flex;gap:10px;margin-top:16px}
   .ovd-addrow input{flex:1;background:var(--bg-1);box-shadow:0 1px 3px rgba(20,20,15,.05),0 6px 20px rgba(20,20,15,.05);color:var(--ink);border-radius:9px;padding:12px 14px;font-size:14px;font-family:'Inter',sans-serif}
   .ovd-addrow input::placeholder{color:var(--ink-mute)}
-  .ovd-addrow input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,74,56,.14)}
-  .ovd-addrow button{background:#FF4A38;border:none;color:#fff;border-radius:9px;padding:0 18px;font-weight:600;cursor:pointer;font-size:14px;font-family:'Inter',sans-serif}
-  .ovd-addrow button:hover{background:#E63A28}
+  .ovd-addrow input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.14)}
+  .ovd-addrow button{background:#7C3AED;border:none;color:#fff;border-radius:9px;padding:0 18px;font-weight:600;cursor:pointer;font-size:14px;font-family:'Inter',sans-serif}
+  .ovd-addrow button:hover{background:#6D28D9}
   .ovd-empty{padding:44px;text-align:center;color:var(--ink-mute)}
   .world-card{border-radius:12px;padding:20px 22px}
   .world-card:hover{box-shadow:0 2px 10px rgba(20,20,40,.05)}
@@ -11837,8 +11839,8 @@ function ovGridHTML(p){
     if(tot===0 && a.id==='ads'){ cls += ' blind'; chip = '<div class="ovd-chip">punto ciego</div>'; }
     else if(tot===0){ cls += ' empty'; chip = '<div class="ovd-chip" style="background:rgba(31,38,32,.07);color:#8A8A94">sin tareas</div>'; }
     else if(g.pending===0){ cls += ' done'; chip = '<div class="ovd-chip">✓ al día</div>'; }
-    const AC = ({launch:'#6B9FCC',seo:'#FF4A38',ads:'#D88787',content:'#D4A570',social:'#8378C4'})[a.id] || '#FF4A38';
-    const TINT = ({launch:'rgba(107,159,204,.16)',seo:'rgba(255,74,56,.16)',ads:'rgba(216,135,135,.16)',content:'rgba(212,165,112,.18)',social:'rgba(131,120,196,.16)'})[a.id] || 'rgba(255,74,56,.14)';
+    const AC = ({launch:'#6B9FCC',seo:'#7C3AED',ads:'#D88787',content:'#D4A570',social:'#8378C4'})[a.id] || '#7C3AED';
+    const TINT = ({launch:'rgba(107,159,204,.16)',seo:'rgba(124,58,237,.16)',ads:'rgba(216,135,135,.16)',content:'rgba(212,165,112,.18)',social:'rgba(131,120,196,.16)'})[a.id] || 'rgba(124,58,237,.14)';
     tiles += `<div class="${cls}" style="--accent:${AC};--tint:${TINT}" onclick="openOvFolder('${a.id}')">
       ${chip}
       <div class="ovd-ico">${a.icon}</div>
@@ -11868,7 +11870,7 @@ function ovGridHTML(p){
           <div class="ovd-ficha-meta">${p.domain?escapeHtml(p.domain)+' · ':''}${TYPE_LABEL[p.type]||''}${p.projectStatus?' · '+escapeHtml(p.projectStatus):''}</div>
         </div>
         <div class="ovd-ficha-ring">
-          <svg width="64" height="64"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(31,38,32,0.10)" stroke-width="5"></circle><circle cx="32" cy="32" r="27" fill="none" stroke="#FF4A38" stroke-width="5" stroke-linecap="round" stroke-dasharray="${rC}" stroke-dashoffset="${rC*(1-(stats.pct||0)/100)}" transform="rotate(-90 32 32)"></circle></svg>
+          <svg width="64" height="64"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(31,38,32,0.10)" stroke-width="5"></circle><circle cx="32" cy="32" r="27" fill="none" stroke="#7C3AED" stroke-width="5" stroke-linecap="round" stroke-dasharray="${rC}" stroke-dashoffset="${rC*(1-(stats.pct||0)/100)}" transform="rotate(-90 32 32)"></circle></svg>
           <div class="ovd-ficha-pct">${stats.pct}%</div>
         </div>
       </div>
@@ -11945,7 +11947,7 @@ function ovFolderHTML(p, areaId){
   } else {
     body = ovSection('pending', '⏳ Por hacer', pending, p) + ovSection('done', '✅ Hecho', done, p);
   }
-  const AC = ({launch:'#6B9FCC',seo:'#FF4A38',ads:'#D88787',content:'#D4A570',social:'#8378C4'})[areaId] || '#FF4A38';
+  const AC = ({launch:'#6B9FCC',seo:'#7C3AED',ads:'#D88787',content:'#D4A570',social:'#8378C4'})[areaId] || '#7C3AED';
   return `
     <div class="ovd-fhead" style="--accent:${AC}">
       <button class="ovd-back" onclick="closeOvFolder()">←</button>
@@ -11968,7 +11970,7 @@ function ovProgressHTML(p){
     .slice(0,6);
   const mis = nextMissions.map(m=>{
     const w = (WORLDS.find(x=>x.id===m.world)) || getDynamicWorlds(p).find(x=>x.id===m.world) || {color:'#9a938c',num:'?'};
-    return `<div class="ovd-task" onclick="openMissionDetail('${m.id}')" style="cursor:pointer"><div style="color:${w.color};font-weight:500;min-width:20px">${m.isCustom?'🎯':(w.num||'')}</div><div style="flex:1"><div class="ovd-ttext">${escapeHtml(m.name)}</div></div><div style="color:#FF4A38;font-size:12px">+${m.xp} XP</div></div>`;
+    return `<div class="ovd-task" onclick="openMissionDetail('${m.id}')" style="cursor:pointer"><div style="color:${w.color};font-weight:500;min-width:20px">${m.isCustom?'🎯':(w.num||'')}</div><div style="flex:1"><div class="ovd-ttext">${escapeHtml(m.name)}</div></div><div style="color:#7C3AED;font-size:12px">+${m.xp} XP</div></div>`;
   }).join('') || '<div class="ovd-empty">¡Todas las misiones aplicables completadas!</div>';
   return `
     <div class="ovd-fhead">
@@ -17729,7 +17731,7 @@ document.addEventListener('keydown', (e) => {
   await ensureAuth();
   try {
     var _v = document.createElement('div');
-    _v.textContent = 'build: NEO-02 · 9 jul';
+    _v.textContent = 'build: VIBE-01 · 9 jul';
     _v.style.cssText = 'position:fixed;bottom:8px;right:10px;z-index:99998;font:600 10px Inter,sans-serif;letter-spacing:.5px;color:#fff;background:#0A0A0C;padding:3px 9px;border-radius:999px;opacity:.9;pointer-events:none';
     document.body.appendChild(_v);
   } catch(e){}
