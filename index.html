@@ -7441,7 +7441,7 @@ function ensureSupabaseReady(){
     let tries = 0;
     (function check(){
       if(window.supabase && window.supabase.createClient){ resolve(true); return; }
-      if(tries++ > 40){ resolve(false); return; }
+      if(tries++ > 120){ resolve(false); return; }
       setTimeout(check, 100);
     })();
   });
@@ -8523,8 +8523,9 @@ function getAllMissionsForProject(project){
 }
 
 function getMissionsByWorld(project, worldId){
-  // Soporta tanto mundos catálogo como mundos dinámicos
-  if(worldId && worldId.startsWith('w-report-')){
+  // Soporta mundos de catálogo y mundos dinámicos (informes O roadmap con misiones custom)
+  const hasCustom = (project.customMissions || []).some(cm => cm.world === worldId);
+  if((worldId && worldId.startsWith('w-report-')) || hasCustom){
     return getAllMissionsForProject(project).filter(m => m.world === worldId);
   }
   return getMissionsForProject(project).filter(m => m.world === worldId);
@@ -8572,9 +8573,10 @@ function getVisibleWorlds(project){
 }
 
 function getWorldStats(project, worldId){
-  if(worldId && worldId.startsWith('w-report-')){
-    // Mundo dinámico de informe
-    const customs = (project.customMissions || []).filter(cm => cm.world === worldId);
+  const _customsW = (project.customMissions || []).filter(cm => cm.world === worldId);
+  if((worldId && worldId.startsWith('w-report-')) || _customsW.length > 0){
+    // Mundo dinámico (informe O roadmap con misiones custom)
+    const customs = _customsW;
     const completed = customs.filter(cm => project.completedMissions[cm.id]).length;
     return {completed, total: customs.length, pct: customs.length === 0 ? 0 : Math.round(completed / customs.length * 100)};
   }
@@ -12086,7 +12088,7 @@ function renderMissions(){
   const container = document.getElementById('view-missions');
 
   if(currentWorld){
-    const w = WORLDS.find(x => x.id === currentWorld);
+    const w = getVisibleWorlds(p).find(x => x.id === currentWorld) || WORLDS.find(x => x.id === currentWorld);
     const allMissions = getMissionsByWorld(p, currentWorld);
     const applicable = allMissions.filter(m => m.__applicable);
     const notApplicable = allMissions.filter(m => !m.__applicable);
@@ -17791,12 +17793,153 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// ============== SYNC NUBE MEJORADO (parche) ==============
+// Re-lee el estado desde Supabase y re-renderiza la vista actual.
+// Soluciona el problema de "no veo los cambios": la app mostraba una copia
+// cacheada y nunca volvía a mirar la nube tras cargar.
+async function refreshFromCloud(opts){
+  opts = opts || {};
+  if(!sb || !sbUser){
+    try {
+      const ready = await ensureSupabaseReady();
+      if(ready){
+        initSupabase();
+        if(sb && !sbUser){
+          try { const { data } = await sb.auth.getSession(); if(data && data.session) sbUser = data.session.user; } catch(e){}
+        }
+      }
+    } catch(e){}
+  }
+  if(!sb || !sbUser){ if(opts.notify) sqSyncToast('Sin conexión con la nube. Recarga la página.', true); updateCloudBadge(); return false; }
+  try {
+    const cloud = await cloudGet();
+    if(cloud){
+      state = cloud;
+      if(!state.projects) state.projects = [];
+      if(state.currentProjectId && !state.projects.find(p=>p.id===state.currentProjectId)){
+        state.currentProjectId = null;
+      }
+      sqRerenderCurrent();
+      updateCloudBadge();
+      if(opts.notify) sqSyncToast('Sincronizado con la nube \u2713', false);
+      return true;
+    } else if(opts.notify){ sqSyncToast('La nube no devolvi\u00F3 datos.', true); }
+  } catch(e){ console.warn('[refreshFromCloud]', e && e.message); if(opts.notify) sqSyncToast('Error al sincronizar.', true); }
+  updateCloudBadge();
+  return false;
+}
+
+function sqRerenderCurrent(){
+  try {
+    const dash = document.getElementById('screen-dashboard');
+    const projs = document.getElementById('screen-projects');
+    if(dash && dash.classList.contains('active') && typeof getCurrentProject==='function' && getCurrentProject()){
+      const p = getCurrentProject();
+      try { document.getElementById('sb-proj-name').textContent = p.name; } catch(e){}
+      try { document.getElementById('sb-proj-domain').textContent = p.domain || p.sector; } catch(e){}
+      try { renderNav(p); } catch(e){}
+      try { renderHeader(); } catch(e){}
+      try { showView(currentView || 'missions'); } catch(e){}
+    } else if(projs){
+      try { renderProjectsList(); } catch(e){}
+    }
+  } catch(e){ console.warn('[sqRerenderCurrent]', e && e.message); }
+}
+
+function sqSyncToast(msg, isErr){
+  try {
+    let t = document.getElementById('sq-sync-toast');
+    if(!t){
+      t = document.createElement('div');
+      t.id = 'sq-sync-toast';
+      t.style.cssText = 'position:fixed;bottom:78px;right:14px;z-index:100000;font:600 13px "Plus Jakarta Sans",Inter,sans-serif;padding:11px 16px;border-radius:14px;box-shadow:0 12px 34px rgba(20,20,30,.22);transition:opacity .3s;opacity:0;max-width:260px';
+      document.body.appendChild(t);
+    }
+    t.style.background = isErr ? '#2A1113' : '#0A0A0C';
+    t.style.color = isErr ? '#FF9A8B' : '#fff';
+    t.textContent = msg;
+    t.style.opacity = '1';
+    clearTimeout(t._to);
+    t._to = setTimeout(function(){ t.style.opacity = '0'; }, 2600);
+  } catch(e){}
+}
+
+function updateCloudBadge(){
+  try {
+    let b = document.getElementById('sq-cloud-badge');
+    if(!b){
+      b = document.createElement('div');
+      b.id = 'sq-cloud-badge';
+      b.style.cssText = 'position:fixed;bottom:8px;right:150px;z-index:99998;font:600 10px Inter,sans-serif;letter-spacing:.4px;padding:3px 9px;border-radius:999px;opacity:.92;pointer-events:none';
+      document.body.appendChild(b);
+    }
+    if(sbUser){ b.textContent = '\u2601 nube \u2713'; b.style.background = '#0E7C4A'; b.style.color = '#fff'; }
+    else { b.textContent = '\u26A0 local (sin nube)'; b.style.background = '#B4381F'; b.style.color = '#fff'; }
+  } catch(e){}
+}
+
+function sqInjectSyncButton(){
+  try {
+    if(document.getElementById('sq-sync-btn')) return;
+    const btn = document.createElement('button');
+    btn.id = 'sq-sync-btn';
+    btn.title = 'Recargar el estado desde la nube';
+    btn.textContent = '\uD83D\uDD04 Sincronizar';
+    btn.style.cssText = 'position:fixed;bottom:40px;right:14px;z-index:99999;font:600 12px "Plus Jakarta Sans",Inter,sans-serif;color:#fff;background:#EE6C6C;border:none;padding:9px 15px;border-radius:999px;cursor:pointer;box-shadow:0 8px 24px rgba(238,108,108,.4)';
+    btn.addEventListener('click', async function(){
+      btn.disabled = true; const old = btn.textContent; btn.textContent = '\u23F3 Sincronizando...';
+      await refreshFromCloud({notify:true});
+      btn.textContent = old; btn.disabled = false;
+    });
+    document.body.appendChild(btn);
+  } catch(e){}
+}
+
+function sqInjectProjectsButton(){
+  try {
+    if(document.getElementById('sq-projects-btn')) return;
+    const btn = document.createElement('button');
+    btn.id = 'sq-projects-btn';
+    btn.title = 'Ver todos los proyectos';
+    btn.textContent = '\uD83C\uDFE0 Proyectos';
+    btn.style.cssText = 'position:fixed;bottom:40px;left:14px;z-index:99999;font:600 12px "Plus Jakarta Sans",Inter,sans-serif;color:#0A0A0C;background:#fff;border:1px solid rgba(10,10,12,.12);padding:9px 15px;border-radius:999px;cursor:pointer;box-shadow:0 8px 24px rgba(20,20,30,.14)';
+    btn.addEventListener('click', function(){
+      try {
+        if(typeof goToProjects === 'function'){ goToProjects(); }
+        else {
+          const d = document.getElementById('screen-dashboard'); if(d) d.classList.remove('active');
+          const pr = document.getElementById('screen-projects'); if(pr) pr.classList.add('active');
+          if(typeof renderProjectsList === 'function') renderProjectsList();
+        }
+        window.scrollTo(0,0);
+      } catch(e){ console.warn('[projects-btn]', e && e.message); }
+    });
+    document.body.appendChild(btn);
+  } catch(e){}
+}
+
+function setupCloudSync(){
+  sqInjectSyncButton();
+  sqInjectProjectsButton();
+  updateCloudBadge();
+  let _lastSync = 0;
+  const autoSync = function(){
+    if(document.hidden) return;
+    const now = Date.now();
+    if(now - _lastSync < 4000) return;
+    _lastSync = now;
+    refreshFromCloud({notify:false});
+  };
+  window.addEventListener('focus', autoSync);
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden) autoSync(); });
+}
+
 // ============== INIT ==============
 (async function(){
   await ensureAuth();
   try {
     var _v = document.createElement('div');
-    _v.textContent = 'build: CORAL-03 · 12 jul';
+    _v.textContent = 'build: CORAL-06 \u00B7 proyectos';
     _v.style.cssText = 'position:fixed;bottom:8px;right:10px;z-index:99998;font:600 10px Inter,sans-serif;letter-spacing:.5px;color:#fff;background:#0A0A0C;padding:3px 9px;border-radius:999px;opacity:.9;pointer-events:none';
     document.body.appendChild(_v);
   } catch(e){}
@@ -17804,6 +17947,7 @@ document.addEventListener('keydown', (e) => {
   if(sbUser) addLogoutButton();
   await loadState();
   renderProjectsList();
+  try { setupCloudSync(); } catch(e){ console.warn('[setupCloudSync] error:', e && e.message); }
   if(sbUser){ try { await checkInbox(); } catch(e){ console.warn('[inbox] check error:', e && e.message); } }
 })();
 </script>
