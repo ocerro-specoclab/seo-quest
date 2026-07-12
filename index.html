@@ -8691,6 +8691,10 @@ function renderProjectsList(){
           </div>
           <div class="proj-name">${p.name}</div>
           <div class="proj-domain">${p.domain || 'sin dominio'}</div>
+          <div class="proj-progress-head">
+            <span class="proj-pct">${stats.pct}%</span>
+            <span class="proj-remain">${stats.total - stats.completed > 0 ? 'Faltan ' + (stats.total - stats.completed) + ' misiones' : '¡Completado! 🎉'}</span>
+          </div>
           <div class="proj-progress">
             <div class="proj-progress-fill" style="width:${stats.pct}%"></div>
           </div>
@@ -11837,6 +11841,17 @@ function ovInjectStyle(){
   .btn,.btn-primary,.tk-tab,.ovd-ficha-btn,.ovd-addrow button{border-radius:999px !important}
   .stat-val,.ovd-pend,.proj-level{font-family:'Plus Jakarta Sans','Inter',sans-serif !important;font-weight:800 !important}
   body,input,textarea,select,button{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif}
+  /* % total por proyecto */
+  .proj-progress-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;margin-top:4px}
+  .proj-pct{font-family:'Plus Jakarta Sans','Inter',sans-serif;font-size:22px;font-weight:800;color:var(--ink);line-height:1}
+  .proj-remain{font-size:11px;color:var(--ink-mute);font-weight:700}
+  /* próximos pasos: pendientes marcadas, siguiente pulsa */
+  .mission-card.pending .m-checkbox{border-color:var(--acid) !important}
+  .mission-card.next-step{border-color:var(--acid) !important;animation:nextPulse 1.9s ease-in-out infinite}
+  @keyframes nextPulse{0%,100%{box-shadow:0 0 0 2px rgba(238,108,108,.30),0 4px 14px rgba(238,108,108,.10)}50%{box-shadow:0 0 0 7px rgba(238,108,108,0),0 6px 22px rgba(238,108,108,.22)}}
+  .next-badge{display:inline-block;background:var(--acid);color:#fff;font-size:9px;font-weight:800;letter-spacing:.08em;padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:middle;animation:badgeBlink 1.4s ease-in-out infinite}
+  @keyframes badgeBlink{0%,100%{opacity:1}50%{opacity:.4}}
+  @media (prefers-reduced-motion:reduce){.mission-card.next-step,.next-badge{animation:none}}
   /* HOME cabecera responsive + rejilla sin overflow */
   .app-header{flex-wrap:wrap !important;gap:18px 24px !important;align-items:center !important}
   .header-meta{min-width:0 !important;max-width:100% !important}
@@ -12085,13 +12100,14 @@ function renderMissions(){
         </div>
       </div>
       <div class="mission-list">
-        ${applicable.map(m => {
+        ${(() => { const _np = applicable.find(mm => !p.completedMissions[mm.id]); return applicable.map(m => {
           const done = !!p.completedMissions[m.id];
+          const isNext = _np && m.id === _np.id;
           return `
-            <div class="mission-card ${done ? 'completed' : ''}" onclick="openMissionDetail('${m.id}')">
+            <div class="mission-card ${done ? 'completed' : 'pending'} ${isNext ? 'next-step' : ''}" onclick="openMissionDetail('${m.id}')">
               <div class="m-checkbox" onclick="event.stopPropagation();toggleMissionComplete('${m.id}')" title="Marcar/desmarcar hecha">${done ? '✓' : ''}</div>
               <div class="m-content">
-                <div class="m-name">${m.name}</div>
+                <div class="m-name">${m.name}${isNext ? ' <span class="next-badge">SIGUIENTE</span>' : ''}</div>
                 <div class="m-desc">${m.desc}</div>
               </div>
               <div class="m-difficulty">
@@ -12100,7 +12116,7 @@ function renderMissions(){
               <div class="m-xp">+${m.xp}<small> XP</small></div>
             </div>
           `;
-        }).join('')}
+        }).join(''); })()}
       </div>
 
       ${notApplicable.length > 0 ? `
@@ -17780,7 +17796,7 @@ document.addEventListener('keydown', (e) => {
   await ensureAuth();
   try {
     var _v = document.createElement('div');
-    _v.textContent = 'build: CORAL-02 · 12 jul';
+    _v.textContent = 'build: CORAL-03 · 12 jul';
     _v.style.cssText = 'position:fixed;bottom:8px;right:10px;z-index:99998;font:600 10px Inter,sans-serif;letter-spacing:.5px;color:#fff;background:#0A0A0C;padding:3px 9px;border-radius:999px;opacity:.9;pointer-events:none';
     document.body.appendChild(_v);
   } catch(e){}
