@@ -7490,14 +7490,14 @@ function showLoginGate(){
   return new Promise((resolve)=>{
     const ov = document.createElement('div');
     ov.id = 'sq-login-gate';
-    ov.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:radial-gradient(1100px 550px at 12% -8%, #FFE7E2 0%, #F4F4F6 48%);font-family:"Space Grotesk","Inter",system-ui,sans-serif;';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:radial-gradient(1100px 550px at 12% -8%, #FFE7E2 0%, #EFEDE8 48%);font-family:"Plus Jakarta Sans","Inter",system-ui,sans-serif;';
     ov.innerHTML = ''
       + '<div style="width:400px;max-width:92vw;background:#fff;border-radius:26px;padding:40px 36px;box-shadow:0 30px 80px rgba(20,20,30,.14);position:relative;overflow:hidden;">'
       +   '<div style="display:inline-block;font-size:10px;font-weight:600;letter-spacing:1.5px;color:#EE6C6C;background:#FFECEA;padding:5px 12px;border-radius:999px;margin-bottom:22px;">SEO \u00B7 MISI\u00D3N \u00B7 CRECIMIENTO</div>'
-      +   '<div style="font-family:\'Space Grotesk\',sans-serif;font-size:42px;font-weight:700;letter-spacing:-.03em;color:#0A0A0C;line-height:1;margin-bottom:8px;">SEO<span style="color:#EE6C6C;">.</span>QUEST</div>'
+      +   '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:42px;font-weight:700;letter-spacing:-.03em;color:#0A0A0C;line-height:1;margin-bottom:8px;">SEO<span style="color:#EE6C6C;">.</span>QUEST</div>'
       +   '<div style="font-size:15px;color:#8A8A94;margin-bottom:26px;">Tu centro de mando SEO.</div>'
-      +   '<input id="sq-email" type="email" placeholder="Email" autocomplete="username" style="width:100%;box-sizing:border-box;background:#F4F4F6;border:1px solid rgba(10,10,12,0.06);color:#0A0A0C;padding:13px 14px;border-radius:12px;font-size:14px;margin-bottom:10px;outline:none;font-family:Inter,sans-serif;">'
-      +   '<input id="sq-pass" type="password" placeholder="Contrase\u00F1a" autocomplete="current-password" style="width:100%;box-sizing:border-box;background:#F4F4F6;border:1px solid rgba(10,10,12,0.06);color:#0A0A0C;padding:13px 14px;border-radius:12px;font-size:14px;margin-bottom:18px;outline:none;font-family:Inter,sans-serif;">'
+      +   '<input id="sq-email" type="email" placeholder="Email" autocomplete="username" style="width:100%;box-sizing:border-box;background:#EFEDE8;border:1px solid rgba(10,10,12,0.06);color:#0A0A0C;padding:13px 14px;border-radius:12px;font-size:14px;margin-bottom:10px;outline:none;font-family:Inter,sans-serif;">'
+      +   '<input id="sq-pass" type="password" placeholder="Contrase\u00F1a" autocomplete="current-password" style="width:100%;box-sizing:border-box;background:#EFEDE8;border:1px solid rgba(10,10,12,0.06);color:#0A0A0C;padding:13px 14px;border-radius:12px;font-size:14px;margin-bottom:18px;outline:none;font-family:Inter,sans-serif;">'
       +   '<button id="sq-login-btn" style="width:100%;background:#0A0A0C;border:none;color:#fff;padding:14px;border-radius:999px;font-size:15px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;">Entrar \u2192</button>'
       +   '<div id="sq-login-err" style="color:#EE6C6C;font-size:12px;margin-top:12px;min-height:16px;"></div>'
       + '</div>';
@@ -11673,11 +11673,11 @@ function ovInjectStyle(){
   .nav-list .nav-item.active{background:#0A0A0C !important;color:#fff !important;border-color:#0A0A0C !important;font-weight:600}
   .nav-section{display:none !important}
   /* HOME (lista de proyectos) llamativa */
-  .app-header .brand-mark{font-family:'Space Grotesk',sans-serif !important;font-size:30px !important;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+  .app-header .brand-mark{font-family:'Plus Jakarta Sans',sans-serif !important;font-size:30px !important;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
   .app-header .brand-tag{color:var(--ink-mute);font-size:11px}
   .project-card{background:#fff !important;border:1px solid var(--line) !important;border-radius:20px !important;box-shadow:0 1px 3px rgba(10,10,15,.04),0 8px 24px rgba(10,10,15,.05) !important;transition:.18s !important}
   .project-card:hover{transform:translateY(-4px);box-shadow:0 6px 12px rgba(10,10,15,.08),0 18px 44px rgba(10,10,15,.10) !important;border-color:var(--acid) !important}
-  .proj-name{font-family:'Space Grotesk',sans-serif !important;font-size:22px !important;font-weight:700 !important;color:var(--ink) !important;letter-spacing:-.02em}
+  .proj-name{font-family:'Plus Jakarta Sans',sans-serif !important;font-size:22px !important;font-weight:700 !important;color:var(--ink) !important;letter-spacing:-.02em}
   .proj-progress-fill{background:var(--acid) !important}
   .proj-level{color:var(--acid) !important}
   .proj-tag{background:var(--bg-2);color:var(--ink-dim);border-radius:999px;padding:4px 11px;font-size:11px}
@@ -11837,6 +11837,23 @@ function ovInjectStyle(){
   .btn,.btn-primary,.tk-tab,.ovd-ficha-btn,.ovd-addrow button{border-radius:999px !important}
   .stat-val,.ovd-pend,.proj-level{font-family:'Plus Jakarta Sans','Inter',sans-serif !important;font-weight:800 !important}
   body,input,textarea,select,button{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif}
+  /* HOME cabecera responsive + rejilla sin overflow */
+  .app-header{flex-wrap:wrap !important;gap:18px 24px !important;align-items:center !important}
+  .header-meta{min-width:0 !important;max-width:100% !important}
+  .header-meta > div{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+  .header-meta .stat-row{flex-wrap:wrap !important}
+  .projects-grid{grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr)) !important}
+  .template-row{flex-wrap:wrap}
+  @media (max-width:760px){
+    #screen-projects{padding:20px 16px !important}
+    .app-header{margin-bottom:24px !important;padding-bottom:16px !important;gap:14px !important}
+    .header-meta{width:100%}
+    .header-meta > div{justify-content:flex-start}
+    .header-meta .stat-row{justify-content:flex-start !important;gap:14px !important}
+    .brand{flex-wrap:wrap;gap:8px}
+    .projects-grid{grid-template-columns:1fr !important}
+    .btn-mini{font-size:11px;padding:6px 10px}
+  }
   `;
   document.head.appendChild(s);
 }
@@ -17763,7 +17780,7 @@ document.addEventListener('keydown', (e) => {
   await ensureAuth();
   try {
     var _v = document.createElement('div');
-    _v.textContent = 'build: CORAL-01 · 12 jul';
+    _v.textContent = 'build: CORAL-02 · 12 jul';
     _v.style.cssText = 'position:fixed;bottom:8px;right:10px;z-index:99998;font:600 10px Inter,sans-serif;letter-spacing:.5px;color:#fff;background:#0A0A0C;padding:3px 9px;border-radius:999px;opacity:.9;pointer-events:none';
     document.body.appendChild(_v);
   } catch(e){}
