@@ -12021,6 +12021,37 @@ function ovInjectStyle(){
   .ovd-bar,.proj-progress{background:#E7E4DC !important;box-shadow:inset 2px 2px 5px rgba(183,177,161,.30) !important;border-radius:99px !important}
   /* Número de mundo con sombrita suave */
   .world-num{box-shadow:0 5px 14px rgba(0,0,0,.10) !important}
+  /* ============ CORAL-11 · verde KOMOKOMO + tarjetas cálidas ============ */
+  :root{ --acid:#8DBE5A !important; --acid-dim:#6DA23F !important; --primary:#8DBE5A !important; }
+  body,#screen-dashboard,.main,.view,#screen-projects,.sidebar{background:#EFEDE6 !important}
+  /* Tarjetas: blancas cálidas, sombra limpia y aireada (flotan de verdad) */
+  .card,.tk-panel,.project-card,.world-card,.ovd-tile,.ovd-ficha,.report-card,.snapshot-card,.tk-card{
+    background:#FBFAF6 !important;border:none !important;border-radius:28px !important;
+    box-shadow:0 1px 3px rgba(120,112,95,.05), 0 10px 30px rgba(120,112,95,.11) !important;
+  }
+  .mission-card,.ovd-task{background:#FBFAF6 !important;border:none !important;border-radius:20px !important;box-shadow:0 1px 3px rgba(120,112,95,.05),0 6px 18px rgba(120,112,95,.09) !important}
+  .mission-card.completed,.ovd-task.done{background:#F1EFE8 !important;box-shadow:none !important;opacity:.8}
+  .world-card:hover,.project-card:hover,.ovd-tile:hover,.mission-card:hover{transform:translateY(-3px);box-shadow:0 2px 6px rgba(120,112,95,.07),0 18px 44px rgba(120,112,95,.15) !important}
+  .ovd-ficha{background:#FBFAF6 !important}
+  /* Acento VERDE en todo lo que era coral/rojo */
+  .stat-val,.proj-level,.proj-pct,.ovd-pend,.world-back,.ovd-hasnote,.proj-pct{color:#5F9E36 !important}
+  .proj-progress-fill,.ovd-bar i{background:#8DBE5A !important}
+  .nav-list .nav-item.active{background:#8DBE5A !important;color:#fff !important;box-shadow:0 6px 16px rgba(141,190,90,.38) !important}
+  .btn-primary,.ovd-ficha-btn,.ovd-addrow button,#sq-sync-btn{background:#8DBE5A !important;color:#fff !important;box-shadow:0 6px 16px rgba(141,190,90,.32) !important}
+  .proj-tab.active{color:#5F9E36 !important;border-bottom-color:#8DBE5A !important}
+  .mission-card.next-step{border:none !important;box-shadow:0 0 0 2px rgba(141,190,90,.4),0 8px 22px rgba(141,190,90,.18) !important}
+  .next-badge{background:#8DBE5A !important}
+  /* Chips de nivel/estado en verde suave */
+  .proj-tag,.ovd-ficha-chip,.proj-level{background:#EAF2DD !important;color:#5F9E36 !important;box-shadow:none !important;border:none !important}
+  .proj-level{background:transparent !important}
+  /* Checkbox marcado en verde */
+  .mission-card.completed .m-checkbox,.ovd-task.done .ovd-cbox{background:#8DBE5A !important;color:#fff !important;box-shadow:none !important}
+  /* Título y marca más amables (Poppins, sin mayúsculas forzadas duras) */
+  .brand-mark,.app-header .brand-mark,.dash-title,h1{font-family:'Poppins','Inter',sans-serif !important;font-weight:700 !important;letter-spacing:-.01em !important}
+  /* Botón flotante proyectos */
+  #sq-projects-btn{background:#FBFAF6 !important;box-shadow:0 4px 14px rgba(120,112,95,.16) !important;border:none !important;color:#3A3A44 !important}
+  /* Focus verde */
+  input:focus,textarea:focus,select:focus{box-shadow:0 0 0 3px rgba(141,190,90,.22) !important;outline:none !important}
   `;
   document.head.appendChild(s);
 }
@@ -18090,7 +18121,7 @@ function setupCloudSync(){
   await ensureAuth();
   try {
     var _v = document.createElement('div');
-    _v.textContent = 'build: CORAL-10 \u00B7 soft-minimal';
+    _v.textContent = 'build: CORAL-11 \u00B7 verde-komo';
     _v.style.cssText = 'position:fixed;bottom:8px;right:10px;z-index:99998;font:600 10px Inter,sans-serif;letter-spacing:.5px;color:#fff;background:#0A0A0C;padding:3px 9px;border-radius:999px;opacity:.9;pointer-events:none';
     document.body.appendChild(_v);
   } catch(e){}
