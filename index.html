@@ -11871,9 +11871,68 @@ function ovInjectStyle(){
     .projects-grid{grid-template-columns:1fr !important}
     .btn-mini{font-size:11px;padding:6px 10px}
   }
+  /* ============ CORAL-07 · CAPA REFERENCIA (fintech pro) ============ */
+  /* Fondo cálido y más aire */
+  body,#screen-dashboard,.main,.view,#screen-projects{background:#EFEDE8 !important}
+  .main{padding:30px 34px !important}
+  @media (max-width:760px){ .main{padding:20px 15px !important} }
+  /* Radios grandes y sombra suave y profunda en todas las tarjetas */
+  .card,.tk-panel,.project-card,.world-card,.ovd-tile,.ovd-ficha,.report-card,.snapshot-card,.tk-card,.ovd-task{
+    border-radius:26px !important;
+    box-shadow:0 2px 4px rgba(22,22,30,.04), 0 16px 44px rgba(22,22,30,.08) !important;
+    border:1px solid rgba(22,22,30,.05) !important;
+  }
+  .mission-card{border-radius:20px !important;padding:18px 22px !important;box-shadow:0 2px 4px rgba(22,22,30,.03),0 10px 28px rgba(22,22,30,.06) !important}
+  .ovd-task{border-radius:18px !important;padding:15px 18px !important}
+  /* HERO oscuro (ficha de resumen) — la seña de la referencia */
+  .ovd-ficha{
+    background:linear-gradient(150deg,#202227 0%,#141519 78%) !important;
+    color:#F4F3F0 !important;border:none !important;padding:30px 32px !important;
+    box-shadow:0 3px 8px rgba(10,10,15,.18),0 22px 54px rgba(10,10,15,.30) !important;
+  }
+  .ovd-ficha-name{color:#FFFFFF !important;font-size:30px !important}
+  .ovd-ficha-meta{color:rgba(244,243,240,.62) !important}
+  .ovd-ficha-pct{color:#FFFFFF !important}
+  .ovd-ficha-desc{color:rgba(244,243,240,.82) !important;border-top-color:rgba(255,255,255,.12) !important}
+  .ovd-ficha-chip{background:rgba(255,255,255,.09) !important;border-color:rgba(255,255,255,.14) !important;color:rgba(244,243,240,.85) !important}
+  .ovd-ficha-btn{box-shadow:0 6px 18px rgba(238,108,108,.40) !important}
+  /* Títulos más rotundos */
+  .dash-title{font-size:30px !important;font-weight:800 !important;letter-spacing:-.03em !important}
+  .dash-subtitle{color:#8A8A90 !important}
+  /* World cards: más aire, número coral en pastilla */
+  .world-card{padding:24px 24px 24px 28px !important}
+  .world-card::before{width:7px !important}
+  .world-num{
+    display:inline-flex !important;align-items:center;justify-content:center;
+    min-width:54px;height:54px;padding:0 12px;border-radius:18px !important;
+    background:var(--world-color,#EE6C6C) !important;color:#fff !important;
+    font-size:26px !important;font-weight:800 !important;line-height:1;
+  }
+  /* Project cards (home): hero más marcado */
+  .project-card{padding:24px 26px !important}
+  .proj-name{font-size:23px !important}
+  .proj-pct{font-size:26px !important}
+  .proj-progress-fill{height:8px !important;border-radius:99px !important}
+  /* Números grandes en negrita (estilo saldo) */
+  .stat-val,.ovd-pend,.proj-pct,.proj-level{font-weight:800 !important;letter-spacing:-.02em !important}
+  .ovd-pend{font-size:34px !important}
+  /* Botones: coral con sombra + variante oscura */
+  .btn-primary,.ovd-ficha-btn,.ovd-addrow button{box-shadow:0 6px 16px rgba(238,108,108,.32) !important}
+  .btn-primary:hover{transform:translateY(-1px)}
+  /* Nav activo: pastilla oscura sólida (como la referencia) */
+  .nav-list .nav-item{border-radius:999px !important;font-weight:500}
+  .nav-list .nav-item.active{background:#17181C !important;border-color:#17181C !important;color:#fff !important;font-weight:600 !important;box-shadow:0 6px 16px rgba(20,20,25,.22) !important}
+  /* Chips de prioridad más suaves */
+  .ovd-tprio,.proj-tag,.ovd-ficha-chip{border-radius:999px !important}
+  /* Barras de progreso redondeadas */
+  .ovd-bar,.proj-progress,.proj-progress-fill,.ovd-bar i{border-radius:99px !important}
+  /* Botones flotantes (proyectos/sincronizar) integrados con el look */
+  #sq-sync-btn{box-shadow:0 8px 22px rgba(238,108,108,.42) !important}
+  #sq-projects-btn{border-radius:999px !important}
   `;
   document.head.appendChild(s);
 }
+
 
 function renderOverview(){
   const p = getCurrentProject();
@@ -17939,7 +17998,7 @@ function setupCloudSync(){
   await ensureAuth();
   try {
     var _v = document.createElement('div');
-    _v.textContent = 'build: CORAL-06 \u00B7 proyectos';
+    _v.textContent = 'build: CORAL-07 \u00B7 rediseño';
     _v.style.cssText = 'position:fixed;bottom:8px;right:10px;z-index:99998;font:600 10px Inter,sans-serif;letter-spacing:.5px;color:#fff;background:#0A0A0C;padding:3px 9px;border-radius:999px;opacity:.9;pointer-events:none';
     document.body.appendChild(_v);
   } catch(e){}
