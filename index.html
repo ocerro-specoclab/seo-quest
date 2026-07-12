@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
 <style>
 :root{
   /* === FONDOS: gris carbón elegante, no negro puro === */
@@ -12052,6 +12053,26 @@ function ovInjectStyle(){
   #sq-projects-btn{background:#FBFAF6 !important;box-shadow:0 4px 14px rgba(120,112,95,.16) !important;border:none !important;color:#3A3A44 !important}
   /* Focus verde */
   input:focus,textarea:focus,select:focus{box-shadow:0 0 0 3px rgba(141,190,90,.22) !important;outline:none !important}
+  /* ============ CORAL-12 · Cabinet Grotesk + verde KOMOKOMO fino ============ */
+  :root{ --acid:#86C05A !important; --acid-dim:#5FA23C !important; --primary:#86C05A !important;
+    --font-main:'Satoshi','Inter',-apple-system,sans-serif !important;
+    --font-display:'Cabinet Grotesk','Poppins','Inter',sans-serif !important; }
+  body,input,textarea,select,button,code,pre{font-family:'Satoshi','Inter',-apple-system,sans-serif !important}
+  .dash-title,.proj-name,.ovd-ficha-name,.ovd-ftitle,.brand-mark,.app-header .brand-mark,.sidebar-brand .brand-mark,.world-name,.m-name,.ovd-name,.stat-val,.ovd-pend,.proj-pct,.proj-level,.section-label,.ovd-section-title,h1,h2,h3{font-family:'Cabinet Grotesk','Poppins','Inter',sans-serif !important}
+  /* Verde afinado en acentos */
+  .stat-val,.proj-level,.proj-pct,.ovd-pend,.world-back,.ovd-hasnote{color:#5FA23C !important}
+  .proj-progress-fill,.ovd-bar i{background:#86C05A !important}
+  .nav-list .nav-item.active{background:#86C05A !important;color:#fff !important;box-shadow:0 6px 16px rgba(134,192,90,.38) !important}
+  .btn-primary,.ovd-ficha-btn,.ovd-addrow button,#sq-sync-btn{background:#86C05A !important;color:#fff !important;box-shadow:0 6px 16px rgba(134,192,90,.30) !important}
+  .proj-tag,.ovd-ficha-chip{background:#EBF3DE !important;color:#5FA23C !important}
+  .mission-card.completed .m-checkbox,.ovd-task.done .ovd-cbox{background:#86C05A !important}
+  .proj-tab.active{color:#5FA23C !important;border-bottom-color:#86C05A !important}
+  /* Restaurar el señalado de la misión SIGUIENTE: anillo verde que late (vía ::after para no chocar con las sombras) */
+  .mission-card.next-step{position:relative !important}
+  .mission-card.next-step::after{content:"";position:absolute;inset:0;border-radius:20px;pointer-events:none;animation:komoRing 1.7s ease-in-out infinite}
+  @keyframes komoRing{0%,100%{box-shadow:0 0 0 2px rgba(134,192,90,.55)}50%{box-shadow:0 0 0 8px rgba(134,192,90,0)}}
+  .next-badge{background:#86C05A !important}
+  @media (prefers-reduced-motion:reduce){.mission-card.next-step::after{animation:none}}
   `;
   document.head.appendChild(s);
 }
@@ -18121,7 +18142,7 @@ function setupCloudSync(){
   await ensureAuth();
   try {
     var _v = document.createElement('div');
-    _v.textContent = 'build: CORAL-11 \u00B7 verde-komo';
+    _v.textContent = 'build: CORAL-12 \u00B7 cabinet-verde';
     _v.style.cssText = 'position:fixed;bottom:8px;right:10px;z-index:99998;font:600 10px Inter,sans-serif;letter-spacing:.5px;color:#fff;background:#0A0A0C;padding:3px 9px;border-radius:999px;opacity:.9;pointer-events:none';
     document.body.appendChild(_v);
   } catch(e){}
