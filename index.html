@@ -6,7 +6,7 @@
 <title>SEO QUEST · Panel de Control</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/html-docx-js/dist/html-docx.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -11929,6 +11929,53 @@ function ovInjectStyle(){
   /* Botones flotantes (proyectos/sincronizar) integrados con el look */
   #sq-sync-btn{box-shadow:0 8px 22px rgba(238,108,108,.42) !important}
   #sq-projects-btn{border-radius:999px !important}
+  /* ============ CORAL-08 · MINIMAL CLARO (referencia to-do) ============ */
+  :root{ --font-main:'Inter',-apple-system,sans-serif !important; --font-display:'Poppins','Inter',sans-serif !important; --font-mono:'Inter',sans-serif !important; --ink:#2E2E3A !important; --ink-dim:#6C6C7A !important; --ink-mute:#9B9BA6 !important; }
+  body,input,textarea,select,button,code,pre{font-family:'Inter',-apple-system,sans-serif !important}
+  .dash-title,.proj-name,.ovd-ficha-name,.ovd-ftitle,.brand-mark,.sidebar-brand .brand-mark,.world-name,.m-name,.ovd-name,.ovd-section-title,.proj-pct,.ovd-pend,.stat-val,.proj-level,h1,h2,h3{font-family:'Poppins','Inter',sans-serif !important}
+  body,#screen-dashboard,.main,.view,#screen-projects{background:#EBE9DF !important}
+  .sidebar{background:#EBE9DF !important;border-bottom:1px solid rgba(46,46,58,.07) !important;box-shadow:none !important}
+  /* Revertir el hero oscuro -> tarjeta clara y limpia */
+  .ovd-ficha{background:#FFFFFF !important;color:#2E2E3A !important;border:1px solid rgba(46,46,58,.06) !important;box-shadow:0 1px 2px rgba(46,46,58,.03),0 8px 24px rgba(46,46,58,.05) !important;padding:28px 30px !important}
+  .ovd-ficha-name{color:#2E2E3A !important;font-weight:700 !important}
+  .ovd-ficha-meta{color:#9B9BA6 !important}
+  .ovd-ficha-pct{color:#2E2E3A !important}
+  .ovd-ficha-desc{color:#6C6C7A !important;border-top-color:rgba(46,46,58,.08) !important}
+  .ovd-ficha-chip{background:#F4F2EC !important;border-color:rgba(46,46,58,.06) !important;color:#6C6C7A !important;border-radius:999px !important}
+  .ovd-ficha-btn{box-shadow:none !important;border-radius:999px !important}
+  /* Tarjetas blancas, sombra sutil y limpia */
+  .card,.tk-panel,.project-card,.world-card,.ovd-tile,.report-card,.snapshot-card,.tk-card{background:#FFFFFF !important;border:1px solid rgba(46,46,58,.06) !important;border-radius:24px !important;box-shadow:0 1px 2px rgba(46,46,58,.03),0 8px 24px rgba(46,46,58,.05) !important}
+  .mission-card,.ovd-task{background:#FFFFFF !important;border:1px solid rgba(46,46,58,.06) !important;border-radius:18px !important;box-shadow:0 1px 2px rgba(46,46,58,.03),0 6px 16px rgba(46,46,58,.04) !important}
+  .mission-card.completed,.ovd-task.done{background:#F6F4EE !important}
+  .dash-title{font-size:30px !important;font-weight:700 !important;letter-spacing:-.01em !important;color:#2E2E3A !important}
+  .world-num{border-radius:16px !important;font-size:24px !important}
+  .btn,.btn-primary,.ovd-ficha-btn,.ovd-addrow button,#sq-sync-btn,#sq-projects-btn{border-radius:999px !important}
+  .btn-primary,.ovd-addrow button{background:#EE6C6C !important;box-shadow:none !important}
+  #sq-sync-btn{background:#EE6C6C !important;box-shadow:none !important}
+  #sq-projects-btn{background:#fff !important;border:1px solid rgba(46,46,58,.12) !important}
+  .nav-list .nav-item{background:#F4F2EC !important;border:1px solid transparent !important;color:#6C6C7A !important;box-shadow:none !important;font-weight:500}
+  .nav-list .nav-item:hover{background:#EBE9DF !important;color:#2E2E3A !important}
+  .nav-list .nav-item.active{background:#2E2E3A !important;border-color:#2E2E3A !important;color:#fff !important;font-weight:600 !important;box-shadow:none !important}
+  .ovd-cbox,.m-checkbox{border-radius:8px !important}
+  /* ============ CORAL-09 · pestañas de color + detalles ============ */
+  /* Pestañas de navegación con color pastel rotativo (como los tabs de la referencia) */
+  .nav-list .nav-item:nth-child(6n+1){background:#DCE6C6 !important;color:#4F5B39 !important}
+  .nav-list .nav-item:nth-child(6n+2){background:#F3CFC8 !important;color:#8A4B43 !important}
+  .nav-list .nav-item:nth-child(6n+3){background:#C7DED9 !important;color:#3D5A54 !important}
+  .nav-list .nav-item:nth-child(6n+4){background:#D3CFE6 !important;color:#4E4770 !important}
+  .nav-list .nav-item:nth-child(6n+5){background:#F5E3C4 !important;color:#7A5A26 !important}
+  .nav-list .nav-item:nth-child(6n+6){background:#E4DFD3 !important;color:#5C574B !important}
+  .nav-list .nav-item:hover{filter:brightness(.96)}
+  /* La pestaña activa manda: pastilla oscura */
+  .nav-list .nav-item.active{background:#2E2E3A !important;border-color:#2E2E3A !important;color:#fff !important;font-weight:700 !important;box-shadow:0 4px 12px rgba(46,46,58,.18) !important;filter:none !important}
+  /* Checkboxes redondeados amables (estilo referencia) */
+  .m-checkbox,.ovd-cbox{border-radius:9px !important;border-width:2px !important}
+  /* Títulos de sección más presentes y amables */
+  .ovd-ftitle{font-size:24px !important;font-weight:700 !important;letter-spacing:0 !important}
+  .ovd-section-title{letter-spacing:.02em !important}
+  /* Un pelín más de aire entre tarjetas */
+  .ovd-task{margin-bottom:10px !important}
+  .mission-card{margin-bottom:10px !important}
   `;
   document.head.appendChild(s);
 }
@@ -17998,7 +18045,7 @@ function setupCloudSync(){
   await ensureAuth();
   try {
     var _v = document.createElement('div');
-    _v.textContent = 'build: CORAL-07 \u00B7 rediseño';
+    _v.textContent = 'build: CORAL-09 \u00B7 tabs-color';
     _v.style.cssText = 'position:fixed;bottom:8px;right:10px;z-index:99998;font:600 10px Inter,sans-serif;letter-spacing:.5px;color:#fff;background:#0A0A0C;padding:3px 9px;border-radius:999px;opacity:.9;pointer-events:none';
     document.body.appendChild(_v);
   } catch(e){}
