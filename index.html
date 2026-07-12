@@ -12073,6 +12073,25 @@ function ovInjectStyle(){
   @keyframes komoRing{0%,100%{box-shadow:0 0 0 2px rgba(134,192,90,.55)}50%{box-shadow:0 0 0 8px rgba(134,192,90,0)}}
   .next-badge{background:#86C05A !important}
   @media (prefers-reduced-motion:reduce){.mission-card.next-step::after{animation:none}}
+  /* ============ CORAL-13 · cobertura global + misiones de color + pulso fiable ============ */
+  /* Look en TODAS las páginas: cualquier tarjeta/panel/tile hereda el estilo suave */
+  [class*="-card"],[class*="-panel"],[class*="-tile"]{background:#FBFAF6 !important;border:none !important;border-radius:22px !important;box-shadow:0 1px 3px rgba(120,112,95,.05),0 8px 24px rgba(120,112,95,.09) !important}
+  h1,h2,h3,h4,.section-title,.card-title{font-family:'Cabinet Grotesk','Poppins','Inter',sans-serif !important}
+  /* Misiones en diferentes colores (barra lateral rotativa) */
+  .mission-list .mission-card{border-left:5px solid #86C05A !important;padding-left:20px !important}
+  .mission-list .mission-card:nth-child(6n+1){border-left-color:#86C05A !important}
+  .mission-list .mission-card:nth-child(6n+2){border-left-color:#E58C7E !important}
+  .mission-list .mission-card:nth-child(6n+3){border-left-color:#E0A94E !important}
+  .mission-list .mission-card:nth-child(6n+4){border-left-color:#5FB4A6 !important}
+  .mission-list .mission-card:nth-child(6n+5){border-left-color:#8C7DD6 !important}
+  .mission-list .mission-card:nth-child(6n+6){border-left-color:#5B9BD6 !important}
+  /* PULSO FIABLE de la misión SIGUIENTE: fondo verde suave + anillo interior que parpadea + badge */
+  .mission-card.next-step{background:#F1F8E8 !important;position:relative !important;border-left-color:#5FA23C !important}
+  .mission-card.next-step::after{content:"" !important;position:absolute !important;inset:0 !important;border:2.5px solid #5FA23C !important;border-radius:20px !important;pointer-events:none !important;animation:komoBlink 1.2s ease-in-out infinite !important;box-shadow:none !important}
+  @keyframes komoBlink{0%,100%{opacity:1}50%{opacity:.18}}
+  .next-badge{background:#5FA23C !important;animation:komoBadge 1.2s ease-in-out infinite !important}
+  @keyframes komoBadge{0%,100%{opacity:1}50%{opacity:.35}}
+  @media (prefers-reduced-motion:reduce){.mission-card.next-step::after,.next-badge{animation:none !important}}
   `;
   document.head.appendChild(s);
 }
@@ -18142,7 +18161,7 @@ function setupCloudSync(){
   await ensureAuth();
   try {
     var _v = document.createElement('div');
-    _v.textContent = 'build: CORAL-12 \u00B7 cabinet-verde';
+    _v.textContent = 'build: CORAL-13 \u00B7 color-pulso';
     _v.style.cssText = 'position:fixed;bottom:8px;right:10px;z-index:99998;font:600 10px Inter,sans-serif;letter-spacing:.5px;color:#fff;background:#0A0A0C;padding:3px 9px;border-radius:999px;opacity:.9;pointer-events:none';
     document.body.appendChild(_v);
   } catch(e){}
