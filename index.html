@@ -12092,6 +12092,34 @@ function ovInjectStyle(){
   .next-badge{background:#5FA23C !important;animation:komoBadge 1.2s ease-in-out infinite !important}
   @keyframes komoBadge{0%,100%{opacity:1}50%{opacity:.35}}
   @media (prefers-reduced-motion:reduce){.mission-card.next-step::after,.next-badge{animation:none !important}}
+  /* ============ CORAL-14 · indicador de pendiente (punto que parpadea) ============ */
+  .sq-pending-dot{position:absolute;top:12px;right:12px;width:11px;height:11px;border-radius:50%;background:#5FA23C;z-index:6;pointer-events:none;animation:sqDot 1.15s ease-in-out infinite}
+  .sq-pending-dot.sm{width:8px;height:8px;top:5px;right:6px}
+  @keyframes sqDot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(95,162,60,.55)}50%{opacity:.35;box-shadow:0 0 0 7px rgba(95,162,60,0)}}
+  @media (prefers-reduced-motion:reduce){.sq-pending-dot{animation:none}}
+  /* ============ CORAL-15 · menú Pendientes + tareas en misión ============ */
+  .pend-head{font-size:13px;color:#8a847a;margin:2px 0 18px;font-weight:600}
+  .pend-group{margin-bottom:22px}
+  .pend-gtitle{font-family:'Cabinet Grotesk','Poppins',sans-serif;font-weight:700;font-size:16px;color:#2E2E3A;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .pend-count{background:#EBF3DE;color:#5FA23C;border-radius:999px;font-size:12px;font-weight:700;padding:2px 9px}
+  .pend-task{display:flex;align-items:center;gap:12px;background:#FBFAF6;border:none;border-radius:16px;padding:14px 16px;margin-bottom:8px;box-shadow:0 1px 3px rgba(120,112,95,.05),0 6px 16px rgba(120,112,95,.06)}
+  .pend-task.click{cursor:pointer;transition:transform .12s,box-shadow .12s}
+  .pend-task.click:hover{transform:translateY(-2px);box-shadow:0 2px 6px rgba(120,112,95,.08),0 12px 28px rgba(120,112,95,.13)}
+  .pend-prio{font-size:15px;flex:none}
+  .pend-text{flex:1;font-size:14.5px;color:#2E2E3A;line-height:1.4}
+  .pend-go{font-size:12px;color:#5FA23C;font-weight:700;flex:none;white-space:nowrap}
+  .pend-empty{text-align:center;color:#5FA23C;font-weight:700;padding:56px 20px;font-size:17px}
+  .sq-drawer-tasks{margin:16px 0;padding:16px 18px;background:#F1F8E8;border-radius:16px}
+  .sqdt-title{font-weight:700;font-size:14px;color:#2E2E3A;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;font-family:'Cabinet Grotesk','Poppins',sans-serif}
+  .sqdt-n{font-size:12px;color:#5FA23C;font-weight:700}
+  .sqdt-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid rgba(46,46,58,.08)}
+  .sqdt-row:first-of-type{border-top:none}
+  .sqdt-row.hl{background:#fff;border-radius:10px;padding:10px;box-shadow:0 0 0 2px #86C05A;margin:2px 0}
+  .sqdt-check{width:20px;height:20px;border-radius:6px;border:2px solid #86C05A;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;color:#5FA23C;font-weight:800;font-size:12px;background:#fff}
+  .sqdt-row.done .sqdt-text{text-decoration:line-through;color:#9B9BA6}
+  .sqdt-row.done .sqdt-check{background:#86C05A;color:#fff;border-color:#86C05A}
+  .sqdt-prio{flex:none}
+  .sqdt-text{flex:1;font-size:13.5px;color:#2E2E3A;line-height:1.4}
   `;
   document.head.appendChild(s);
 }
@@ -18144,6 +18172,7 @@ function setupCloudSync(){
   sqInjectSyncButton();
   sqInjectProjectsButton();
   updateCloudBadge();
+  try { sqMarkPending(); setInterval(sqMarkPending, 1500); } catch(e){}
   let _lastSync = 0;
   const autoSync = function(){
     if(document.hidden) return;
@@ -18156,12 +18185,164 @@ function setupCloudSync(){
   document.addEventListener('visibilitychange', function(){ if(!document.hidden) autoSync(); });
 }
 
+// ===== Indicador de pendiente: punto verde en misiones/mundos/pestañas con tareas sin hacer =====
+function sqPendingMissionIds(){
+  var s = new Set();
+  try {
+    var p = (typeof getCurrentProject==='function') ? getCurrentProject() : null;
+    if(p && p.tasks){ p.tasks.forEach(function(t){ if(t && t.done===false && t.missionId) s.add(t.missionId); }); }
+  } catch(e){}
+  return s;
+}
+function sqSetDot(el, on, small){
+  try {
+    if(!el) return;
+    if(getComputedStyle(el).position === 'static') el.style.position = 'relative';
+    var d = el.querySelector(':scope > .sq-pending-dot');
+    if(on){ if(!d){ d = document.createElement('span'); d.className = 'sq-pending-dot' + (small?' sm':''); el.appendChild(d); } }
+    else if(d){ d.remove(); }
+  } catch(e){}
+}
+function sqMarkPending(){
+  try {
+    var pend = sqPendingMissionIds();
+    var worldPend = new Set();
+    try {
+      var p = getCurrentProject();
+      if(p && typeof getAllMissionsForProject==='function'){
+        getAllMissionsForProject(p).forEach(function(m){ if(pend.has(m.id) && m.world) worldPend.add(m.world); });
+      }
+    } catch(e){}
+    var anyPend = pend.size > 0;
+    document.querySelectorAll('[onclick^="openMissionDetail("]').forEach(function(el){
+      if(el.tagName === 'BUTTON' || el.tagName === 'A') return;
+      var mm = /openMissionDetail\('([^']+)'\)/.exec(el.getAttribute('onclick') || '');
+      sqSetDot(el, !!(mm && pend.has(mm[1])));
+    });
+    document.querySelectorAll('[onclick^="openWorld("]').forEach(function(el){
+      var wm = /openWorld\('([^']+)'\)/.exec(el.getAttribute('onclick') || '');
+      sqSetDot(el, !!(wm && worldPend.has(wm[1])));
+    });
+    document.querySelectorAll('.nav-list .nav-item').forEach(function(el){
+      var txt = (el.textContent || '').toLowerCase();
+      sqSetDot(el, anyPend && (txt.indexOf('tarea') >= 0 || txt.indexOf('misi') >= 0 || txt.indexOf('pendiente') >= 0), true);
+    });
+  } catch(e){}
+}
+
+// ===== MENÚ PENDIENTES (tareas agrupadas por misión, con enlace a la misión) =====
+function sqTaskPrioEmoji(pr){ return pr==='high'?'🚨':(pr==='medium'?'⭐':'📋'); }
+
+function renderPending(){
+  var p = getCurrentProject();
+  var c = document.getElementById('view-pending');
+  if(!p || !c) return;
+  var tasks = (p.tasks||[]).filter(function(t){ return t && t.done===false; });
+  if(tasks.length===0){
+    c.innerHTML = '<div class="pend-empty">✓ No tienes tareas pendientes en este proyecto. ¡Buen trabajo!</div>';
+    return;
+  }
+  var groups = {}, order = [];
+  tasks.forEach(function(t){
+    var mid = t.missionId || '__none__';
+    if(!groups[mid]){ groups[mid] = []; order.push(mid); }
+    groups[mid].push(t);
+  });
+  // misiones con id primero, "sin misión" al final
+  order.sort(function(a,b){ return (a==='__none__')-(b==='__none__'); });
+  var html = '<div class="pend-head">'+tasks.length+' tareas pendientes · '+order.length+' misiones</div>';
+  order.forEach(function(mid){
+    var list = groups[mid];
+    var mission = (mid==='__none__') ? null : findMissionById(mid, p);
+    var mname = mission ? mission.name : (mid==='__none__' ? 'Sin misión asignada' : mid);
+    html += '<div class="pend-group"><div class="pend-gtitle">'+escapeHtml(mname)+' <span class="pend-count">'+list.length+'</span></div>';
+    list.forEach(function(t){
+      var click = mission ? ' click" onclick="openMissionDetail(\''+mid+'\',\''+(t.id||'')+'\')"' : '"';
+      html += '<div class="pend-task'+click+'>'
+        + '<span class="pend-prio">'+sqTaskPrioEmoji(t.priority)+'</span>'
+        + '<span class="pend-text">'+escapeHtml(t.text||'')+'</span>'
+        + (mission ? '<span class="pend-go">Ver misión →</span>' : '')
+        + '</div>';
+    });
+    html += '</div>';
+  });
+  c.innerHTML = html;
+}
+
+function sqInjectDrawerTasks(missionId, hlTaskId){
+  var p = getCurrentProject(); if(!p) return;
+  var host = document.getElementById('drawer-content'); if(!host) return;
+  var prev = document.getElementById('sq-drawer-tasks'); if(prev) prev.remove();
+  var list = (p.tasks||[]).filter(function(t){ return t && t.missionId===missionId; });
+  if(list.length===0) return;
+  list.sort(function(a,b){ return (a.done===b.done)?0:(a.done?1:-1); });
+  var pendN = list.filter(function(t){ return !t.done; }).length;
+  var rows = list.map(function(t){
+    var hl = (t.id && t.id===hlTaskId) ? ' hl' : '';
+    return '<div class="sqdt-row'+(t.done?' done':'')+hl+'">'
+      + '<span class="sqdt-check" onclick="sqToggleTaskDone(\''+(t.id||'')+'\')">'+(t.done?'✓':'')+'</span>'
+      + '<span class="sqdt-prio">'+sqTaskPrioEmoji(t.priority)+'</span>'
+      + '<span class="sqdt-text">'+escapeHtml(t.text||'')+'</span></div>';
+  }).join('');
+  var box = document.createElement('div');
+  box.id = 'sq-drawer-tasks'; box.className = 'sq-drawer-tasks';
+  box.innerHTML = '<div class="sqdt-title">🎯 Tareas de esta misión <span class="sqdt-n">'+pendN+' pendientes</span></div>'+rows;
+  var sub = host.querySelector('.drawer-subtitle');
+  if(sub && sub.parentNode){ sub.parentNode.insertBefore(box, sub.nextSibling); }
+  else { host.insertBefore(box, host.firstChild); }
+}
+
+function sqToggleTaskDone(taskId){
+  try{
+    var p = getCurrentProject(); if(!p || !p.tasks) return;
+    var t = p.tasks.find(function(x){ return x.id===taskId; });
+    if(!t) return;
+    t.done = !t.done; t.completedAt = t.done ? new Date().toISOString() : null;
+    if(typeof saveState==='function') saveState();
+    if(typeof currentMissionId!=='undefined' && currentMissionId) sqInjectDrawerTasks(currentMissionId, taskId);
+    if(currentView==='pending') renderPending();
+    if(typeof sqMarkPending==='function') sqMarkPending();
+  }catch(e){ console.error('[sqToggleTaskDone]', e); }
+}
+
+(function(){
+  try{
+    if(typeof NAV_CONFIG!=='undefined' && !NAV_CONFIG.some(function(g){ return g.item && g.item.view==='pending'; })){
+      NAV_CONFIG.splice(1, 0, { item:{icon:'🎯', label:'Pendientes', view:'pending'} });
+    }
+    var _showView = showView;
+    showView = function(view){
+      if(view==='pending'){
+        if(!document.getElementById('view-pending')){
+          var ref = document.getElementById('view-missions');
+          if(ref && ref.parentNode){ var d=document.createElement('div'); d.id='view-pending'; d.className='view'; d.style.display='none'; ref.parentNode.appendChild(d); }
+        }
+        currentView='pending';
+        document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.toggle('active', n.dataset.view==='pending'); });
+        document.querySelectorAll('.view').forEach(function(v){ v.style.display='none'; });
+        var c=document.getElementById('view-pending'); if(c) c.style.display='block';
+        try{ document.getElementById('dash-title').textContent='PENDIENTES'; document.getElementById('dash-subtitle').textContent='Tareas por hacer · agrupadas por misión'; }catch(e){}
+        try{ renderPending(); }catch(e){ console.error('renderPending', e); }
+        try{ if(typeof sqMarkPending==='function') sqMarkPending(); }catch(e){}
+        return;
+      }
+      return _showView(view);
+    };
+    var _openMD = openMissionDetail;
+    openMissionDetail = function(id, hl){
+      _openMD(id);
+      try{ sqInjectDrawerTasks(id, hl); }catch(e){ console.error('[drawerTasks]', e); }
+    };
+    window.showView = showView; window.openMissionDetail = openMissionDetail;
+  }catch(e){ console.error('[pending menu setup]', e); }
+})();
+
 // ============== INIT ==============
 (async function(){
   await ensureAuth();
   try {
     var _v = document.createElement('div');
-    _v.textContent = 'build: CORAL-13 \u00B7 color-pulso';
+    _v.textContent = 'build: CORAL-15 \u00B7 pendientes-menu';
     _v.style.cssText = 'position:fixed;bottom:8px;right:10px;z-index:99998;font:600 10px Inter,sans-serif;letter-spacing:.5px;color:#fff;background:#0A0A0C;padding:3px 9px;border-radius:999px;opacity:.9;pointer-events:none';
     document.body.appendChild(_v);
   } catch(e){}
