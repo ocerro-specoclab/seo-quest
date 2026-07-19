@@ -8444,14 +8444,16 @@ function getApplicableMissions(project){
 }
 
 // Devuelve stats globales del proyecto: completed, total, pct
-// Solo cuenta misiones que aplican al proyecto.
+// Cuenta misiones estándar aplicables + misiones custom (roadmaps, semanales, informes...).
 function getProjectStats(project){
   if(!project) return {completed:0, total:0, pct:0};
   // Asegurar atributos primero (defensa)
   ensureProjectAttributes(project);
+  const cm = project.completedMissions || {};
   const missions = getApplicableMissions(project);
-  const completed = missions.filter(m => project.completedMissions && project.completedMissions[m.id]).length;
-  const total = missions.length;
+  const customs = project.customMissions || [];
+  const completed = missions.filter(m => cm[m.id]).length + customs.filter(c => cm[c.id]).length;
+  const total = missions.length + customs.length;
   const pct = total === 0 ? 0 : Math.round((completed / total) * 100);
   return {completed, total, pct};
 }
