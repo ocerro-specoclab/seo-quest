@@ -5061,7 +5061,10 @@ const WORLDS = [
   {id:'w5', num:'05', name:'CONTENIDO', color:'#EC4899', desc:'Estrategia editorial, blog y silos temáticos'},
   {id:'w6', num:'06', name:'GEO / SEO LOCAL', color:'#06B6D4', desc:'Google Business Profile, NAP, citaciones, local pack'},
   {id:'w7', num:'07', name:'AUTORIDAD & LINKS', color:'#F97316', desc:'Backlinks, menciones de marca, PR digital'},
-  {id:'w8', num:'08', name:'SEM & MEDICIÓN', color:'#14B8A6', desc:'Google Ads, conversiones, GA4 y mejora continua'}
+  {id:'w8', num:'08', name:'SEM & MEDICIÓN', color:'#14B8A6', desc:'Google Ads, conversiones, GA4 y mejora continua'},
+  {id:'w9', num:'09', name:'GOOGLE ADS PRO', color:'#84CC16', desc:'Matemática del negocio, escalera de escalado, feed, CSS y scripts (método ECOMCRAFT)'},
+  {id:'w10', num:'10', name:'META ADS', color:'#A855F7', desc:'Píxel + CAPI, columnas, ángulos, sistema creativo y escalado (método ECOMCRAFT)'},
+  {id:'w11', num:'11', name:'EMAIL & KLAVIYO', color:'#E11D48', desc:'Entregabilidad, captación, los flujos automáticos, segmentos y campañas (método ECOMCRAFT)'}
 ];
 
 // =====================================================================
@@ -7307,6 +7310,378 @@ const MISSIONS_LIBRARY = [
      'Si mejora: queda. Si empeora: vuelve al anterior',
      'Documenta aprendizajes para aplicar a otras páginas'
    ]
+  },
+
+  // ===== WORLD 9: GOOGLE ADS PRO (método ECOMCRAFT · plugin google-ads-master) =====
+  {id:'m901', world:'w9', name:'La matemática del negocio: ROAS de equilibrio y CPA máximo', desc:'Sin estos números no se opina sobre una cuenta', xp:50, difficulty:2,
+   appliesTo:{doesSEM:true},
+   guide:'Regla 1 del método: la matemática antes que la plataforma. Un ROAS de 3 puede ser un desastre y uno de 1,4 excelente. El IVA no es ingreso: calcula siempre sobre el precio sin IVA. En B2B la conversión es el lead, y el CPA máximo por lead = margen del pedido medio × tasa de cierre. 🧠 Con Claude: plugin google-ads-master (contexto-triaje-y-matematica, casos-limite R.5 para B2B).',
+   subtasks:[
+     'Ingreso neto = PVP con IVA ÷ 1,21',
+     'Margen de contribución = neto − coste producto − envío − pasarela − packaging − devoluciones',
+     'ROAS de equilibrio = PVP bruto ÷ margen de contribución',
+     'CPA máximo = margen de contribución (en B2B: margen del pedido medio × tasa de cierre de leads)',
+     'Clics para concluir ≈ 3 ÷ tasa de conversión necesaria (no juzgar antes)',
+     'Guardar los números en el briefing del proyecto y validarlos con el cliente'
+   ],
+   tools:['Shopify / PrestaShop (pedidos)','Hoja de márgenes','Google Ads']
+  },
+  {id:'m902', world:'w9', name:'Situar la cuenta en su escalón y ajustar la estructura', desc:'La estructura la decide el presupuesto, no las ganas', xp:55, difficulty:3,
+   appliesTo:{doesSEM:true},
+   guide:'Cada campaña nueva parte el presupuesto. Tramos: 0-2.000 €/mes = Search de marca (10%) + Shopping (90%); 2.000-5.000 = + Shopping de marca + PMax con recursos (héroes 70% / villanos 10%); 5.000-10.000 = PMax Feed Only (héroes, zombies, villanos). Reglas duras: PMax nunca por debajo de 50 €/día; máximo 4-5 grupos de recursos por PMax. 🧠 Con Claude: m09-escalera-de-escalado.',
+   subtasks:[
+     'Calcular la inversión mensual real de la cuenta',
+     'Ubicarla en su tramo de la escalera',
+     'Listar las campañas que sobran para ese tramo y proponer consolidación',
+     'Comprobar que ninguna PMax está por debajo de 50 €/día',
+     'Aplicar los cambios de uno en uno, con nota en el gráfico, y juzgar a los 28 días'
+   ],
+   tools:['Google Ads','Google Ads Editor']
+  },
+  {id:'m903', world:'w9', name:'Medición limpia: una conversión principal, Enhanced Conversions y Consent Mode v2', desc:'Lo que no se puede medir no se optimiza', xp:50, difficulty:3,
+   appliesTo:{doesSEM:true},
+   guide:'Una cuenta que cuenta vistas de página como conversiones optimiza hacia gente que mira. Solo la compra (o el lead cualificado en B2B) es principal; el resto, secundarias. En España, sin Consent Mode v2 bien montado el tracking está roto aunque las etiquetas disparen. 🧠 Con Claude: setup-ecosistema-google, m02 y scripts/m02-gtm-datalayer-shopify.',
+   subtasks:[
+     'Inventario de acciones de conversión: dejar UNA principal (compra o lead)',
+     'Pasar el resto a secundarias y archivar las rotas o duplicadas',
+     'Activar y verificar Enhanced Conversions',
+     'Verificar Consent Mode v2 con Tag Assistant',
+     'Compra o lead de prueba de punta a punta: comprobar que llega con su VALOR real'
+   ],
+   tools:['Google Ads','GA4','Google Tag Manager','Tag Assistant']
+  },
+  {id:'m904', world:'w9', name:'Apagar automatismos de Google y revisar AI Max', desc:'Google es proveedor, no asesor', xp:30, difficulty:1,
+   appliesTo:{doesSEM:true},
+   guide:'Las recomendaciones de Google optimizan su gasto, no tu beneficio. Las aplicaciones automáticas se desactivan siempre. Revisa también si queda alguna campaña DSA: Google obligaba a migrarlas a AI Max en septiembre de 2026. Alarma: más del 40% del gasto en «otros términos de búsqueda» = AI Max o amplia descontrolada. 🧠 Con Claude: presentaciones/m03-ai-max-presentacion.',
+   subtasks:[
+     'Desactivar todas las recomendaciones aplicadas automáticamente',
+     'Revisar si hay campañas DSA y su estado tras la migración a AI Max',
+     'Confirmar qué campañas tienen AI Max / expansión de URL final activados y si deben',
+     'Comprobar que el presupuesto de la cuenta es el acordado'
+   ],
+   tools:['Google Ads']
+  },
+  {id:'m905', world:'w9', name:'Marca propia separada y excluida de PMax', desc:'Sin esto tu ROAS es ficción', xp:40, difficulty:2,
+   appliesTo:{doesSEM:true},
+   guide:'Si PMax se come las búsquedas de tu propia marca, presume de un ROAS que habrías conseguido igual. La marca va en su campaña de Search (≈10% del presupuesto) y se excluye de PMax con una lista de exclusión de marca. 🧠 Con Claude: m10-protips-avanzados.',
+   subtasks:[
+     'Crear (o revisar) la campaña de Search de marca propia',
+     'Crear la lista de exclusión de marca y aplicarla a todas las PMax',
+     'Comparar el ROAS de PMax antes y después a los 28 días'
+   ],
+   tools:['Google Ads']
+  },
+  {id:'m906', world:'w9', name:'Feed optimizado con fuente complementaria', desc:'Si leyendo el título no sabes qué es, Google tampoco', xp:50, difficulty:3,
+   appliesTo:{doesSEM:true,hasOnlineStore:true},
+   guide:'El feed es la palanca de Shopping. Títulos con lo que busca la gente (marca + tipo + atributo clave + capacidad/medida), sin tocar la tienda: se reescriben con una fuente complementaria en Merchant Center. Revisa también productos rechazados y la estadística de precios. 🧠 Con Claude: m05-merchant-center-y-feed y feed-y-shopping.',
+   subtasks:[
+     'Diagnóstico: productos rechazados, con avisos y sin impresiones',
+     'Reescribir títulos de los productos top en una hoja (fuente complementaria)',
+     'Subir la fuente complementaria a Merchant Center y verificar que aplica',
+     'Revisar insights de precio frente a la competencia',
+     'Retirar fuentes muertas o duplicadas'
+   ],
+   tools:['Google Merchant Center','Google Sheets']
+  },
+  {id:'m907', world:'w9', name:'CSS en Shopping (≈20% menos de CPC)', desc:'El protip de mayor impacto y del que menos se habla', xp:45, difficulty:2,
+   appliesTo:{doesSEM:true,hasOnlineStore:true},
+   guide:'En la UE el feed puede servirse desde un CSS (Comparison Shopping Service) distinto de Google Shopping: abarata el CPC ~20% desde el día siguiente. Se mete en cuanto hay ~1.000 €/mes en Shopping. 🧠 Con Claude: m10-protips-avanzados (sección CSS).',
+   subtasks:[
+     'Comprobar el gasto mensual en Shopping/PMax (umbral ~1.000 €/mes)',
+     'Elegir proveedor CSS y darlo de alta con el Merchant Center',
+     'Verificar en los anuncios que aparecen «por» el nuevo CSS',
+     'Comparar CPC medio 14 días antes y después'
+   ],
+   tools:['Google Merchant Center','Proveedor CSS']
+  },
+  {id:'m908', world:'w9', name:'Héroes, zombies y villanos: etiquetar el catálogo', desc:'El ROAS medio es una mentira útil', xp:55, difficulty:3,
+   appliesTo:{doesSEM:true,hasOnlineStore:true},
+   guide:'Dentro de un ROAS 5 hay productos a 12 y productos a 1. El script FlowBoost Labelizer etiqueta solo en Merchant Center: héroes (venden), zombies (sin impresiones) y villanos (gastan sin vender). Es la pieza central para escalar. ⚠️ Cambiar los campos «CAMBIAR» (email, Merchant ID) antes de programarlo. 🧠 Con Claude: m08-scripts y scripts/m08-flowboost-labelizer.',
+   subtasks:[
+     'Instalar y configurar el Labelizer (email, Merchant ID, hoja propia del cliente)',
+     'Comprobar que las etiquetas personalizadas llegan a Merchant',
+     'Crear grupos de fichas / campañas por etiqueta según el escalón',
+     'Revisar cada mes los ganadores sin stock'
+   ],
+   tools:['Google Ads Scripts','Google Merchant Center','Google Sheets']
+  },
+  {id:'m909', world:'w9', name:'Scripts de seguridad: caída de conversiones y URLs rotas', desc:'Que la cuenta te avise antes que el cliente', xp:35, difficulty:2,
+   appliesTo:{doesSEM:true},
+   guide:'Dos redes de seguridad: alerta de caída de conversiones contra el mismo día de la semana (pasarela o medición rotas) y detector de 404/500 en anuncios, keywords y extensiones. ⚠️ Revisa el campo de email de cada script antes de programarlo, o los avisos de un cliente llegan a otro buzón. 🧠 Con Claude: scripts/m08-alerta-caida-conversiones y scripts/m08-urls-rotas.',
+   subtasks:[
+     'Pegar el script de alerta de caída de conversiones y poner el email correcto',
+     'Pegar el script de URLs rotas y poner el email correcto',
+     'Programar ambos (diario) y forzar una ejecución de prueba'
+   ],
+   tools:['Google Ads Scripts']
+  },
+  {id:'m910', world:'w9', name:'Importar conversiones offline con su valor real', desc:'Que Google optimice hacia lo que de verdad se vende', xp:50, difficulty:3,
+   appliesTo:{doesSEM:true},
+   guide:'Cuando la venta se cierra fuera de la web (teléfono, presupuesto, email) o el valor real no llega a Ads, se importa la conversión por GCLID. Así Smart Bidding aprende de leads que compran, no de formularios rellenados. En B2B, ventana de conversión de 60-90 días. 🧠 Con Claude: casos-limite R.5 y m11-analitica.',
+   subtasks:[
+     'Capturar el GCLID en formularios / pedidos',
+     'Montar el feed o la subida periódica de conversiones offline con valor',
+     'Ajustar la ventana de conversión (B2B 60-90 días)',
+     'Verificar en Ads que las conversiones importadas aparecen'
+   ],
+   tools:['Google Ads','Google Sheets / feed propio','CRM']
+  },
+  {id:'m911', world:'w9', name:'Rutina del media buyer: 48-72 h, semanal y mensual', desc:'Una palanca cada vez, y anotada', xp:30, difficulty:1,
+   appliesTo:{doesSEM:true},
+   guide:'Cada 48-72 h: gasto, conversiones, alarmas. Semanal: 20 minutos de términos de búsqueda y negativas. Mensual: escalón, productos ganadores sin stock, ROAS real frente al de Google. Cada cambio grande lleva nota en el gráfico y se juzga a los 7 (micro) o 28 días (estructural). 🧠 Con Claude: rutina-y-plan-30-dias.',
+   subtasks:[
+     'Definir la rutina en el calendario (48-72 h, semanal, mensual)',
+     'Primera revisión semanal de términos de búsqueda y negativas',
+     'Primera revisión mensual con ROAS real (ventas cerradas ÷ gasto)'
+   ],
+   tools:['Google Ads','GA4']
+  },
+  {id:'m912', world:'w9', name:'Espiar a la competencia en Ads', desc:'Saber contra quién pujas', xp:30, difficulty:1,
+   appliesTo:{doesSEM:true},
+   guide:'Centro de transparencia de anuncios + informe de subasta: quién aparece, con qué mensajes, qué ofertas. Se repite al empezar, al perder cuota o si sube el CPC sin causa interna. 🧠 Con Claude: w-espiar-competencia-ads y analisis-competencia.',
+   subtasks:[
+     'Revisar el informe de subasta (cuota de impresiones y solapamiento)',
+     'Capturar anuncios de los 3-5 competidores en el Centro de transparencia',
+     'Anotar ángulos y ofertas que no usas y debilidades atacables'
+   ],
+   tools:['Google Ads','Centro de transparencia de anuncios']
+  },
+
+  // ===== WORLD 10: META ADS (método ECOMCRAFT · plugin meta-ads-master) =====
+  {id:'m1001', world:'w10', name:'Portfolio comercial, píxel y dominio verificado', desc:'Nunca se montan campañas sobre un píxel sin verificar', xp:45, difficulty:2,
+   appliesTo:{doesMeta:true},
+   guide:'Todo a nombre del negocio: portfolio comercial (Business Manager), cuenta publicitaria, página, Instagram, píxel/dataset y dominio verificado. En PrestaShop: módulo oficial de Facebook o uno de confianza; ojo, a veces la compra se dispara dos veces al recargar la confirmación. 🧠 Con Claude: setup-ecosistema-meta (checklist-activos, pixel-capi-por-plataforma).',
+   subtasks:[
+     'Verificar propiedad y permisos del portfolio comercial',
+     'Instalar el píxel (o confirmar que no hay dos pegados)',
+     'Verificar el dominio (meta tag o DNS)',
+     'Probar eventos: ficha → carrito → checkout → compra'
+   ],
+   tools:['Meta Business Suite','Events Manager']
+  },
+  {id:'m1002', world:'w10', name:'API de Conversiones y calidad del dataset', desc:'Datos limpios para el algoritmo', xp:45, difficulty:3,
+   appliesTo:{doesMeta:true},
+   guide:'Con iOS y bloqueadores, el píxel solo pierde datos. La API de Conversiones envía los eventos desde servidor, deduplicados con el píxel. Objetivo: buena puntuación de calidad de coincidencias y compras sin duplicar. 🧠 Con Claude: setup-ecosistema-meta y auditoria-cuenta-meta.',
+   subtasks:[
+     'Activar la API de Conversiones (token en la integración de la tienda)',
+     'Comprobar deduplicación píxel + servidor (event_id)',
+     'Revisar la calidad de coincidencias de cada evento',
+     'Compra de prueba: una sola compra registrada, con valor'
+   ],
+   tools:['Events Manager']
+  },
+  {id:'m1003', world:'w10', name:'Catálogo de productos conectado', desc:'Base para anuncios dinámicos y Advantage+', xp:35, difficulty:2,
+   appliesTo:{doesMeta:true,hasOnlineStore:true},
+   guide:'El catálogo permite anuncios de producto dinámicos y retargeting por producto visto. Se conecta desde la tienda y se vincula al píxel. 🧠 Con Claude: setup-ecosistema-meta (commerce-y-catalogo).',
+   subtasks:[
+     'Conectar el catálogo desde la tienda (Commerce Manager)',
+     'Vincular catálogo y píxel, y revisar coincidencia de IDs',
+     'Corregir productos rechazados'
+   ],
+   tools:['Commerce Manager']
+  },
+  {id:'m1004', world:'w10', name:'Columnas y métricas personalizadas guardadas', desc:'Decidir en frío, con métricas', xp:30, difficulty:1,
+   appliesTo:{doesMeta:true},
+   guide:'Presets de columnas para leer el embudo de verdad: hook rate, retención de vídeo, CTR de enlace, coste por compra, ROAS. Se guardan una vez y se usan siempre. 🧠 Con Claude: columnas-y-metricas-meta.',
+   subtasks:[
+     'Crear las métricas personalizadas (hook rate, % de reproducción…)',
+     'Guardar los presets de columnas del método',
+     'Definir el CPA mental (break-even) con un margen del 40%'
+   ],
+   tools:['Administrador de anuncios']
+  },
+  {id:'m1005', world:'w10', name:'Buyer personas y ángulos de venta', desc:'Hoy se segmenta desde el creativo', xp:40, difficulty:2,
+   appliesTo:{doesMeta:true},
+   guide:'Con Andrómeda la segmentación la hace el creativo: cada ángulo atrae a una persona distinta. Se sacan 3-5 buyer personas y, para cada una, ángulos por nivel de consciencia (del inconsciente del problema a la oferta). El 50-60% de los anuncios va a la parte alta del embudo. 🧠 Con Claude: buyer-persona-y-angulos.',
+   subtasks:[
+     'Definir 3-5 buyer personas con su dolor y su deseo',
+     'Sacar ángulos por nivel de consciencia para cada persona',
+     'Priorizar los 5-6 ángulos a testear primero'
+   ],
+   tools:['Reseñas de clientes','Biblioteca de anuncios de Meta']
+  },
+  {id:'m1006', world:'w10', name:'Sistema creativo: 5-6 conceptos realmente distintos', desc:'Anuncios casi iguales = un solo anuncio para Andrómeda', xp:55, difficulty:3,
+   appliesTo:{doesMeta:true},
+   guide:'Andrómeda agrupa los anuncios parecidos y solo invierte en uno. Hay que producir conceptos distintos (formato, hook, ángulo, persona), no variaciones de color. Research de la competencia en la Biblioteca de anuncios antes de crear. 🧠 Con Claude: sistema-creativo-meta (32 conceptos ganadores, anatomía y hooks) e iterar-creativo-ia.',
+   subtasks:[
+     'Research de creativos de la competencia (Biblioteca de anuncios)',
+     'Briefing de 5-6 conceptos, cada uno con su ángulo y su hook',
+     'Producir los creativos (vídeo, imagen, carrusel, UGC)',
+     'Escribir los copys de cada concepto'
+   ],
+   tools:['Biblioteca de anuncios de Meta','Canva / CapCut','IA de imagen']
+  },
+  {id:'m1007', world:'w10', name:'Estructura de campañas según la inversión y test inicial', desc:'Objetivo Ventas desde el euro 1', xp:45, difficulty:3,
+   appliesTo:{doesMeta:true},
+   guide:'Nunca campañas de tráfico para vender. Más campañas no es mejor: se agrupan los datos, audiencias amplias (Advantage+) y ubicaciones automáticas. Cuando algo no va, se apagan anuncios, no campañas. 🧠 Con Claude: estructura-y-escalado-meta (estructuras-por-inversion).',
+   subtasks:[
+     'Elegir la estructura que toca por inversión diaria',
+     'Montar la campaña de Ventas con los conceptos de m1006',
+     'Fijar el criterio de corte por CPA antes de lanzar',
+     'Lanzar el test y no tocar en la fase de aprendizaje'
+   ],
+   tools:['Administrador de anuncios']
+  },
+  {id:'m1008', world:'w10', name:'Audiencias sincronizadas desde Klaviyo', desc:'Clientes y leads como señal y como exclusión', xp:30, difficulty:2,
+   appliesTo:{doesMeta:true,doesEmail:true},
+   guide:'Los segmentos de Klaviyo (compradores, leads, inactivos) se sincronizan con Meta para excluir a quien ya compró de la captación y alimentar el remarketing. 🧠 Con Claude: klaviyo-master › integracion-meta-ads.',
+   subtasks:[
+     'Conectar Klaviyo con la cuenta de Meta',
+     'Sincronizar segmentos de compradores y de leads',
+     'Usarlos como exclusión en captación y como público en remarketing'
+   ],
+   tools:['Klaviyo','Administrador de anuncios']
+  },
+  {id:'m1009', world:'w10', name:'Diagnóstico y escalado mensual', desc:'Encontrar el cuello de botella antes de subir presupuesto', xp:40, difficulty:2,
+   appliesTo:{doesMeta:true},
+   guide:'El ROAS tiene dos patas: CPA y ticket medio. Si el CPA ya está optimizado y no sube el ROAS, el problema es el AOV o la web, no Meta. Árbol: CPM → CTR → conversión de la web → ticket. Un anuncio con 3 compras y ROAS 18 no es ganador: sin volumen no escala. 🧠 Con Claude: diagnostico-meta y auditoria-cuenta-meta.',
+   subtasks:[
+     'Revisar el árbol del ROAS (CPM, CTR, conversión, ticket medio)',
+     'Apagar anuncios perdedores y producir nuevos conceptos',
+     'Subir presupuesto solo en lo que tiene volumen y CPA bajo el objetivo'
+   ],
+   tools:['Administrador de anuncios','GA4']
+  },
+
+  // ===== WORLD 11: EMAIL & KLAVIYO (método ECOMCRAFT · plugin klaviyo-master) =====
+  {id:'m1101', world:'w11', name:'Cuenta correcta, integración con la tienda y eventos', desc:'Lo primero, siempre: ¿es la cuenta buena?', xp:40, difficulty:2,
+   appliesTo:{doesEmail:true},
+   guide:'Antes de tocar nada, confirmar que la cuenta de Klaviyo activa es la del cliente (nombre, web, clave pública): subir algo en la cuenta equivocada es el error más caro y difícil de deshacer. Luego, que lleguen los eventos (vista de producto, añadir al carrito, inicio de checkout, compra). Desconectar integraciones viejas que ensucian métricas. 🧠 Con Claude: setup-klaviyo-shopify y productos-dinamicos-y-eventos.',
+   subtasks:[
+     'Confirmar cuenta activa (nombre, web, clave pública)',
+     'Conectar la tienda y desconectar integraciones antiguas',
+     'Verificar que llegan los eventos clave (incluido Add to Cart)',
+     'Comprobar que el bloque de producto dinámico se rellena'
+   ],
+   tools:['Klaviyo','Shopify / PrestaShop']
+  },
+  {id:'m1102', world:'w11', name:'Entregabilidad: dominio de envío propio y métricas objetivo', desc:'Si va a spam, nada de lo demás importa', xp:45, difficulty:3,
+   appliesTo:{doesEmail:true},
+   guide:'Dominio de envío dedicado con SPF, DKIM y DMARC; imágenes alojadas en la CDN de Klaviyo, nunca enlazadas desde la web. Vigilar aperturas, rebotes, quejas de spam y bajas frente a los objetivos del método. 🧠 Con Claude: entregabilidad (configuración técnica, métricas a alcanzar, protocolo de recuperación).',
+   subtasks:[
+     'Configurar el dominio de envío dedicado (SPF, DKIM, DMARC en el DNS)',
+     'Configurar el dominio de seguimiento de clics',
+     'Crear los segmentos de entregabilidad (activos 30/60/90 días)',
+     'Revisar métricas frente a los objetivos y aplicar el protocolo si hace falta'
+   ],
+   tools:['Klaviyo','Cloudflare DNS']
+  },
+  {id:'m1103', world:'w11', name:'Captación: pop-ups, formularios y alta en checkout', desc:'Sin captación no hay a quién mandar nada', xp:40, difficulty:2,
+   appliesTo:{doesEmail:true},
+   guide:'Primero se decide pop-up nativo de Klaviyo (por defecto) o pop-up propio a código. Luego: pop-up de ordenador, pop-up de móvil, embed en footer y ficha, página de registro y casilla en el checkout. En B2B el gancho es un lead magnet (guía, normativa), no un descuento. 🧠 Con Claude: captacion-y-listas o pop-up-a-codigo.',
+   subtasks:[
+     'Decidir pop-up nativo o a código',
+     'Pop-up de ordenador y de móvil (por separado)',
+     'Formulario embebido en footer y fichas',
+     'Alta en el checkout activada',
+     'Prueba real en incógnito: el email entra en la lista correcta'
+   ],
+   tools:['Klaviyo','Tema de la tienda']
+  },
+  {id:'m1104', world:'w11', name:'Marca y biblioteca de imágenes', desc:'Los correos se parecen a la web, no a una plantilla', xp:30, difficulty:2,
+   appliesTo:{doesEmail:true},
+   guide:'Colores, tipografías, logos, remitente y tono de la web del cliente; nada de estilo inventado. Mobile first. Fotos con nomenclatura y subidas a la CDN de Klaviyo. Es manual y lleva tiempo: hay que decírselo al cliente. 🧠 Con Claude: biblioteca-imagenes-y-branding y diseno-email.',
+   subtasks:[
+     'Configurar colores, fuentes, logos y botones de marca en Klaviyo',
+     'Definir remitente y tono',
+     'Subir la biblioteca de imágenes con nomenclatura'
+   ],
+   tools:['Klaviyo','Canva / Figma']
+  },
+  {id:'m1105', world:'w11', name:'Flujo de bienvenida', desc:'El flujo que más factura', xp:45, difficulty:2,
+   appliesTo:{doesEmail:true},
+   guide:'Bienvenida + los cuatro abandonos ≈ 70% de lo que factura el email. Reglas de la casa en todos los flujos: Smart Sending desactivado, filtro «Placed Order = 0 desde el inicio del flujo» y todo creado en borrador (lo activa el dueño). El código de bienvenida no entra en ningún flujo de abandono. 🧠 Con Claude: flujo-bienvenida y plantillas-html.',
+   subtasks:[
+     'Definir la secuencia (5-7 correos: valor primero, oferta al final si aplica)',
+     'Montar el flujo con Smart Sending OFF y filtro de compra',
+     'Diseñar y escribir los correos',
+     'Prueba de envío y revisión en móvil',
+     'Dejarlo en borrador para que lo active el dueño'
+   ],
+   tools:['Klaviyo']
+  },
+  {id:'m1106', world:'w11', name:'Abandono de sitio y de navegación', desc:'Recuperar a quien miró y se fue', xp:40, difficulty:2,
+   appliesTo:{doesEmail:true,hasOnlineStore:true},
+   guide:'Abandono de sitio (visitó la web) y de navegación (vio un producto). Filtros obligatorios: «no está en este flujo en los últimos 15 días», compra = 0, Smart Sending OFF. El descuento es la última bala y solo a no compradores. 🧠 Con Claude: flujo-abandono-sitio y flujo-abandono-navegacion.',
+   subtasks:[
+     'Montar el flujo de abandono de sitio',
+     'Montar el flujo de abandono de navegación con producto dinámico',
+     'Aplicar los filtros de 15 días y de compra',
+     'Pruebas de envío y borrador'
+   ],
+   tools:['Klaviyo']
+  },
+  {id:'m1107', world:'w11', name:'Carrito y checkout abandonado', desc:'El dinero más fácil del email', xp:50, difficulty:3,
+   appliesTo:{doesEmail:true,hasOnlineStore:true},
+   guide:'Dos flujos distintos: carrito (añadió al carrito) y checkout (empezó a pagar). Ramas comprador / no comprador. El descuento, solo al final y solo a no compradores. 🧠 Con Claude: flujo-carrito-abandonado, flujo-checkout-abandonado y cupones-y-descuentos-dinamicos.',
+   subtasks:[
+     'Montar el flujo de carrito abandonado con ramas',
+     'Montar el flujo de checkout abandonado con ramas',
+     'Crear los cupones dinámicos de cada rama (si el negocio usa descuentos)',
+     'Pruebas de envío y borrador'
+   ],
+   tools:['Klaviyo']
+  },
+  {id:'m1108', world:'w11', name:'Post-compra y petición de reseñas', desc:'Convertir una venta en la siguiente', xp:40, difficulty:2,
+   appliesTo:{doesEmail:true,hasOnlineStore:true},
+   guide:'Agradecimiento, uso del producto, soporte, reseña y recompra. Si hay sistema de reseñas (Judge.me, Google), el correo de reseña va entre soporte y recompra. 🧠 Con Claude: flujo-post-compra.',
+   subtasks:[
+     'Definir la secuencia post-compra',
+     'Integrar la petición de reseña',
+     'Montar, probar y dejar en borrador'
+   ],
+   tools:['Klaviyo','Judge.me']
+  },
+  {id:'m1109', world:'w11', name:'Recuperación de cliente (win-back)', desc:'Reactivar a quien compró y no volvió', xp:35, difficulty:2,
+   appliesTo:{doesEmail:true,hasOnlineStore:true},
+   guide:'Se dispara por tiempo desde la última compra según el ciclo de recompra del producto. Es la excepción a la regla: aquí sí puede ir incentivo a compradores. 🧠 Con Claude: flujo-recuperacion-cliente.',
+   subtasks:[
+     'Calcular el ciclo de recompra típico',
+     'Montar el flujo con su ventana de tiempo',
+     'Pruebas de envío y borrador'
+   ],
+   tools:['Klaviyo']
+  },
+  {id:'m1110', world:'w11', name:'Flujo de limpieza (sunset)', desc:'Una lista limpia entrega mejor', xp:30, difficulty:2,
+   appliesTo:{doesEmail:true},
+   guide:'Los que no abren ni hacen clic en meses reciben un último intento y, si no responden, se suprimen. Protege la entregabilidad de todo lo demás. 🧠 Con Claude: flujo-limpieza y segmentacion.',
+   subtasks:[
+     'Crear el segmento de inactivos',
+     'Montar el flujo de limpieza',
+     'Suprimir a quien no responde'
+   ],
+   tools:['Klaviyo']
+  },
+  {id:'m1111', world:'w11', name:'Segmentos clave', desc:'Mandar a quien toca, no a todos', xp:35, difficulty:2,
+   appliesTo:{doesEmail:true},
+   guide:'Segmentos de entregabilidad (activos), de compra (compradores, recurrentes, VIP, no compradores) y de limpieza. En B2B, además, por tipo de lead (producto, instalación, guía). 🧠 Con Claude: segmentacion (segmentos-clave-a-usar).',
+   subtasks:[
+     'Crear los segmentos de entregabilidad',
+     'Crear los segmentos de compra',
+     'Crear los segmentos propios del negocio (tipo de lead, categoría)'
+   ],
+   tools:['Klaviyo']
+  },
+  {id:'m1112', world:'w11', name:'Calendario de campañas', desc:'Flujos ≈ 50% y campañas ≈ 50% de lo que factura el email', xp:40, difficulty:2,
+   appliesTo:{doesEmail:true},
+   guide:'Calendario mensual con fechas clave del sector, mezcla de campañas sin descuento (29 estructuras del método) y de oferta cuando toca. En B2B: contenido técnico, normativa y novedades de catálogo, nunca «ofertas». 🧠 Con Claude: campanas (calendario, 29 estructuras sin descuento, swipe file).',
+   subtasks:[
+     'Definir la frecuencia de envío',
+     'Calendario de los próximos 3 meses con fechas clave',
+     'Primeras campañas programadas a los segmentos correctos'
+   ],
+   tools:['Klaviyo']
+  },
+  {id:'m1113', world:'w11', name:'Tests A/B continuos', desc:'Mejorar sin adivinar', xp:30, difficulty:2,
+   appliesTo:{doesEmail:true},
+   guide:'Un test cada vez, con muestra suficiente: asuntos y vista previa en campañas, orden y tiempos en flujos, oferta y diseño en el pop-up. Se documenta lo aprendido. 🧠 Con Claude: optimizacion-tests-ab.',
+   subtasks:[
+     'Test de asunto en la próxima campaña',
+     'Test A/B en el flujo de mayor volumen',
+     'Test del pop-up',
+     'Documentar resultados'
+   ],
+   tools:['Klaviyo']
   }
 ];
 
@@ -8093,6 +8468,8 @@ function buildEmptyProject(name, data){
     hasBlog: data.hasBlog !== undefined ? data.hasBlog : false,
     hasSocialMedia: data.hasSocialMedia !== undefined ? data.hasSocialMedia : false,
     doesSEM: data.doesSEM !== undefined ? data.doesSEM : false,
+    doesMeta: data.doesMeta !== undefined ? data.doesMeta : false,
+    doesEmail: data.doesEmail !== undefined ? data.doesEmail : false,
     seoMaturity: data.seoMaturity || 'none', // none | basic | medium | advanced
     xp: 0,
     completedMissions: {},
@@ -8152,6 +8529,8 @@ function buildDirectfluidProject(){
     hasBlog: false,
     hasSocialMedia: true,
     doesSEM: false,
+    doesMeta: false,
+    doesEmail: false,
     seoMaturity: 'basic',
     xp: 0,
     completedMissions: {},
@@ -8223,6 +8602,8 @@ const APPLIES_TO_LABELS = {
   hasBlog: {true: 'tienes blog', false: 'no tienes blog'},
   hasSocialMedia: {true: 'tienes redes sociales', false: 'no tienes redes sociales'},
   doesSEM: {true: 'haces SEM (anuncios pagos)', false: 'no haces SEM'},
+  doesMeta: {true: 'haces Meta Ads (Facebook/Instagram)', false: 'no haces Meta Ads'},
+  doesEmail: {true: 'haces email marketing (Klaviyo u otro)', false: 'no haces email marketing'},
   seoMaturity: {
     none: 'tu madurez SEO es 0 (empiezas)',
     basic: 'tu madurez SEO es básica',
@@ -8250,6 +8631,8 @@ function ensureProjectAttributes(project){
     hasBlog: false,
     hasSocialMedia: true,
     doesSEM: false,
+    doesMeta: false,
+    doesEmail: false,
     seoMaturity: 'basic'
   };
   for(const key in defaults){
@@ -13098,6 +13481,20 @@ function renderSettings(){
           </select>
         </div>
         <div class="proj-attr-field">
+          <label>¿Hace Meta Ads (Facebook/Instagram)?</label>
+          <select id="attr-doesMeta" onchange="saveProjectAttributes()">
+            <option value="true" ${p.doesMeta===true||p.doesMeta==='true'?'selected':''}>✓ Sí</option>
+            <option value="false" ${p.doesMeta!==true&&p.doesMeta!=='true'?'selected':''}>✕ No</option>
+          </select>
+        </div>
+        <div class="proj-attr-field">
+          <label>¿Hace email marketing (Klaviyo)?</label>
+          <select id="attr-doesEmail" onchange="saveProjectAttributes()">
+            <option value="true" ${p.doesEmail===true||p.doesEmail==='true'?'selected':''}>✓ Sí</option>
+            <option value="false" ${p.doesEmail!==true&&p.doesEmail!=='true'?'selected':''}>✕ No</option>
+          </select>
+        </div>
+        <div class="proj-attr-field">
           <label>Madurez SEO actual</label>
           <select id="attr-seoMaturity" onchange="saveProjectAttributes()">
             <option value="none" ${p.seoMaturity==='none'?'selected':''}>🆕 Nada · empieza de cero</option>
@@ -13153,13 +13550,13 @@ async function saveStartDate(){
 
 async function saveProjectAttributes(){
   const p = getCurrentProject();
-  const attrKeys = ['hasWebsite','hasOnlineStore','hasBlog','hasSocialMedia','doesSEM','seoMaturity'];
+  const attrKeys = ['hasWebsite','hasOnlineStore','hasBlog','hasSocialMedia','doesSEM','doesMeta','doesEmail','seoMaturity'];
   let changes = 0;
   attrKeys.forEach(key => {
     const el = document.getElementById('attr-' + key);
     if(!el) return;
     let value = el.value;
-    if(['hasWebsite','hasOnlineStore','hasBlog','hasSocialMedia','doesSEM'].includes(key)){
+    if(['hasWebsite','hasOnlineStore','hasBlog','hasSocialMedia','doesSEM','doesMeta','doesEmail'].includes(key)){
       value = value === 'true';
     }
     if(p[key] !== value){
